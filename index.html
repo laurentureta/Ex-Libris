@@ -1,0 +1,2002 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ex Libris">
+<meta name="theme-color" content="#F6F3EE" id="themeColor">
+<title>Ex Libris — prototype</title>
+<style>
+:root{
+  --paper:#F6F3EE; --surface:#FFFFFF; --ink:#1B1A18; --ink2:#6E6A64; --rule:#E4DFD7; --accent:#B4441F;
+  --glass:rgba(255,255,255,.58); --glass-line:rgba(255,255,255,.8); --glass-hi:rgba(255,255,255,.45);
+  --glass-shadow:0 10px 30px rgba(40,30,20,.10), 0 1px 2px rgba(40,30,20,.08);
+  --edge-a:#F1EADC; --edge-b:#D9CFBC;
+  --serif: ui-serif, "Iowan Old Style", "New York", Georgia, "Times New Roman", serif;
+  --sans: -apple-system, BlinkMacSystemFont, system-ui, "Helvetica Neue", Arial, sans-serif;
+  --st: env(safe-area-inset-top, 0px); --sb: env(safe-area-inset-bottom, 0px);
+  --tabH: 62px;
+}
+[data-theme=dark]{
+  --paper:#0B0B0C; --surface:#161618; --ink:#ECE8E1; --ink2:#8E8A84; --rule:#262628; --accent:#E0785A;
+  --glass:rgba(40,40,44,.55); --glass-line:rgba(255,255,255,.10); --glass-hi:rgba(255,255,255,.07);
+  --glass-shadow:0 10px 30px rgba(0,0,0,.5);
+  --edge-a:#CFC5B2; --edge-b:#A89D88;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;overflow:hidden;overscroll-behavior:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;transition:background-color .35s ease,color .35s ease}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+#app{position:fixed;inset:0;overflow:hidden}
+.amb{position:absolute;inset:-12%;pointer-events:none;will-change:opacity}
+.glass{background:var(--glass);-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%);box-shadow:inset 0 0 0 .5px var(--glass-line),inset 0 1px 0 var(--glass-hi),var(--glass-shadow)}
+
+/* Écrans */
+.screen{position:absolute;inset:0;padding-top:calc(var(--st) + 12px);opacity:0;visibility:hidden;transition:opacity .28s ease,visibility 0s .28s;touch-action:none}
+.screen.active{opacity:1;visibility:visible;transition:opacity .28s ease}
+.screen.scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y;padding-bottom:calc(var(--sb) + var(--tabH) + 110px)}
+#scr-read{display:flex;flex-direction:column;padding-bottom:calc(var(--sb) + var(--tabH) + 84px)}
+.top{padding:0 22px}
+.kicker{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink2);font-weight:600}
+.title-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:2px}
+.list-title{font-family:var(--serif);font-weight:600;font-size:34px;letter-spacing:-.02em;line-height:1.12}
+.list-title.swap{animation:capIn .32s cubic-bezier(.2,.8,.2,1) both}
+.goal{font-size:12.5px;color:var(--ink2);font-variant-numeric:tabular-nums;white-space:nowrap}
+.goal b{color:var(--ink);font-weight:600}
+
+/* Galerie */
+.scene{flex:1;display:flex;flex-direction:column;min-height:0;position:relative;touch-action:none}
+.stage{flex:1;position:relative;perspective:1100px;perspective-origin:50% 50%;min-height:0;transition:opacity .16s ease}
+.stage.hide{opacity:0}
+.empty{position:absolute;inset:0;display:grid;place-items:center;color:var(--ink2);font-family:var(--serif);font-style:italic;font-size:18px}
+.book{position:absolute;left:50%;top:50%;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;will-change:transform}
+.face{position:absolute;top:0;height:100%;-webkit-backface-visibility:hidden;backface-visibility:hidden}
+.front{left:0;width:100%;border-radius:3px;overflow:hidden;box-shadow:0 2px 4px rgba(0,0,0,.30),0 20px 34px -8px var(--tint,rgba(0,0,0,.3))}
+.front canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.front .blur{opacity:0}
+.front .dim{position:absolute;inset:0;background:#000;opacity:0}
+.spine{border-radius:2px 0 0 2px;background-image:linear-gradient(90deg,rgba(0,0,0,.42),rgba(255,255,255,.14) 35%,rgba(0,0,0,.18))}
+.edge{background:linear-gradient(90deg,rgba(0,0,0,.14),rgba(0,0,0,0) 40%,rgba(0,0,0,.08)),repeating-linear-gradient(90deg,var(--edge-a) 0 1.3px,var(--edge-b) 1.3px 2px)}
+.back{border-radius:3px}
+.capface{background:repeating-linear-gradient(0deg,var(--edge-a) 0 1.3px,var(--edge-b) 1.3px 2px)}
+
+.caption{height:100px;position:relative;text-align:center;flex:none}
+.cap{position:absolute;left:0;right:0;top:0;padding:0 22px}
+.cap.in{animation:capIn .3s .06s cubic-bezier(.2,.8,.2,1) both}
+.cap.out{animation:capOut .12s ease-in forwards}
+@keyframes capIn{from{opacity:0;transform:translateY(6px)}}
+@keyframes capOut{to{opacity:0;transform:translateY(-6px)}}
+.cap-title{font-family:var(--serif);font-size:22px;font-weight:600;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cap-meta{margin-top:3px;font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink2);font-weight:600}
+.prog{height:2px;background:var(--rule);border-radius:2px;margin:12px auto 0;width:160px;overflow:hidden}
+.prog>i{display:block;height:100%;background:var(--ink);transform-origin:0 50%}
+.prog-text{margin-top:8px;font-size:13px;color:var(--ink2);font-variant-numeric:tabular-nums}
+
+/* Zone pouce */
+.thumb{padding:4px 18px 0;flex:none}
+.seg{position:relative;display:flex;height:40px;border-radius:20px;padding:3px}
+.seg button{flex:1;position:relative;z-index:1;font-size:14px;font-weight:600;color:var(--ink2);transition:color .25s}
+.seg button.on{color:var(--ink)}
+.seg-ind{position:absolute;top:3px;bottom:3px;left:0;border-radius:17px;background:var(--surface);box-shadow:0 2px 8px rgba(0,0,0,.10);transition:transform .5s cubic-bezier(.3,1.35,.5,1),width .5s cubic-bezier(.3,1.35,.5,1)}
+[data-theme=dark] .seg-ind{background:rgba(255,255,255,.14)}
+.dial{position:relative;height:50px;margin-top:8px;overflow:hidden;touch-action:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 20%,#000 80%,transparent);mask-image:linear-gradient(90deg,transparent,#000 20%,#000 80%,transparent)}
+.dial-track{position:absolute;left:0;top:6px;height:22px;will-change:transform;transition:opacity .25s}
+.dial-track .small{position:absolute;left:0;right:0;bottom:0;height:9px;background:repeating-linear-gradient(90deg,var(--ink2) 0 1px,transparent 1px 8px);opacity:.6}
+.dial-track .big{position:absolute;left:0;right:0;bottom:0;height:18px;background:repeating-linear-gradient(90deg,var(--ink) 0 1.5px,transparent 1.5px 40px);opacity:.55}
+.dial-needle{position:absolute;left:50%;top:2px;width:2px;height:30px;margin-left:-1px;border-radius:1px;background:var(--accent);transition:opacity .25s}
+.dial-label{position:absolute;left:0;right:0;bottom:0;text-align:center;font-size:10.5px;color:var(--ink2);letter-spacing:.08em;text-transform:uppercase;font-weight:600;font-variant-numeric:tabular-nums}
+.dial.off .dial-track,.dial.off .dial-needle{opacity:0}
+
+/* Barre de session + onglets */
+.session{position:fixed;left:14px;right:14px;bottom:calc(var(--sb) + var(--tabH) + 18px);height:56px;border-radius:28px;display:flex;align-items:center;gap:12px;padding:0 9px;z-index:40}
+.ses-cover{width:28px;height:42px;border-radius:3px;background-size:cover;background-position:center;box-shadow:0 2px 6px rgba(0,0,0,.25);flex:none;margin-left:5px}
+.ses-text{flex:1;min-width:0}
+.ses-title{font-size:14.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ses-sub{font-size:12px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ses-time{font-variant-numeric:tabular-nums;font-size:15px;font-weight:600;color:var(--accent)}
+.ses-btn{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--paper);flex:none}
+.ses-btn svg{width:18px;height:18px}
+.tabbar{position:fixed;left:14px;right:calc(14px + var(--tabH) + 10px);bottom:calc(var(--sb) + 8px);height:var(--tabH);border-radius:31px;display:flex;z-index:40;padding:0 6px}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10.5px;font-weight:600;color:var(--ink2);transition:color .2s}
+.tab svg{width:25px;height:25px}
+.tab.on{color:var(--accent)}
+.search-btn{position:fixed;right:14px;bottom:calc(var(--sb) + 8px);width:var(--tabH);height:var(--tabH);border-radius:50%;display:grid;place-items:center;z-index:40;color:var(--ink)}
+.search-btn svg{width:24px;height:24px}
+
+/* Bibliothèque */
+#scr-lib{display:flex;flex-direction:column;padding-bottom:calc(var(--sb) + var(--tabH) + 84px)}
+.shelves{flex:1;display:flex;flex-direction:column;justify-content:space-evenly;padding:4px 18px 0;min-height:0}
+.shelf-head{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--serif);font-size:18px;font-weight:600;margin-bottom:2px}
+.shelf-head .count{font-family:var(--sans);font-size:11.5px;color:var(--ink2);font-weight:600;letter-spacing:.07em;text-transform:uppercase}
+.row{display:flex;align-items:flex-end;gap:2px;perspective:700px;touch-action:none;position:relative;padding:0 2px}
+.shelf-empty{align-self:center;width:100%;text-align:center;color:var(--ink2);font-family:var(--serif);font-style:italic}
+.plank{height:7px;border-radius:1px 1px 4px 4px;background:linear-gradient(var(--ink2),transparent);opacity:.35}
+.spine-el{position:relative;flex:none;border-radius:2px 2px 1px 1px;transform-origin:50% 100%;transition:transform .22s cubic-bezier(.2,.9,.3,1.25);display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:6px;padding:16px 0 11px;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.18),0 1px 2px rgba(0,0,0,.2);overflow:hidden}
+.spine-el::after,.spine-face::after{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(90deg,rgba(0,0,0,.30),rgba(255,255,255,.16) 22%,rgba(255,255,255,0) 45%,rgba(0,0,0,.22));pointer-events:none}
+.spine-face{display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:6px;padding:16px 0 11px;overflow:hidden;border-radius:2px}
+.band{position:absolute;left:3px;right:3px;height:1.5px;opacity:.85;display:block}
+.sp-title{writing-mode:vertical-rl;-webkit-writing-mode:vertical-rl;text-orientation:sideways;-webkit-text-orientation:sideways;transform:rotate(180deg);font-family:var(--serif);font-size:11.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto;min-height:0;line-height:1}
+.sp-auth{writing-mode:vertical-rl;-webkit-writing-mode:vertical-rl;text-orientation:sideways;-webkit-text-orientation:sideways;transform:rotate(180deg);font-size:7px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.85;line-height:1;flex:none}
+.spine-el.small .sp-title{font-size:10px}
+.spine-el.settle{animation:settle .5s cubic-bezier(.3,1.5,.5,1)}
+@keyframes settle{0%{transform:translateY(-14px)}100%{transform:none}}
+.lib-hint{text-align:center;font-size:11.5px;color:var(--ink2);letter-spacing:.06em;text-transform:uppercase;font-weight:600;padding:10px 0 0}
+
+/* Réglages */
+.group{margin:22px 18px 0;border-radius:16px;background:var(--surface);overflow:hidden}
+[data-theme=dark] .group{background:#161618}
+.row-set{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 16px;border-top:.5px solid var(--rule);font-size:16px}
+.row-set:first-child{border-top:0}
+.row-set small{display:block;font-size:12.5px;color:var(--ink2);margin-top:3px;line-height:1.35}
+.row-set input{flex:none;accent-color:var(--accent);transform:scale(1.15)}
+.mini-seg{display:flex;background:var(--rule);border-radius:9px;padding:2px;flex:none}
+.mini-seg button{padding:6px 10px;border-radius:7px;font-size:13px;font-weight:600;color:var(--ink2)}
+.mini-seg button.on{background:var(--paper);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.row-btn{width:100%;text-align:left;padding:14px 16px;font-size:16px;color:var(--accent)}
+.about{margin:18px 24px 0;font-size:13px;line-height:1.5;color:var(--ink2)}
+.about b{color:var(--ink);font-weight:600}
+
+/* Fiche */
+.detail{position:fixed;inset:0;z-index:50;visibility:hidden;opacity:0;pointer-events:none;touch-action:none}
+.d-bg{position:absolute;inset:0;background:var(--paper)}
+.d-amb{position:absolute;inset:-12%;pointer-events:none;transition:opacity .6s ease}
+.d-inner{position:absolute;inset:0;display:flex;flex-direction:column;padding-top:calc(var(--st) + 6px);padding-bottom:calc(var(--sb) + 14px);will-change:transform;transform-origin:50% 0}
+.d-grab{width:38px;height:5px;border-radius:3px;background:var(--ink2);opacity:.35;margin:4px auto 0;flex:none}
+.d-stage{position:relative;flex:0 0 51%;min-height:0}
+#gl{position:absolute;inset:0;width:100%;height:100%;transition:opacity .12s}
+.d-shadow{position:absolute;border-radius:3px;box-shadow:0 2px 5px rgba(0,0,0,.25),0 28px 46px -10px var(--tint,rgba(0,0,0,.3));background:transparent}
+.d-fallback{position:absolute;display:none;border-radius:3px;overflow:hidden;transition:opacity .15s}
+.d-fallback canvas{width:100%;height:100%;display:block}
+.seal{position:absolute;width:112px;height:112px;pointer-events:none;opacity:0;color:var(--accent);mix-blend-mode:multiply}
+[data-theme=dark] .seal{mix-blend-mode:screen}
+.seal svg{width:100%;height:100%;display:block}
+.seal.static{opacity:.9;transform:rotate(-14deg)}
+.seal.on{animation:stamp .6s cubic-bezier(.3,1.6,.5,1) forwards}
+@keyframes stamp{0%{opacity:0;transform:scale(1.6) rotate(-4deg)}35%{opacity:1}100%{opacity:.92;transform:scale(1) rotate(-14deg)}}
+.d-info{flex:1;padding:4px 26px 0;text-align:center;min-height:0;overflow:hidden}
+.d-kicker{font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.d-title{font-family:var(--serif);font-weight:600;font-size:29px;line-height:1.1;letter-spacing:-.02em;margin-top:6px}
+.d-title .w{display:inline-block;white-space:nowrap}
+.d-title .ch{display:inline-block;opacity:0;filter:blur(6px);transform:translateY(5px);animation:ink .62s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(var(--i) * 18ms + 60ms)}
+@keyframes ink{to{opacity:1;filter:blur(0);transform:none}}
+.d-meta{margin-top:7px;font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink2);font-weight:600}
+.d-pitch{font-family:var(--serif);font-style:italic;font-size:16px;line-height:1.42;color:var(--ink2);margin:12px auto 0;max-width:340px}
+.d-hint{font-size:11.5px;color:var(--ink2);margin-top:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;transition:opacity .4s}
+.d-info .fade,.d-actions{transition:opacity .35s ease,transform .45s cubic-bezier(.2,.8,.2,1)}
+.detail:not(.show) .d-info .fade,.detail:not(.show) .d-actions{opacity:0;transform:translateY(14px)}
+.detail:not(.show) .d-title,.detail:not(.show) .seal{visibility:hidden}
+.d-actions{display:flex;gap:12px;padding:0 18px;align-items:center;flex:none}
+.round{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;flex:none}
+.round svg{width:22px;height:22px}
+.primary{flex:1;height:56px;border-radius:28px;background:var(--ink);color:var(--paper);font-weight:600;font-size:16px;transition:transform .15s}
+.primary:active{transform:scale(.97)}
+
+#flyLayer{position:fixed;inset:0;pointer-events:none;z-index:60;perspective:1000px}
+.fly3d{position:absolute;left:0;top:0;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;transform-origin:0 50%;will-change:transform}
+.fly2d{position:absolute;left:0;top:0;transform-origin:0 0;border-radius:3px;overflow:hidden;will-change:transform;box-shadow:0 2px 5px rgba(0,0,0,.25),0 24px 40px -10px var(--tint,rgba(0,0,0,.3))}
+.fly2d canvas{width:100%;height:100%;display:block}
+.toast{position:fixed;left:50%;top:calc(var(--st) + 10px);transform:translate(-50%,-160%);opacity:0;padding:11px 18px;border-radius:22px;font-size:14px;font-weight:600;z-index:90;transition:transform .5s cubic-bezier(.3,1.3,.5,1),opacity .3s;white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis}
+.toast.on{transform:translate(-50%,0);opacity:1}
+.hap{position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;pointer-events:none;overflow:hidden}
+[hidden]{display:none!important}
+.scanner.nocam #scManual{display:none}
+input,textarea{-webkit-user-select:text;user-select:text;font:inherit;color:inherit}
+.empty-in{display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;padding:0 30px}
+.ghost{height:50px;padding:0 20px;border-radius:25px;font-weight:600;font-size:15px;color:var(--ink);background:var(--rule);font-style:normal;font-family:var(--sans)}
+.round.trash{color:var(--ink2)}
+
+/* Scanner */
+.scanner{position:fixed;inset:0;z-index:55;background:#000;visibility:hidden;opacity:0;touch-action:none;color:#fff;overflow:hidden}
+.scanner video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sc-mask{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding-bottom:12vh;pointer-events:none}
+.sc-frame{position:relative;width:min(80vw,330px);aspect-ratio:1.45;border-radius:26px;box-shadow:0 0 0 200vmax rgba(0,0,0,.5);transition:transform .45s cubic-bezier(.3,1.4,.5,1)}
+.scanner.opening .sc-frame{transform:scale(1.12)}
+.sc-frame .c{position:absolute;width:36px;height:36px;border:3.5px solid #fff;transition:border-color .2s}
+.sc-frame .tl{left:-2px;top:-2px;border-right:0;border-bottom:0;border-top-left-radius:26px}
+.sc-frame .tr{right:-2px;top:-2px;border-left:0;border-bottom:0;border-top-right-radius:26px}
+.sc-frame .bl{left:-2px;bottom:-2px;border-right:0;border-top:0;border-bottom-left-radius:26px}
+.sc-frame .br{right:-2px;bottom:-2px;border-left:0;border-top:0;border-bottom-right-radius:26px}
+.sc-line{position:absolute;left:9%;right:9%;height:2px;top:14%;border-radius:2px;background:#E0785A;box-shadow:0 0 14px 3px rgba(224,120,90,.7);animation:scanline 2.1s ease-in-out infinite alternate}
+@keyframes scanline{to{top:86%}}
+.scanner.hit .c{border-color:#E0785A}
+.scanner.hit .sc-line{opacity:0}
+.scanner.hit .sc-frame{transform:scale(.96)}
+.sc-hit{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.sc-hit polygon{fill:rgba(224,120,90,.22);stroke:#E0785A;stroke-width:3;stroke-linejoin:round;opacity:0;transition:opacity .2s}
+.scanner.hit .sc-hit polygon{opacity:1}
+.sc-top{position:absolute;left:0;right:0;top:calc(var(--st) + 22px);text-align:center;padding:0 30px;text-shadow:0 1px 10px rgba(0,0,0,.45);pointer-events:none}
+.sc-title{font-family:var(--serif);font-size:25px;font-weight:600;letter-spacing:-.01em}
+.sc-sub{font-size:14px;opacity:.88;margin-top:5px}
+.dglass{background:rgba(30,30,32,.5);-webkit-backdrop-filter:blur(22px) saturate(160%);backdrop-filter:blur(22px) saturate(160%);box-shadow:inset 0 0 0 .5px rgba(255,255,255,.2),inset 0 1px 0 rgba(255,255,255,.12)}
+.sc-status{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(var(--sb) + 104px);padding:9px 16px;border-radius:20px;font-size:13.5px;font-weight:600;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis;transition:opacity .25s;pointer-events:none;font-variant-numeric:tabular-nums}
+.sc-bar{position:absolute;left:0;right:0;bottom:calc(var(--sb) + 22px);display:flex;align-items:center;justify-content:center;gap:12px;padding:0 18px}
+.sc-bar .round{color:#fff}
+.sc-bar .round.on{background:#fff;color:#111}
+.pill{height:56px;border-radius:28px;padding:0 22px;font-weight:600;font-size:15px;color:#fff;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.pill svg{width:19px;height:19px}
+.sc-nocam{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:0 36px 12vh;text-align:center}
+.sc-nocam p{font-size:16px;line-height:1.45;opacity:.9}
+.sc-nocam svg{width:44px;height:44px;opacity:.8}
+.scanner.nocam .sc-mask,.scanner.nocam .sc-top,.scanner.nocam .sc-status{display:none}
+.scanner.nocam .sc-nocam{display:flex}
+.sc-search{position:absolute;inset:0;background:var(--paper);color:var(--ink);padding:calc(var(--st) + 14px) 16px calc(var(--sb) + 12px);display:flex;flex-direction:column;transform:translateY(102%);transition:transform .45s cubic-bezier(.2,.9,.2,1);z-index:2}
+.scanner.manual .sc-search{transform:none}
+.sc-search-head{display:flex;align-items:baseline;justify-content:space-between;margin:2px 4px 12px}
+.sc-search-head h3{font-family:var(--serif);font-size:26px;font-weight:600;letter-spacing:-.01em}
+.sc-search-head button{font-size:16px;color:var(--accent);font-weight:600}
+.search-row{display:flex;align-items:center;gap:8px;height:50px;border-radius:25px;padding:0 6px 0 14px;background:var(--surface);box-shadow:inset 0 0 0 .5px var(--rule),0 2px 10px rgba(0,0,0,.05)}
+.search-row svg{width:19px;height:19px;color:var(--ink2);flex:none}
+input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
+.search-row input{flex:1;border:0;background:transparent;font-size:17px;outline:none;min-width:0;height:100%;-webkit-appearance:none;appearance:none}
+.search-row button{height:38px;padding:0 14px;border-radius:19px;background:var(--ink);color:var(--paper);font-weight:600;font-size:14px;flex:none}
+.results{flex:1;overflow-y:auto;margin-top:10px;-webkit-overflow-scrolling:touch;touch-action:pan-y}
+.res{display:flex;gap:12px;padding:10px 4px;border-bottom:.5px solid var(--rule);align-items:center;text-align:left;width:100%}
+.res img,.res .ph{width:42px;height:63px;border-radius:3px;object-fit:cover;background:var(--rule);flex:none;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.res .rt{font-family:var(--serif);font-weight:600;font-size:16.5px;line-height:1.2}
+.res .ra{font-size:13px;color:var(--ink2);margin-top:3px}
+.res-msg{color:var(--ink2);text-align:center;padding:34px 10px;font-family:var(--serif);font-style:italic;font-size:16px;line-height:1.45}
+.sc-card{position:absolute;left:10px;right:10px;bottom:calc(var(--sb) + 10px);border-radius:30px;background:var(--paper);color:var(--ink);padding:18px 18px 16px;transform:translateY(calc(100% + 60px));transition:transform .55s cubic-bezier(.25,1.15,.4,1);box-shadow:0 -10px 40px rgba(0,0,0,.35);z-index:3}
+.scanner.card .sc-card{transform:none}
+.card-body{display:flex;gap:16px}
+.card-cover{width:92px;height:138px;flex:none;border-radius:3px;overflow:hidden;box-shadow:0 2px 4px rgba(0,0,0,.25),0 14px 24px -8px var(--tint,rgba(0,0,0,.35));background:var(--rule)}
+.card-cover canvas{width:100%;height:100%;display:block}
+.card-info{flex:1;min-width:0;display:flex;flex-direction:column}
+.card-kicker{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-title{font-family:var(--serif);font-size:21px;font-weight:600;line-height:1.18;border:0;background:transparent;width:100%;padding:2px 0;margin-top:5px;resize:none;outline:none;border-bottom:1px solid transparent;height:52px;overflow:hidden}
+.card-author{font-size:15px;color:var(--ink2);border:0;background:transparent;width:100%;padding:2px 0;outline:none;border-bottom:1px solid transparent}
+.card-title:focus,.card-author:focus{border-bottom-color:var(--rule)}
+.card-title::placeholder,.card-author::placeholder{color:var(--ink2);opacity:.6}
+.card-meta{margin-top:auto;font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:8px}
+.card-meta input{width:66px;border:0;border-radius:8px;background:var(--rule);padding:5px 8px;font-size:15px;font-variant-numeric:tabular-nums;outline:none;-webkit-appearance:none;appearance:none}
+.card-pitch{font-family:var(--serif);font-style:italic;font-size:14.5px;line-height:1.4;color:var(--ink2);margin:12px 2px 0;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;min-height:20px}
+.card-lists{display:flex;gap:8px;margin-top:14px}
+.card-lists button{flex:1;height:38px;border-radius:19px;font-size:14px;font-weight:600;color:var(--ink2);background:var(--rule);transition:background .2s,color .2s}
+.card-lists button.on{background:var(--ink);color:var(--paper)}
+.card-actions{display:flex;gap:10px;margin-top:12px}
+.card-actions .primary{height:52px}
+.card-actions .primary:disabled{opacity:.4}
+.sc-card.dup .card-lists{display:none}
+.sc-card.loading .card-title,.sc-card.loading .card-author,.sc-card.loading .card-cover,.sc-card.loading .card-pitch{background:linear-gradient(90deg,var(--rule) 25%,var(--surface) 50%,var(--rule) 75%);background-size:200% 100%;animation:shim 1.1s linear infinite;border-radius:6px;color:transparent}
+.sc-card.loading .card-title{height:26px;margin-bottom:6px}
+.sc-card.loading .card-author{height:18px;width:60%}
+.sc-card.loading .card-meta{visibility:hidden}
+@keyframes shim{from{background-position:100% 0}to{background-position:-100% 0}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="amb" id="ambA"></div><div class="amb" id="ambB"></div>
+
+  <section class="screen active" id="scr-read">
+    <header class="top">
+      <div class="kicker" id="kDate"></div>
+      <div class="title-row"><h1 class="list-title" id="listTitle">En cours</h1><div class="goal" id="goal"></div></div>
+    </header>
+    <div class="scene" id="scene">
+      <div class="stage" id="stage"></div>
+      <div class="caption" id="caption"></div>
+    </div>
+    <div class="thumb">
+      <div class="seg glass" id="seg"><div class="seg-ind" id="segInd"></div><button data-k="cours" class="on">En cours</button><button data-k="lus">Lus</button><button data-k="envies">Envies</button></div>
+      <div class="dial" id="dial"><div class="dial-track" id="dialTrack"><div class="small"></div><div class="big"></div></div><div class="dial-needle"></div><div class="dial-label" id="dialLabel"></div></div>
+    </div>
+  </section>
+
+  <section class="screen" id="scr-lib">
+    <header class="top">
+      <div class="kicker">Bibliothèque</div>
+      <div class="title-row"><h1 class="list-title">Vos étagères</h1></div>
+    </header>
+    <div class="shelves" id="shelves"></div>
+    <div class="lib-hint">Effleurez les dos · tirez un livre vers le haut</div>
+  </section>
+
+  <section class="screen scroll" id="scr-set">
+    <header class="top">
+      <div class="kicker">Prototype</div>
+      <div class="title-row"><h1 class="list-title">Réglages</h1></div>
+    </header>
+    <div class="group">
+      <label class="row-set"><span>Retour haptique<small>Crans de la Galerie, bascule de page, sceau. Sur iPhone : iOS 18 ou plus, dans Safari.</small></span><input type="checkbox" switch id="optHaptic"></label>
+      <label class="row-set"><span>Réduire les animations<small>Remplace la 3D et le feuilletage par des fondus.</small></span><input type="checkbox" switch id="optReduce"></label>
+      <div class="row-set"><span>Thème</span><div class="mini-seg" id="optTheme"><button data-v="auto">Auto</button><button data-v="light">Clair</button><button data-v="dark">Sombre</button></div></div>
+    </div>
+    <div class="group"><button class="row-btn" id="optDemo">Retirer les livres d’exemple</button><button class="row-btn" id="optReset" style="border-top:.5px solid var(--rule)">Tout réinitialiser</button></div>
+    <p class="about"><b>Ajouter un livre</b> — bouton code-barres en bas à droite : visez le code-barres au dos du livre (ISBN) ou un QR code qui contient un ISBN. Sans caméra, cherchez par titre, auteur ou ISBN. Les infos viennent de Google Books et d’Open Library.<br><br>
+      <b>Les trois transitions du cahier des charges</b><br>
+      <b>La Galerie</b> — onglet Lecture : faites glisser les couvertures, lancez-les vite pour voir la mise au point.<br>
+      <b>Le Feuilletage</b> — touchez une couverture, puis glissez horizontalement sur la fiche pour tourner la page.<br>
+      <b>L'Étagère vivante</b> — onglet Bibliothèque : effleurez les dos, puis tirez un livre vers le haut.<br><br>
+      Astuce : Partager → « Sur l'écran d'accueil » pour l'ouvrir en plein écran.<br>
+      Couvertures générées, titres du domaine public.</p>
+  </section>
+
+  <div class="session glass" id="session">
+    <div class="ses-cover" id="sesCover"></div>
+    <div class="ses-text"><div class="ses-title" id="sesTitle">Commencer à lire</div><div class="ses-sub" id="sesSub"></div></div>
+    <div class="ses-time" id="sesTime"></div>
+    <button class="ses-btn" id="sesBtn" aria-label="Session"><svg viewBox="0 0 24 24" fill="currentColor" id="sesIcon"><path d="M8 5.5v13l10.5-6.5z"/></svg></button>
+  </div>
+
+  <nav class="tabbar glass" id="tabbar">
+    <button class="tab on" data-tab="read"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.5C10 5 7 4.5 3.5 5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5C17 4.5 14 5 12 6.5z"/><path d="M12 6.5v13"/></svg>Lecture</button>
+    <button class="tab" data-tab="lib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="4" height="16" rx="1"/><rect x="8.5" y="6" width="4" height="14" rx="1"/><path d="M14.2 7.4l3.8-1 3.3 12.6-3.8 1z"/></svg>Bibliothèque</button>
+    <button class="tab" data-tab="set"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>Réglages</button>
+  </nav>
+  <button class="search-btn glass" id="searchBtn" aria-label="Scanner un livre"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8V6a2.5 2.5 0 0 1 2.5-2.5h2M16 3.5h2A2.5 2.5 0 0 1 20.5 6v2M20.5 16v2a2.5 2.5 0 0 1-2.5 2.5h-2M8 20.5H6A2.5 2.5 0 0 1 3.5 18v-2"/><path d="M8 8.5v7M10.5 8.5v7M13 8.5v7M16 8.5v7" stroke-width="1.6"/></svg></button>
+
+  <div class="detail" id="detail">
+    <div class="d-bg" id="dBg"></div>
+    <div class="d-amb" id="dAmbA"></div><div class="d-amb" id="dAmbB" style="opacity:0"></div>
+    <div class="d-inner" id="dInner">
+      <div class="d-grab"></div>
+      <div class="d-stage" id="dStage">
+        <div class="d-shadow" id="dShadow"></div>
+        <canvas id="gl"></canvas>
+        <div class="d-fallback" id="dFallback"><canvas id="fbCanvas" width="450" height="675"></canvas></div>
+        <div class="seal" id="seal"><svg viewBox="0 0 120 120"><defs><path id="sealPath" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs><circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="60" cy="60" r="51" fill="none" stroke="currentColor" stroke-width="1"/><circle cx="60" cy="60" r="32" fill="none" stroke="currentColor" stroke-width="1.5"/><text font-size="11" font-weight="700" letter-spacing="3" fill="currentColor" font-family="-apple-system, system-ui, sans-serif"><textPath href="#sealPath" id="sealText">EX LIBRIS · LU EN 2026 · </textPath></text><text x="60" y="70" text-anchor="middle" font-size="28" font-weight="700" font-style="italic" fill="currentColor" font-family="ui-serif, Georgia, serif">Lu</text></svg></div>
+      </div>
+      <div class="d-info">
+        <div class="d-kicker fade" id="dKicker"></div>
+        <h2 class="d-title" id="dTitle"></h2>
+        <div class="fade">
+          <div class="d-meta" id="dMeta"></div>
+          <div class="prog"><i id="dProgFill"></i></div>
+          <div class="prog-text" id="dProgText"></div>
+          <p class="d-pitch" id="dPitch"></p>
+          <div class="d-hint" id="dHint">← Glissez pour tourner la page →</div>
+        </div>
+      </div>
+      <div class="d-actions">
+        <button class="round glass" id="dClose" aria-label="Fermer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg></button>
+        <button class="primary" id="dMain"></button>
+        <button class="round glass trash" id="dTrash" aria-label="Retirer de la bibliothèque"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 7h15M9.5 7V5.2c0-.7.5-1.2 1.2-1.2h2.6c.7 0 1.2.5 1.2 1.2V7M6.5 7l.9 12c.1.8.7 1.5 1.6 1.5h6c.9 0 1.5-.7 1.6-1.5l.9-12"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="scanner" id="scanner">
+    <video id="camVideo" playsinline muted autoplay></video>
+    <div class="sc-mask"><div class="sc-frame" id="scFrame"><i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i><div class="sc-line"></div></div></div>
+    <svg class="sc-hit"><polygon id="scPoly" points=""/></svg>
+    <div class="sc-top"><div class="sc-title">Scannez le livre</div><div class="sc-sub">Code-barres au dos (ISBN) ou QR code</div></div>
+    <div class="sc-nocam"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18M10.5 6H15l1.5 2H19a2 2 0 0 1 2 2v7.5M18 20H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h1"/><path d="M9.5 10.5a3.5 3.5 0 0 0 4.9 4.9"/></svg><p id="scNocamMsg">Caméra indisponible.</p><button class="pill dglass" id="scNocamManual">Chercher par titre ou ISBN</button></div>
+    <div class="sc-status dglass" id="scStatus" style="opacity:0"></div>
+    <div class="sc-bar">
+      <button class="round dglass" id="scClose" aria-label="Fermer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg></button>
+      <button class="pill dglass" id="scManual"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg>Titre ou ISBN</button>
+      <button class="round dglass" id="scTorch" aria-label="Lampe" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8v3l-2 4v10.5a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V10L8 6z"/><path d="M12 13.5v2"/></svg></button>
+    </div>
+    <div class="sc-search" id="scSearch">
+      <div class="sc-search-head"><h3>Ajouter un livre</h3><button id="scSearchCancel">Annuler</button></div>
+      <form class="search-row" id="scForm" autocomplete="off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg><input id="scQuery" type="search" placeholder="Titre, auteur ou ISBN" enterkeyhint="search" autocapitalize="off" spellcheck="false"><button type="submit">Chercher</button></form>
+      <div class="results scroll" id="scResults"><div class="res-msg">Tapez un titre, un auteur, ou les 13 chiffres de l’ISBN imprimés sous le code-barres.</div></div>
+    </div>
+    <div class="sc-card" id="scCard">
+      <div class="card-body">
+        <div class="card-cover" id="cardCover"></div>
+        <div class="card-info">
+          <div class="card-kicker" id="cardKicker"></div>
+          <textarea class="card-title" id="cardTitle" rows="2" placeholder="Titre du livre"></textarea>
+          <input class="card-author" id="cardAuthor" placeholder="Auteur">
+          <div class="card-meta"><span>Pages</span><input id="cardPages" type="number" inputmode="numeric" min="1" placeholder="?"><span id="cardYear"></span></div>
+        </div>
+      </div>
+      <p class="card-pitch" id="cardPitch"></p>
+      <div class="card-lists" id="cardLists"><button data-k="envies" class="on">Envies</button><button data-k="cours">En cours</button><button data-k="lus">Lus</button></div>
+      <div class="card-actions"><button class="ghost" id="cardAgain">Scanner un autre</button><button class="primary" id="cardAdd">Ajouter</button></div>
+    </div>
+  </div>
+
+  <div id="flyLayer"></div>
+  <div class="toast glass" id="toast"></div>
+</div>
+
+<script>
+(() => {
+'use strict';
+
+/* ───────────── Outils ───────────── */
+const $ = s => document.querySelector(s);
+const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
+const lerp = (a, b, t) => a + (b - a) * t;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const hexRgb = h => { h = h.replace('#', ''); return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)]; };
+const rgba = (h, a) => { const [r,g,b] = hexRgb(h); return `rgba(${r},${g},${b},${a})`; };
+const mixHex = (a, b, t) => { const A = hexRgb(a), B = hexRgb(b); return '#' + A.map((v,i) => Math.round(lerp(v, B[i], t)).toString(16).padStart(2,'0')).join(''); };
+const fmt = n => n.toLocaleString('fr-FR');
+const lastName = a => a.split(' ').pop();
+const easeOut = p => 1 - Math.pow(1 - p, 3);
+const easeInOut = p => p < .5 ? 4*p*p*p : 1 - Math.pow(-2*p + 2, 3) / 2;
+const easeBack = p => { const c1 = 1.25, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); };
+const SERIF = 'ui-serif, "Iowan Old Style", "New York", Georgia, "Times New Roman", serif';
+const SANS = '-apple-system, BlinkMacSystemFont, system-ui, "Helvetica Neue", Arial, sans-serif';
+const YEAR = new Date().getFullYear();
+
+/* ───────────── Données ───────────── */
+const BOOKS0 = [
+ {id:1, t:'Le Comte de Monte-Cristo', sp:'Monte-Cristo', a:'Alexandre Dumas', y:1844, p:1312, c0:'#1D3557', c1:'#E9C46A', s:0, list:'cours', page:547, pitch:'Trahi et jeté au château d’If, Edmond Dantès revient riche et méconnaissable pour régler ses comptes.'},
+ {id:2, t:'Madame Bovary', sp:'Madame Bovary', a:'Gustave Flaubert', y:1857, p:480, c0:'#6D2E46', c1:'#F1E3D3', s:2, list:'cours', page:212, pitch:'Emma rêve d’une vie de roman et se heurte à l’ennui d’une petite ville de Normandie.'},
+ {id:3, t:'Vingt mille lieues sous les mers', sp:'Vingt mille lieues', a:'Jules Verne', y:1870, p:608, c0:'#0F5257', c1:'#A8DADC', s:4, list:'cours', page:88, pitch:'À bord du Nautilus, le professeur Aronnax explore les fonds marins aux côtés du capitaine Nemo.'},
+ {id:4, t:'Les Fleurs du mal', sp:'Les Fleurs du mal', a:'Charles Baudelaire', y:1857, p:352, c0:'#2B1E3F', c1:'#D4A5A5', s:3, list:'cours', page:301, pitch:'Le spleen, l’idéal et la ville moderne, mis en vers comme jamais auparavant.'},
+ {id:5, t:'Germinal', sp:'Germinal', a:'Émile Zola', y:1885, p:592, c0:'#2F2F2F', c1:'#E07A5F', s:1, list:'lus', page:592, pitch:'Dans les mines du Nord, Étienne Lantier entraîne les mineurs dans une grève qui tourne au drame.'},
+ {id:6, t:'Le Rouge et le Noir', sp:'Le Rouge et le Noir', a:'Stendhal', y:1830, p:576, c0:'#8E1B1B', c1:'#F3E9DC', s:0, list:'lus', page:576, pitch:'Fils de charpentier, Julien Sorel veut s’élever coûte que coûte dans la France de la Restauration.'},
+ {id:7, t:'Bel-Ami', sp:'Bel-Ami', a:'Guy de Maupassant', y:1885, p:416, c0:'#3D5A40', c1:'#E8D8B0', s:2, list:'lus', page:416, pitch:'Georges Duroy gravit les échelons de la presse parisienne à force de charme et de calcul.'},
+ {id:8, t:'Notre-Dame de Paris', sp:'Notre-Dame de Paris', a:'Victor Hugo', y:1831, p:720, c0:'#4A4E69', c1:'#F2E9E4', s:3, list:'lus', page:720, pitch:'Autour de la cathédrale, les destins de Quasimodo, d’Esmeralda et de Frollo se nouent.'},
+ {id:9, t:'Le Père Goriot', sp:'Le Père Goriot', a:'Honoré de Balzac', y:1835, p:384, c0:'#A0522D', c1:'#FAE1C0', s:4, list:'lus', page:384, pitch:'Dans une pension du Quartier latin, un père se ruine pour ses filles sous les yeux de Rastignac.'},
+ {id:10, t:'Candide', sp:'Candide', a:'Voltaire', y:1759, p:160, c0:'#E9C46A', c1:'#264653', s:1, list:'lus', page:160, pitch:'Un jeune homme convaincu que tout va pour le mieux traverse un monde qui le dément sans cesse.'},
+ {id:11, t:'Le Tour du monde en quatre-vingts jours', sp:'Le Tour du monde', a:'Jules Verne', y:1872, p:320, c0:'#E76F51', c1:'#FFF3E0', s:2, list:'lus', page:320, pitch:'Phileas Fogg parie sa fortune qu’il bouclera le tour du globe à temps, Passepartout dans ses bagages.'},
+ {id:12, t:'Les Misérables', sp:'Les Misérables', a:'Victor Hugo', y:1862, p:1664, c0:'#22223B', c1:'#C9ADA7', s:0, list:'lus', page:1664, pitch:'De Digne aux barricades de Paris, la longue rédemption de Jean Valjean, traqué par Javert.'},
+ {id:13, t:'Du côté de chez Swann', sp:'Du côté de chez Swann', a:'Marcel Proust', y:1913, p:528, c0:'#B5838D', c1:'#FFF0F3', s:3, list:'lus', page:528, pitch:'Une madeleine trempée dans le thé, et toute l’enfance à Combray remonte à la surface.'},
+ {id:14, t:'Les Trois Mousquetaires', sp:'Les Trois Mousquetaires', a:'Alexandre Dumas', y:1844, p:880, c0:'#6D597A', c1:'#F4D35E', s:4, list:'envies', page:0, pitch:'D’Artagnan monte à Paris et se lie à Athos, Porthos et Aramis contre le cardinal.'},
+ {id:15, t:'L’Assommoir', sp:'L’Assommoir', a:'Émile Zola', y:1877, p:544, c0:'#5C677D', c1:'#F2C14E', s:1, list:'envies', page:0, pitch:'Blanchisseuse à la Goutte-d’Or, Gervaise lutte pour une vie digne face à la misère et à l’alcool.'},
+ {id:16, t:'Le Horla', sp:'Le Horla', a:'Guy de Maupassant', y:1887, p:128, c0:'#0B132B', c1:'#5BC0BE', s:2, list:'envies', page:0, pitch:'Le journal d’un homme de plus en plus certain qu’une présence invisible vit chez lui.'},
+ {id:17, t:'Eugénie Grandet', sp:'Eugénie Grandet', a:'Honoré de Balzac', y:1833, p:256, c0:'#B08968', c1:'#2D1E12', s:0, list:'envies', page:0, pitch:'À Saumur, une jeune fille grandit dans l’ombre d’un père dont l’avarice règle chaque geste.'}
+];
+const LISTS = {cours:'En cours', lus:'Lus', envies:'Envies'};
+const GOAL = 24;
+let books = BOOKS0.map(b => Object.assign({}, b));
+const S = {haptics:true, reduce:null, theme:'auto', hintSeen:false};
+const state = {list:'cours', idx:{cours:0, lus:0, envies:0}, tab:'read'};
+const KEY = 'exlibris-proto-2', KEY_V1 = 'exlibris-proto-1';
+// Sauvegarde complète (livres scannés + couverture en JPEG compressé) dans le stockage local du navigateur.
+function save(){
+  try { localStorage.setItem(KEY, JSON.stringify({s:S, books})); }
+  catch(e) {
+    try { localStorage.setItem(KEY, JSON.stringify({s:S, books:books.map(b => b.img ? Object.assign({}, b, {img:null}) : b)})); toast('Mémoire pleine : couvertures non conservées'); } catch(_){}
+  }
+}
+function load(){
+  try {
+    const d = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (d) { Object.assign(S, d.s || {}); if (Array.isArray(d.books)) books = d.books.filter(b => b && b.id && b.t && LISTS[b.list]); return; }
+    const v1 = JSON.parse(localStorage.getItem(KEY_V1) || 'null'); if (!v1) return;
+    Object.assign(S, v1.s || {});
+    (v1.b || []).forEach(x => { const b = books.find(y => y.id === x.id); if (b) { b.list = x.list; b.page = x.page; } });
+    if (Array.isArray(v1.order)) books.sort((a, b) => v1.order.indexOf(a.id) - v1.order.indexOf(b.id));
+  } catch(e){}
+}
+load();
+const hashInt = s => { let h = 2166136261; for (const ch of String(s)) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; };
+const PAIRS = [['#1D3557','#E9C46A'],['#6D2E46','#F1E3D3'],['#0F5257','#A8DADC'],['#2B1E3F','#D4A5A5'],['#2F2F2F','#E07A5F'],['#3D5A40','#E8D8B0'],['#4A4E69','#F2E9E4'],['#A0522D','#FAE1C0'],['#E9C46A','#264653'],['#E76F51','#FFF3E0'],['#22223B','#C9ADA7'],['#6D597A','#F4D35E'],['#5C677D','#F2C14E'],['#0B132B','#5BC0BE'],['#B08968','#2D1E12'],['#8E1B1B','#F3E9DC']];
+const hashPalette = k => PAIRS[hashInt(k) % PAIRS.length];
+const spineTitle = t => { const s = String(t).split(/\s[:—–-]\s|:|\(/)[0].trim(); return s || t; };
+const cleanDesc = (s, n) => { s = String(s || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim(); if (s.length <= n) return s; const cut = s.lastIndexOf(' ', n); return s.slice(0, cut > n * 0.6 ? cut : n).replace(/[,;:.\s]+$/, '') + '…'; };
+const pagesTxt = b => `${b.pEst ? '≈ ' : ''}${fmt(b.p)} pages`;
+const metaLine = (b, withPages) => [b.a, b.y, withPages ? pagesTxt(b) : ''].filter(Boolean).join(' · ');
+const listBooks = k => books.filter(b => b.list === k);
+const bookById = id => books.find(b => b.id === +id);
+
+/* ───────────── Préférences ───────────── */
+const mqReduce = matchMedia('(prefers-reduced-motion: reduce)');
+const mqDark = matchMedia('(prefers-color-scheme: dark)');
+const reduce = () => (S.reduce === null || S.reduce === undefined) ? mqReduce.matches : !!S.reduce;
+let isDark = false;
+function applyTheme(){
+  const t = S.theme === 'auto' ? (mqDark.matches ? 'dark' : 'light') : S.theme;
+  isDark = t === 'dark';
+  document.documentElement.dataset.theme = t;
+  $('#themeColor').setAttribute('content', isDark ? '#0B0B0C' : '#F6F3EE');
+  document.querySelectorAll('#optTheme button').forEach(b => b.classList.toggle('on', b.dataset.v === S.theme));
+  if (Car.cards.length) { Car.ambIdx = -2; renderCarousel(); updateAmb(); }
+  if (D.open) setDetailAmb(D.books[D.i], true);
+}
+const onMq = (mq, fn) => mq.addEventListener ? mq.addEventListener('change', fn) : mq.addListener(fn);
+onMq(mqDark, () => applyTheme());
+onMq(mqReduce, () => { if (Car.cards.length) renderCarousel(); });
+
+/* ───────────── Haptique ─────────────
+   iOS 18+ (Safari) : un <input switch> déclenche le Taptic Engine quand il bascule.
+   Android : API Vibration. Ailleurs : silencieux. */
+const Haptics = (() => {
+  let last = 0, label = null;
+  function ensure(){
+    if (label) return;
+    label = document.createElement('label'); label.className = 'hap'; label.setAttribute('aria-hidden', 'true');
+    const i = document.createElement('input'); i.type = 'checkbox'; i.setAttribute('switch', ''); i.tabIndex = -1;
+    label.appendChild(i); document.body.appendChild(label);
+  }
+  function tick(force){
+    if (!S.haptics) return;
+    const t = performance.now(); if (!force && t - last < 50) return; last = t;
+    try {
+      if (navigator.vibrate) { navigator.vibrate(9); return; }
+      ensure(); label.click();
+    } catch(e){}
+  }
+  const pattern = delays => delays.forEach(d => setTimeout(() => tick(true), d));
+  return {tick, pattern, ensure};
+})();
+
+/* ───────────── Couvertures (générées) ───────────── */
+const CW = 600, CH = 900;
+const grain = (() => {
+  const c = document.createElement('canvas'); c.width = c.height = 128; const x = c.getContext('2d');
+  const d = x.createImageData(128, 128); let s = 1234567;
+  for (let i = 0; i < d.data.length; i += 4) { s = (s * 16807) % 2147483647; const v = (s / 2147483647) * 255; d.data[i] = d.data[i+1] = d.data[i+2] = v; d.data[i+3] = 255; }
+  x.putImageData(d, 0, 0); return c;
+})();
+function wrap(x, text, maxW){
+  const words = text.split(' '); const lines = []; let cur = '';
+  for (const w of words) { const t = cur ? cur + ' ' + w : w; if (x.measureText(t).width > maxW && cur) { lines.push(cur); cur = w; } else cur = t; }
+  if (cur) lines.push(cur); return lines;
+}
+function fitLines(x, text, maxW, maxLines, size, minSize, weight){
+  let lines;
+  for (;;) {
+    x.font = `${weight} ${size}px ${SERIF}`; lines = wrap(x, text, maxW);
+    const tooWide = lines.some(l => x.measureText(l).width > maxW);
+    if ((lines.length <= maxLines && !tooWide) || size <= minSize) break;
+    size -= 2;
+  }
+  return {lines, size};
+}
+function drawLines(x, lines, cx, y, lh, align){ x.textAlign = align; lines.forEach((l, i) => x.fillText(l, cx, y + i * lh)); }
+function spaced(x, txt, cx, y, sp, align){
+  const chars = [...txt]; const ws = chars.map(c => x.measureText(c).width);
+  const total = ws.reduce((a, b) => a + b, 0) + sp * (chars.length - 1);
+  let s = align === 'left' ? cx : align === 'right' ? cx - total : cx - total / 2;
+  x.textAlign = 'left'; chars.forEach((c, i) => { x.fillText(c, s, y); s += ws[i] + sp; });
+}
+function diamond(x, cx, cy, r){ x.beginPath(); x.moveTo(cx, cy - r); x.lineTo(cx + r, cy); x.lineTo(cx, cy + r); x.lineTo(cx - r, cy); x.closePath(); x.fill(); }
+function authorCaps(x, b, cx, y, align){ x.font = `600 22px ${SANS}`; spaced(x, b.a.toUpperCase(), cx, y, 5, align || 'center'); }
+const STYLES = [
+  // 0 · Classique : double filet, titre centré
+  (x, b, W, H) => {
+    x.strokeStyle = b.c1; x.lineWidth = 3; x.strokeRect(36, 36, W - 72, H - 72); x.lineWidth = 1.2; x.strokeRect(48, 48, W - 96, H - 96);
+    x.fillStyle = b.c1; diamond(x, W / 2, 140, 11); diamond(x, W / 2 - 34, 140, 5); diamond(x, W / 2 + 34, 140, 5);
+    const r = fitLines(x, b.t, W - 170, 4, 70, 40, '600'); const lh = r.size * 1.12; const bh = lh * r.lines.length;
+    const y0 = H * 0.45 - bh / 2 + r.size * 0.78; drawLines(x, r.lines, W / 2, y0, lh, 'center');
+    x.fillRect(W / 2 - 40, y0 + bh - r.size * 0.78 + 30, 80, 2);
+    authorCaps(x, b, W / 2, H - 150);
+    x.font = `italic 400 24px ${SERIF}`; x.textAlign = 'center'; x.globalAlpha = .8; x.fillText(String(b.y), W / 2, H - 110); x.globalAlpha = 1;
+  },
+  // 1 · Bande
+  (x, b, W, H) => {
+    x.fillStyle = b.c1; x.fillRect(0, H * 0.56, W, H * 0.26);
+    authorCaps(x, b, 64, 124, 'left'); x.fillRect(64, 150, 120, 2);
+    x.beginPath(); x.arc(W - 92, 112, 18, 0, Math.PI * 2); x.fill();
+    x.fillStyle = b.c0; const r = fitLines(x, b.t, W - 128, 3, 66, 34, '600'); const lh = r.size * 1.1;
+    const y = H * 0.56 + H * 0.13 - (lh * r.lines.length) / 2 + r.size * 0.78; drawLines(x, r.lines, 64, y, lh, 'left');
+    x.fillStyle = b.c1; x.font = `italic 400 26px ${SERIF}`; x.textAlign = 'left'; x.fillText(String(b.y), 64, H - 66);
+  },
+  // 2 · Cercle
+  (x, b, W, H) => {
+    x.fillStyle = b.c1; x.beginPath(); x.arc(W / 2, H * 0.32, W * 0.26, 0, Math.PI * 2); x.fill();
+    x.strokeStyle = b.c1; x.lineWidth = 1.5; x.beginPath(); x.arc(W / 2, H * 0.32, W * 0.26 + 22, 0, Math.PI * 2); x.stroke();
+    x.fillStyle = b.c1; const r = fitLines(x, b.t, W - 140, 3, 62, 34, '600'); const lh = r.size * 1.1;
+    drawLines(x, r.lines, W / 2, H * 0.67, lh, 'center');
+    authorCaps(x, b, W / 2, H - 82);
+  },
+  // 3 · Initiale
+  (x, b, W, H) => {
+    const word = b.t.replace(/^(Le |La |Les |L'|L’|Du |Un |Une )/i, ''); const L = (word[0] || b.t[0] || 'A').toUpperCase();
+    x.save(); x.globalAlpha = .2; x.fillStyle = b.c1; x.font = `700 ${Math.round(H * 0.74)}px ${SERIF}`; x.textAlign = 'center'; x.fillText(L, W * 0.58, H * 0.68); x.restore();
+    x.fillStyle = b.c1; authorCaps(x, b, 60, 112, 'left');
+    const r = fitLines(x, b.t, W - 120, 3, 68, 36, '600'); const lh = r.size * 1.08;
+    drawLines(x, r.lines, 60, H - 130 - (r.lines.length - 1) * lh, lh, 'left');
+    x.fillRect(60, H - 92, 64, 3);
+    x.font = `italic 400 24px ${SERIF}`; x.textAlign = 'right'; x.fillText(String(b.y), W - 60, H - 84);
+  },
+  // 4 · Lignes + cartouche
+  (x, b, W, H) => {
+    x.strokeStyle = rgba(b.c1, .24); x.lineWidth = 2;
+    for (let yy = 64; yy < H * 0.53; yy += 16) { x.beginPath(); x.moveTo(40, yy); x.lineTo(W - 40, yy); x.stroke(); }
+    x.fillStyle = b.c1; x.fillRect(40, H * 0.57, W - 80, H * 0.24);
+    x.fillStyle = b.c0; const r = fitLines(x, b.t, W - 150, 3, 60, 32, '600'); const lh = r.size * 1.1;
+    drawLines(x, r.lines, W / 2, H * 0.69 - (lh * r.lines.length) / 2 + r.size * 0.78, lh, 'center');
+    x.fillStyle = b.c1; authorCaps(x, b, W / 2, H - 90);
+  }
+];
+const coverImgs = new Map();   // vraies couvertures (images déjà chargées)
+function drawCover(b, im){
+  if (im === undefined) im = coverImgs.get(b.id);
+  const c = document.createElement('canvas'); c.width = CW; c.height = CH; const x = c.getContext('2d');
+  x.fillStyle = b.c0; x.fillRect(0, 0, CW, CH);
+  let g;
+  if (im) {
+    const iw = im.naturalWidth || im.width, ih = im.naturalHeight || im.height, s = Math.max(CW / iw, CH / ih);
+    x.imageSmoothingQuality = 'high'; x.drawImage(im, (CW - iw * s) / 2, (CH - ih * s) / 2, iw * s, ih * s);
+  } else {
+    g = x.createLinearGradient(0, 0, CW, CH); g.addColorStop(0, 'rgba(255,255,255,0.07)'); g.addColorStop(1, 'rgba(0,0,0,0.12)'); x.fillStyle = g; x.fillRect(0, 0, CW, CH);
+    x.textBaseline = 'alphabetic';
+    STYLES[(b.s || 0) % STYLES.length](x, b, CW, CH);
+    x.save(); x.globalCompositeOperation = 'overlay'; x.globalAlpha = .10; x.fillStyle = x.createPattern(grain, 'repeat'); x.fillRect(0, 0, CW, CH); x.restore();
+  }
+  g = x.createLinearGradient(0, 0, CW * 0.075, 0); g.addColorStop(0, 'rgba(0,0,0,0.30)'); g.addColorStop(.35, 'rgba(255,255,255,0.12)'); g.addColorStop(.55, 'rgba(0,0,0,0.14)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+  x.fillStyle = g; x.fillRect(0, 0, CW * 0.075, CH);
+  g = x.createLinearGradient(0, 0, CW, CH * 0.6); g.addColorStop(0, 'rgba(255,255,255,0.06)'); g.addColorStop(.5, 'rgba(255,255,255,0)'); x.fillStyle = g; x.fillRect(0, 0, CW, CH);
+  return c;
+}
+const covers = new Map(), blurs = new Map(), thumbs = new Map();
+const cover = b => { if (!covers.has(b.id)) covers.set(b.id, drawCover(b)); return covers.get(b.id); };
+// Flou pré-calculé (réduction puis agrandissement) : coût GPU constant, comme prévu au cahier des charges.
+function boxBlur(img, w, h, r){
+  const d = img.data, tmp = new Float32Array(d.length), div = 2 * r + 1;
+  for (let y = 0; y < h; y++) for (let c = 0; c < 4; c++) {           // horizontal
+    let acc = 0; for (let k = -r; k <= r; k++) acc += d[(y * w + clamp(k, 0, w - 1)) * 4 + c];
+    for (let x = 0; x < w; x++) { tmp[(y * w + x) * 4 + c] = acc / div; acc += d[(y * w + Math.min(x + r + 1, w - 1)) * 4 + c] - d[(y * w + Math.max(x - r, 0)) * 4 + c]; }
+  }
+  for (let x = 0; x < w; x++) for (let c = 0; c < 4; c++) {           // vertical
+    let acc = 0; for (let k = -r; k <= r; k++) acc += tmp[(clamp(k, 0, h - 1) * w + x) * 4 + c];
+    for (let y = 0; y < h; y++) { d[(y * w + x) * 4 + c] = acc / div; acc += tmp[(Math.min(y + r + 1, h - 1) * w + x) * 4 + c] - tmp[(Math.max(y - r, 0) * w + x) * 4 + c]; }
+  }
+}
+function blurCover(b){
+  if (blurs.has(b.id)) return blurs.get(b.id);
+  const w = 100, h = 150;
+  const s = document.createElement('canvas'); s.width = w; s.height = h; const sx = s.getContext('2d');
+  sx.imageSmoothingQuality = 'high'; sx.drawImage(cover(b), 0, 0, w, h);
+  const img = sx.getImageData(0, 0, w, h); boxBlur(img, w, h, 3); boxBlur(img, w, h, 3); boxBlur(img, w, h, 2); sx.putImageData(img, 0, 0);
+  const o = document.createElement('canvas'); o.width = 300; o.height = 450; const ox = o.getContext('2d'); ox.imageSmoothingQuality = 'high'; ox.drawImage(s, 0, 0, 300, 450);
+  blurs.set(b.id, o); return o;
+}
+function coverCopy(b, w, h){ const c = document.createElement('canvas'); c.width = w; c.height = h; c.getContext('2d').drawImage(cover(b), 0, 0, w, h); return c; }
+function thumbURL(b){ if (!thumbs.has(b.id)) thumbs.set(b.id, coverCopy(b, 90, 135).toDataURL('image/jpeg', .85)); return thumbs.get(b.id); }
+const thick = (b, W) => clamp(b.p / 40, 4, 18) * (W / 230);
+
+/* ───────────── Boucle d'animation ───────────── */
+const tweens = [];
+let rafOn = false, lastT = 0;
+function kick(){ if (!rafOn) { rafOn = true; lastT = performance.now(); requestAnimationFrame(frame); } }
+function tween(dur, ease, update, done){ const tw = {t0:performance.now(), dur, ease, update, done}; tweens.push(tw); kick(); return tw; }
+function spring(o, dt, k, c, eps){
+  const n = Math.max(1, Math.ceil(dt / 0.004)), h = dt / n;
+  for (let i = 0; i < n; i++) { const a = -k * (o.x - o.t) - c * o.v; o.v += a * h; o.x += o.v * h; }
+  return Math.abs(o.x - o.t) < eps && Math.abs(o.v) < eps * 20;
+}
+function frame(t){
+  let dt = (t - lastT) / 1000; lastT = t; dt = clamp(dt, 0.001, 0.05);
+  let busy = false;
+  // Galerie : ressort (durée 0,45 s, rebond 0,12)
+  if (Car.anim) {
+    busy = true;
+    const o = {x:Car.pos, v:Car.vel, t:Car.target};
+    const done = spring(o, dt, 194.9, 24.6, 0.0006);
+    Car.pos = o.x; Car.vel = o.v; Car.fingerV = Math.abs(Car.vel) * Car.sp / 1000;
+    if (done) { Car.pos = Car.target; Car.vel = 0; Car.anim = false; if (Math.abs(Car.target - Car.animFrom) > .2) Haptics.tick(); }
+    carDetent(); Car.dirty = true;
+  }
+  // Mise au point photographique
+  const tf = (Car.drag || Car.anim) ? clamp((Car.fingerV - 1.2) / 1.2, 0, 1) : 0;
+  if (Math.abs(tf - Car.focus) > 0.003) { Car.focus += (tf - Car.focus) * (1 - Math.exp(-dt * 12)); Car.dirty = true; busy = true; }
+  else if (Car.focus !== tf) { Car.focus = tf; Car.dirty = true; }
+  if (Car.dirty) { Car.dirty = false; renderCarousel(); updateAmb(); updateCaption(false); }
+  // Feuilletage
+  if (Curl.anim) {
+    busy = true;
+    const o = {x:Curl.fx, v:Curl.v, t:Curl.target};
+    const done = spring(o, dt, 150, 21, 0.6);
+    Curl.fx = o.x; Curl.v = o.v; Curl.dirty = true;
+    if (done) { Curl.anim = false; curlFinish(); }
+  }
+  if (Curl.dirty) { Curl.dirty = false; glDraw(); }
+  if (tweens.length) {
+    busy = true; const now = performance.now();
+    for (let i = tweens.length - 1; i >= 0; i--) {
+      const tw = tweens[i]; const p = clamp((now - tw.t0) / tw.dur, 0, 1);
+      tw.update(p >= 1 ? 1 : tw.ease(p));
+      if (p >= 1) { tweens.splice(i, 1); if (tw.done) tw.done(); }
+    }
+  }
+  if (busy || Car.drag || D.drag) requestAnimationFrame(frame); else rafOn = false;
+}
+
+/* ───────────── Galerie (concept A) ───────────── */
+const stage = $('#stage'), scene = $('#scene'), capWrap = $('#caption'), ambA = $('#ambA'), ambB = $('#ambB');
+const Car = {pos:0, vel:0, target:0, anim:false, animFrom:0, drag:null, cards:[], list:[], W:0, H:0, sp:0, detent:0, focus:0, fingerV:0, capIdx:-1, ambIdx:-2, dirty:false};
+function buildCarousel(){
+  const list = listBooks(state.list); Car.list = list;
+  stage.innerHTML = ''; Car.cards = [];
+  const r = stage.getBoundingClientRect();
+  let H = r.height * 0.86, W = H / 1.5; const maxW = Math.min(innerWidth * 0.56, 300);
+  if (W > maxW) { W = maxW; H = W * 1.5; }
+  Car.W = W; Car.H = H; Car.sp = W * 0.8;
+  if (!list.length) {
+    stage.innerHTML = `<div class="empty"><div class="empty-in"><div>Aucun livre dans « ${LISTS[state.list]} »</div><button class="ghost" id="emptyScan">Scanner un livre</button></div></div>`;
+    $('#emptyScan').addEventListener('click', () => openScanner());
+    Car.capIdx = -2; updateCaption(true); Car.ambIdx = -2; updateAmb(); return;
+  }
+  list.forEach(b => {
+    const T = thick(b, W);
+    const el = document.createElement('div'); el.className = 'book';
+    el.style.cssText = `width:${W}px;height:${H}px;margin:${-H/2}px 0 0 ${-W/2}px`;
+    const front = document.createElement('div'); front.className = 'face front';
+    front.style.transform = `translateZ(${T/2}px)`; front.style.setProperty('--tint', rgba(b.c0, .5));
+    const cv = cover(b); cv.className = 'cv'; front.appendChild(cv);
+    const bl = blurCover(b); bl.className = 'blur'; front.appendChild(bl);
+    const dim = document.createElement('div'); dim.className = 'dim'; front.appendChild(dim);
+    const spn = document.createElement('div'); spn.className = 'face spine';
+    spn.style.cssText = `width:${T}px;left:${(W-T)/2}px;transform:rotateY(-90deg) translateZ(${W/2}px);background-color:${b.c0}`;
+    const edg = document.createElement('div'); edg.className = 'face edge';
+    edg.style.cssText = `width:${T}px;left:${(W-T)/2}px;transform:rotateY(90deg) translateZ(${W/2}px)`;
+    el.append(spn, edg, front); stage.appendChild(el);
+    Car.cards.push({el, front, blur:bl, dim, b, hidden:false});
+  });
+  const i = clamp(state.idx[state.list] || 0, 0, list.length - 1);
+  Car.pos = Car.target = i; Car.vel = 0; Car.anim = false; Car.detent = i; Car.capIdx = -2; Car.ambIdx = -2;
+  renderCarousel(); updateAmb(); updateCaption(true);
+}
+function renderCarousel(){
+  const rm = reduce(), n = Car.cards.length, baseDim = isDark ? 0.07 : 0;
+  for (let i = 0; i < n; i++) {
+    const c = Car.cards[i]; const p = i - Car.pos; const ap = Math.abs(p);
+    if (ap > 3.3) { if (!c.hidden) { c.el.style.visibility = 'hidden'; c.hidden = true; } continue; }
+    if (c.hidden) { c.el.style.visibility = ''; c.hidden = false; }
+    const sgn = p < 0 ? -1 : 1, a1 = Math.min(ap, 1);
+    const x = sgn * (a1 * Car.sp + Math.max(ap - 1, 0) * Car.sp * 0.42);
+    let tr;
+    if (rm) tr = `translate3d(${x.toFixed(2)}px,0,0) scale(${(1 - Math.min(ap, 1) * 0.12).toFixed(4)})`;
+    else {
+      const rot = -clamp(p, -1.3, 1.3) * 38;
+      const z = -Math.min(ap, 2.5) * Car.W * 0.35;
+      const sc = 1 - Math.min(ap, 1.6) * 0.11;
+      tr = `translate3d(${x.toFixed(2)}px,0,${z.toFixed(2)}px) rotateY(${rot.toFixed(2)}deg) scale(${sc.toFixed(4)})`;
+    }
+    c.el.style.transform = tr;
+    c.el.style.zIndex = String(1000 - Math.round(ap * 100));
+    c.blur.style.opacity = rm ? '0' : Math.min(1, ap * 0.9 + Car.focus * 0.55).toFixed(3);
+    c.dim.style.opacity = (baseDim + Math.min(ap, 1.5) * 0.22).toFixed(3);
+  }
+}
+function ambBg(b){
+  if (!b) return 'none';
+  const a = isDark ? 0.36 : 0.24; const m = mixHex(b.c0, b.c1, .5);
+  return `radial-gradient(55% 40% at 18% 22%, ${rgba(isDark ? mixHex(b.c0, b.c1, .3) : b.c0, a)} 0%, transparent 70%),` +
+         `radial-gradient(50% 38% at 86% 40%, ${rgba(b.c1, a * .85)} 0%, transparent 70%),` +
+         `radial-gradient(70% 45% at 50% 92%, ${rgba(m, a * .9)} 0%, transparent 72%)`;
+}
+function updateAmb(){
+  const n = Car.list.length;
+  if (!n) { ambA.style.background = 'none'; ambB.style.background = 'none'; Car.ambIdx = -1; return; }
+  const p = clamp(Car.pos, 0, n - 1); const i0 = Math.floor(p); const f = p - i0;
+  if (i0 !== Car.ambIdx) { Car.ambIdx = i0; ambA.style.background = ambBg(Car.list[i0]); ambB.style.background = ambBg(Car.list[Math.min(i0 + 1, n - 1)]); }
+  ambB.style.opacity = f.toFixed(3);
+}
+function dur(h){ let H = Math.floor(h), M = Math.round((h - H) * 12) * 5; if (M === 60) { H++; M = 0; } return H === 0 ? `${Math.max(M, 5)} min` : `${H} h ${String(M).padStart(2, '0')}`; }
+function progressInfo(b){
+  if (b.list === 'cours') { const f = b.p ? b.page / b.p : 0; return {f, text:`p. ${fmt(b.page)} sur ${fmt(b.p)} · ${Math.round(f * 100)} % · ≈ ${dur((b.p - b.page) / 45)} restantes`}; }
+  if (b.list === 'lus') return {f:1, text:`Lu · ${pagesTxt(b)}`};
+  return {f:0, text:`${pagesTxt(b)} · ≈ ${dur(b.p / 45)} de lecture`};
+}
+function capHTML(b){
+  if (!b) return '<div class="cap-title">&nbsp;</div>';
+  const pr = progressInfo(b);
+  return `<div class="cap-title">${esc(b.t)}</div><div class="cap-meta">${esc(metaLine(b, false))}</div><div class="prog"><i style="transform:scaleX(${pr.f})"></i></div><div class="prog-text">${pr.text}</div>`;
+}
+const carIdx = () => Car.list.length ? clamp(Math.round(Car.pos), 0, Car.list.length - 1) : -1;
+function updateCaption(force){
+  const i = carIdx();
+  if (i === Car.capIdx && !force) return;
+  Car.capIdx = i; const b = Car.list[i];
+  const old = capWrap.querySelector('.cap.cur');
+  const el = document.createElement('div'); const quick = force || reduce();
+  el.className = 'cap cur' + (quick ? '' : ' in'); el.innerHTML = capHTML(b);
+  if (old) { old.classList.remove('cur', 'in'); if (quick) old.remove(); else { old.classList.add('out'); setTimeout(() => old.remove(), 140); } }
+  capWrap.appendChild(el);
+  if (i >= 0) state.idx[state.list] = i;
+  updateDial(); sessionView();
+}
+function carDetent(){ const i = carIdx(); if (i !== Car.detent) { Car.detent = i; Haptics.tick(); } }
+function settleCarousel(vx){
+  const n = Car.list.length; if (!n) return;
+  const vIdx = -vx * 1000 / Car.sp;
+  Car.target = clamp(Math.round(Car.pos + vIdx * 0.2), 0, n - 1);
+  Car.vel = clamp(vIdx, -40, 40); Car.animFrom = Car.pos; Car.anim = true; kick();
+}
+function goCarousel(i){ Car.target = clamp(i, 0, Car.list.length - 1); Car.animFrom = Car.pos; Car.anim = true; kick(); }
+scene.addEventListener('pointerdown', e => {
+  if (!Car.list.length || Car.drag) return;
+  const now = performance.now();
+  Car.drag = {id:e.pointerId, x0:e.clientX, y0:e.clientY, t0:now, p0:Car.pos, axis:null, last:[{t:now, x:e.clientX}]};
+  try { scene.setPointerCapture(e.pointerId); } catch(_){}
+  Car.anim = false; Car.vel = 0; kick();
+});
+scene.addEventListener('pointermove', e => {
+  const d = Car.drag; if (!d || e.pointerId !== d.id) return;
+  const dx = e.clientX - d.x0, dy = e.clientY - d.y0;
+  if (!d.axis) { if (Math.hypot(dx, dy) > 8) d.axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y'; else return; }
+  if (d.axis !== 'x') return;
+  const n = Car.list.length; let raw = d.p0 - dx / Car.sp;
+  if (raw < 0) raw *= 0.35; else if (raw > n - 1) raw = n - 1 + (raw - (n - 1)) * 0.35;
+  Car.pos = raw;
+  const now = performance.now(); d.last.push({t:now, x:e.clientX}); while (d.last.length > 2 && now - d.last[0].t > 90) d.last.shift();
+  const a = d.last[0], z = d.last[d.last.length - 1]; Car.fingerV = z.t > a.t ? Math.abs((z.x - a.x) / (z.t - a.t)) : 0;
+  carDetent(); Car.dirty = true; kick();
+});
+function endCarousel(e){
+  const d = Car.drag; if (!d || e.pointerId !== d.id) return; Car.drag = null;
+  const dy = e.clientY - d.y0, dt = performance.now() - d.t0;
+  if (!d.axis) {
+    if (e.type === 'pointerup' && dt < 500) {
+      const i = carIdx(), c = Car.cards[i], r = c.front.getBoundingClientRect();
+      if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) { openFromCarousel(); return; }
+      if (e.clientX < r.left) goCarousel(i - 1); else if (e.clientX > r.right) goCarousel(i + 1);
+    }
+    return;
+  }
+  if (d.axis === 'y') { if (dy < -46) openFromCarousel(); return; }
+  const a = d.last[0], z = d.last[d.last.length - 1];
+  let vx = (z.t - a.t) > 0 ? (z.x - a.x) / (z.t - a.t) : 0; if (performance.now() - z.t > 110) vx = 0;
+  settleCarousel(vx);
+}
+scene.addEventListener('pointerup', endCarousel);
+scene.addEventListener('pointercancel', endCarousel);
+
+/* ───────────── Sélecteur, molette, session ───────────── */
+const seg = $('#seg'), segInd = $('#segInd');
+function placeSeg(){
+  const b = seg.querySelector(`button[data-k="${state.list}"]`); if (!b) return;
+  segInd.style.width = b.offsetWidth + 'px'; segInd.style.transform = `translateX(${b.offsetLeft}px)`;
+  seg.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+}
+function setList(k){
+  if (k === state.list) return;
+  state.list = k; placeSeg(); Haptics.tick();
+  const lt = $('#listTitle'); lt.textContent = LISTS[k]; lt.classList.remove('swap'); void lt.offsetWidth; lt.classList.add('swap');
+  stage.classList.add('hide');
+  setTimeout(() => { buildCarousel(); requestAnimationFrame(() => stage.classList.remove('hide')); }, 160);
+}
+seg.addEventListener('click', e => { const b = e.target.closest('button'); if (b) setList(b.dataset.k); });
+let segSwipe = null;
+seg.addEventListener('pointerdown', e => { segSwipe = {x:e.clientX}; });
+seg.addEventListener('pointerup', e => {
+  if (!segSwipe) return; const dx = e.clientX - segSwipe.x; segSwipe = null;
+  if (Math.abs(dx) > 30) { const keys = Object.keys(LISTS); const i = keys.indexOf(state.list); setList(keys[clamp(i + (dx < 0 ? 1 : -1), 0, 2)]); }
+});
+
+const dial = $('#dial'), track = $('#dialTrack'), dialLabel = $('#dialLabel');
+let dialDrag = null, dialLabelT = 0;
+const curCarBook = () => Car.list[carIdx()];
+function positionDial(page){ track.style.transform = `translate3d(${(dial.clientWidth / 2 - page / 10 * 8).toFixed(2)}px,0,0)`; }
+function updateDial(){
+  const b = curCarBook();
+  if (!b || b.list !== 'cours') { dial.classList.add('off'); dialLabel.textContent = !b ? '' : (b.list === 'lus' ? 'Livre terminé' : 'Pas encore commencé'); return; }
+  dial.classList.remove('off'); track.style.width = (b.p / 10 * 8 + 2) + 'px'; positionDial(b.page);
+  if (!dialDrag) dialLabel.textContent = 'Molette · glissez pour noter la page';
+}
+function refreshCurrentCaption(b){
+  const cur = capWrap.querySelector('.cap.cur'); if (!cur) return; const pr = progressInfo(b);
+  const i = cur.querySelector('.prog i'), t = cur.querySelector('.prog-text');
+  if (i) i.style.transform = `scaleX(${pr.f})`; if (t) t.textContent = pr.text;
+}
+dial.addEventListener('pointerdown', e => {
+  const b = curCarBook(); if (!b || b.list !== 'cours') return;
+  dialDrag = {id:e.pointerId, x0:e.clientX, p0:b.page, b, tick:Math.floor(b.page / 10)};
+  try { dial.setPointerCapture(e.pointerId); } catch(_){}
+  clearTimeout(dialLabelT);
+});
+dial.addEventListener('pointermove', e => {
+  const d = dialDrag; if (!d || d.id !== e.pointerId) return;
+  const page = clamp(Math.round(d.p0 - (e.clientX - d.x0) * 1.25), 0, d.b.p);
+  if (page === d.b.page) return;
+  d.b.page = page; positionDial(page);
+  const tk = Math.floor(page / 10); if (tk !== d.tick) { d.tick = tk; Haptics.tick(); }
+  dialLabel.textContent = `Page ${fmt(page)}`;
+  refreshCurrentCaption(d.b);
+});
+function endDial(e){
+  const d = dialDrag; if (!d || d.id !== e.pointerId) return; dialDrag = null; save();
+  if (d.b.page >= d.b.p) toast('Dernière page ! Marquez-le comme lu depuis la fiche.');
+  dialLabelT = setTimeout(updateDial, 900);
+}
+dial.addEventListener('pointerup', endDial); dial.addEventListener('pointercancel', endDial);
+
+const Ses = {running:false, t0:0, acc:0, book:null, timer:0};
+function sesFmt(ms){ const s = Math.floor(ms / 1000); return `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`; }
+function sessionView(){
+  const icon = $('#sesIcon');
+  if (Ses.running || Ses.acc > 0) {
+    const b = Ses.book;
+    $('#sesTitle').textContent = b ? b.t : 'Session';
+    $('#sesSub').textContent = Ses.running ? 'Session en cours' : 'En pause';
+    $('#sesCover').style.backgroundImage = b ? `url(${thumbURL(b)})` : 'none';
+    $('#sesTime').textContent = sesFmt(Ses.acc + (Ses.running ? performance.now() - Ses.t0 : 0));
+    icon.innerHTML = Ses.running ? '<path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/>' : '<path d="M8 5.5v13l10.5-6.5z"/>';
+    return;
+  }
+  let b = curCarBook(); if (!b || b.list !== 'cours') b = listBooks('cours')[0];
+  Ses.book = b || null;
+  $('#sesTitle').textContent = 'Commencer à lire';
+  $('#sesSub').textContent = b ? b.t : 'Aucun livre en cours';
+  $('#sesCover').style.backgroundImage = b ? `url(${thumbURL(b)})` : 'none';
+  $('#sesTime').textContent = '';
+  icon.innerHTML = '<path d="M8 5.5v13l10.5-6.5z"/>';
+}
+$('#session').addEventListener('click', () => {
+  if (!Ses.book) { toast('Ajoutez un livre à « En cours » d’abord'); return; }
+  Haptics.tick(true);
+  if (Ses.running) { Ses.acc += performance.now() - Ses.t0; Ses.running = false; clearInterval(Ses.timer); }
+  else { Ses.running = true; Ses.t0 = performance.now(); Ses.timer = setInterval(sessionView, 1000); if (Ses.acc === 0) toast('Session démarrée · ' + Ses.book.t); }
+  sessionView();
+});
+
+/* ───────────── Onglets ───────────── */
+function setTab(t, silent){
+  if (t === state.tab) return; state.tab = t; if (!silent) Haptics.tick();
+  document.querySelectorAll('.tab').forEach(b => b.classList.toggle('on', b.dataset.tab === t));
+  $('#scr-read').classList.toggle('active', t === 'read');
+  $('#scr-lib').classList.toggle('active', t === 'lib');
+  $('#scr-set').classList.toggle('active', t === 'set');
+  if (t === 'lib') buildShelves();
+}
+$('#tabbar').addEventListener('click', e => { const b = e.target.closest('.tab'); if (b) setTab(b.dataset.tab); });
+$('#searchBtn').addEventListener('click', () => openScanner());
+let toastT = 0;
+function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 2300); }
+
+/* ───────────── Fiche + Feuilletage WebGL (concept B) ───────────── */
+const detail = $('#detail'), dInner = $('#dInner'), dStage = $('#dStage'), glc = $('#gl'), dShadow = $('#dShadow'), seal = $('#seal'), dBg = $('#dBg');
+const dFallback = $('#dFallback'), fbCanvas = $('#fbCanvas'), flyLayer = $('#flyLayer');
+const D = {open:false, busy:false, books:[], i:0, origin:null, drag:null, dirty:false, ambFlip:false};
+const P = {x:0, y:0, w:0, h:0, sx:0, sy:0, cw:0, ch:0};
+const G = {ok:false};
+
+const VS = `
+attribute vec2 aUv;
+uniform vec4 uRect; uniform vec2 uRes; uniform vec2 uLine; uniform vec2 uN;
+uniform float uR; uniform float uCurl; uniform float uUnder; uniform float uZ; uniform float uScale; uniform float uPersp;
+varying vec2 vUv; varying vec3 vN; varying float vTheta; varying float vD;
+const float PI = 3.14159265;
+void main(){
+  vUv = aUv;
+  vec2 size = uRect.zw;
+  vec2 p = (aUv * size - size * 0.5) * uScale + size * 0.5;
+  float d = dot(p - uLine, uN);
+  vec3 N = vec3(0.0, 0.0, 1.0);
+  float z = uZ; float th = 0.0; vec2 q = p;
+  if (uCurl > 0.5 && uUnder < 0.5 && d > 0.0) {
+    th = d / uR; float dd;
+    if (th < PI) { dd = uR * sin(th); z += uR * (1.0 - cos(th)); N = vec3(-sin(th) * uN, cos(th)); }
+    else { dd = -(d - PI * uR); z += 2.0 * uR; N = vec3(0.0, 0.0, -1.0); }
+    q = p - d * uN + dd * uN;
+  }
+  vTheta = th; vN = N; vD = d;
+  vec2 w = uRect.xy + q;
+  vec2 ndc = vec2(w.x / uRes.x * 2.0 - 1.0, 1.0 - w.y / uRes.y * 2.0);
+  gl_Position = vec4(ndc, -z / 2000.0, 1.0 - z * uPersp);
+}`;
+const FS = `
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
+uniform sampler2D uTex; uniform vec2 uSize; uniform float uCorner; uniform float uAlpha;
+uniform float uUnder; uniform float uCurl; uniform float uR; uniform float uShadow; uniform float uBright;
+varying vec2 vUv; varying vec3 vN; varying float vTheta; varying float vD;
+void main(){
+  vec2 p = vUv * uSize; vec2 q = min(p, uSize - p);
+  if (q.x < uCorner && q.y < uCorner && length(vec2(uCorner) - q) > uCorner) discard;
+  vec3 tex = texture2D(uTex, vUv).rgb;
+  vec3 col;
+  if (uUnder > 0.5) {
+    col = tex * uBright;
+    if (uCurl > 0.5 && vD > 0.0) {
+      float s = max(vD - uR * 0.8, 0.0);
+      float sh = exp(-s / (uR * 0.9 + 16.0));
+      col *= 1.0 - uShadow * 0.55 * sh;
+    }
+  } else {
+    vec3 N = normalize(vN);
+    if (N.z < 0.0) {
+      N = -N;
+      float g = dot(tex, vec3(0.299, 0.587, 0.114));
+      col = mix(vec3(0.985, 0.965, 0.93), mix(vec3(g), tex, 0.4), 0.16);
+    } else col = tex;
+    vec3 L = normalize(vec3(-0.35, -0.5, 1.0));
+    float f0 = L.z;
+    float diff = max(dot(N, L), 0.0);
+    float lit = (0.68 + 0.32 * diff) / (0.68 + 0.32 * f0);
+    vec3 H = normalize(L + vec3(0.0, 0.0, 1.0));
+    float spec = pow(max(dot(N, H), 0.0), 36.0) * smoothstep(0.05, 0.7, vTheta) * (1.0 - smoothstep(2.9, 3.2, vTheta)) * 0.22;
+    float ao = 1.0 - 0.26 * exp(-pow((vTheta - 2.85) / 0.38, 2.0));
+    col = col * lit * ao + spec;
+  }
+  gl_FragColor = vec4(col * uAlpha, uAlpha);
+}`;
+function glInit(){
+  try {
+    const gl = glc.getContext('webgl', {alpha:true, antialias:true, premultipliedAlpha:true, depth:true});
+    if (!gl) return;
+    const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; };
+    const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FS)); gl.linkProgram(pr);
+    if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(pr));
+    const NX = 36, NY = 54, v = [], idx = [];
+    for (let j = 0; j <= NY; j++) for (let i = 0; i <= NX; i++) v.push(i / NX, j / NY);
+    for (let j = 0; j < NY; j++) for (let i = 0; i < NX; i++) { const a = j * (NX + 1) + i, b = a + 1, c = a + NX + 1, d = c + 1; idx.push(a, b, c, b, d, c); }
+    const vb = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, vb); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(v), gl.STATIC_DRAW);
+    const ib = gl.createBuffer(); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ib); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(idx), gl.STATIC_DRAW);
+    gl.useProgram(pr);
+    const loc = gl.getAttribLocation(pr, 'aUv'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    const U = {}; ['uRect','uRes','uLine','uN','uR','uCurl','uUnder','uZ','uScale','uPersp','uTex','uSize','uCorner','uAlpha','uShadow','uBright'].forEach(n => U[n] = gl.getUniformLocation(pr, n));
+    gl.enable(gl.DEPTH_TEST); gl.depthFunc(gl.LEQUAL); gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    Object.assign(G, {gl, pr, U, n:idx.length, tex:new Map(), ok:true});
+    glc.addEventListener('webglcontextlost', e => { e.preventDefault(); G.ok = false; showFallback(); });
+  } catch(e) { G.ok = false; console.warn('WebGL indisponible', e); }
+}
+function texFor(b){
+  if (G.tex.has(b.id)) return G.tex.get(b.id);
+  const gl = G.gl, t = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, t);
+  gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, cover(b));
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  G.tex.set(b.id, t); return t;
+}
+const Curl = {active:false, anim:false, dirty:false, fx:0, v:0, target:0, ang:0, gy:0, R:30, dir:0, top:null, under:null, tipped:false, base:0, completed:false, travel:0, lastX:0};
+function drawPage(b, o){
+  const gl = G.gl, U = G.U;
+  gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texFor(b)); gl.uniform1i(U.uTex, 0);
+  gl.uniform1f(U.uCurl, o.curl); gl.uniform1f(U.uUnder, o.under); gl.uniform1f(U.uZ, o.z); gl.uniform1f(U.uScale, o.scale);
+  gl.uniform1f(U.uAlpha, o.alpha); gl.uniform1f(U.uShadow, o.shadow || 0); gl.uniform1f(U.uBright, o.bright || 1);
+  gl.drawElements(gl.TRIANGLES, G.n, gl.UNSIGNED_SHORT, 0);
+}
+function glDraw(){
+  if (!G.ok || !P.w) return;
+  const gl = G.gl, U = G.U;
+  gl.viewport(0, 0, glc.width, glc.height); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  gl.uniform4f(U.uRect, P.x, P.y, P.w, P.h); gl.uniform2f(U.uRes, P.cw, P.ch); gl.uniform2f(U.uSize, P.w, P.h);
+  gl.uniform1f(U.uCorner, 4.0); gl.uniform1f(U.uPersp, 0.0009);
+  const b = D.books[D.i]; if (!b) return;
+  if (!Curl.active) { gl.uniform2f(U.uLine, P.w * 10, 0); gl.uniform2f(U.uN, 1, 0); gl.uniform1f(U.uR, 30); drawPage(b, {curl:0, under:0, z:0, scale:1, alpha:1}); return; }
+  const W = P.w, R = Curl.R;
+  const Lx = Math.max(Curl.fx, (Curl.fx + W - Math.PI * R) / 2);
+  const prog = clamp((W - Curl.fx) / (W * 1.6), 0, 1);
+  gl.uniform2f(U.uLine, Lx, Curl.gy); gl.uniform2f(U.uN, Math.cos(Curl.ang), Math.sin(Curl.ang)); gl.uniform1f(U.uR, R);
+  const ss = prog < .75 ? 1 : 1 - (prog - .75) / .25;
+  if (Curl.under) drawPage(Curl.under, {curl:1, under:1, z:-3, scale:0.96 + 0.04 * prog, alpha:1, bright:0.84 + 0.16 * prog, shadow:ss});
+  const alpha = clamp((Curl.fx + W * 1.25) / (W * 0.45), 0, 1);
+  if (alpha > 0.002) drawPage(Curl.top, {curl:1, under:0, z:0, scale:1, alpha});
+}
+function layoutDetail(){
+  const r = dStage.getBoundingClientRect();
+  const ph = Math.min(r.height * 0.9, r.width * 0.6 * 1.5), pw = ph / 1.5;
+  Object.assign(P, {x:(r.width - pw) / 2, y:(r.height - ph) / 2, w:pw, h:ph, sx:r.left, sy:r.top, cw:r.width, ch:r.height});
+  dShadow.style.cssText = `left:${P.x}px;top:${P.y}px;width:${pw}px;height:${ph}px`;
+  dFallback.style.left = P.x + 'px'; dFallback.style.top = P.y + 'px'; dFallback.style.width = pw + 'px'; dFallback.style.height = ph + 'px';
+  seal.style.left = (P.x + pw - 78) + 'px'; seal.style.top = (P.y + ph - 92) + 'px';
+  const dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+  const w = Math.round(r.width * dpr), h = Math.round(r.height * dpr);
+  if (glc.width !== w || glc.height !== h) { glc.width = w; glc.height = h; }
+}
+const pageRect = () => dShadow.getBoundingClientRect();
+function showFallback(){ dFallback.style.display = G.ok ? 'none' : 'block'; glc.style.display = G.ok ? 'block' : 'none'; }
+function drawFallback(b){ const x = fbCanvas.getContext('2d'); x.clearRect(0, 0, fbCanvas.width, fbCanvas.height); x.drawImage(cover(b), 0, 0, fbCanvas.width, fbCanvas.height); }
+function setDetailAmb(b, instant){
+  const A = $('#dAmbA'), B = $('#dAmbB'); const bg = ambBg(b);
+  if (instant) { A.style.transition = B.style.transition = 'none'; A.style.background = bg; A.style.opacity = 1; B.style.opacity = 0; D.ambFlip = false; void A.offsetWidth; A.style.transition = B.style.transition = ''; return; }
+  const [on, off] = D.ambFlip ? [A, B] : [B, A]; on.style.background = bg; on.style.opacity = 1; off.style.opacity = 0; D.ambFlip = !D.ambFlip;
+}
+function setTitle(text, ink){
+  const el = $('#dTitle');
+  if (!ink || reduce()) { el.textContent = text; return; }
+  let i = 0;
+  el.innerHTML = text.split(' ').map(w => `<span class="w">${[...w].map(ch => `<span class="ch" style="--i:${i++}">${esc(ch)}</span>`).join('')}</span>`).join(' ');
+}
+function mainLabel(b){ return b.list === 'cours' ? 'Marquer comme lu' : b.list === 'envies' ? 'Commencer la lecture' : 'Relire ce livre'; }
+function setDetailBook(b, ink, ambInstant){
+  $('#dKicker').textContent = LISTS[b.list];
+  setTitle(b.t, ink);
+  $('#dMeta').textContent = metaLine(b, true);
+  const pr = progressInfo(b); $('#dProgFill').style.transform = `scaleX(${pr.f})`; $('#dProgText').textContent = pr.text;
+  $('#dPitch').textContent = b.pitch;
+  $('#dMain').textContent = mainLabel(b);
+  dShadow.style.setProperty('--tint', rgba(b.c0, .55));
+  seal.classList.remove('on'); seal.classList.toggle('static', b.list === 'lus');
+  setDetailAmb(b, ambInstant);
+  if (!G.ok) drawFallback(b);
+  Curl.dirty = true; kick();
+}
+function prepDetail(b){
+  detail.style.visibility = 'visible'; detail.style.opacity = '0'; detail.style.pointerEvents = 'none';
+  detail.classList.remove('show'); dInner.style.transform = ''; dBg.style.opacity = '1';
+  layoutDetail(); showFallback(); setDetailBook(b, false, true);
+  glc.style.opacity = '0'; dFallback.style.opacity = '0'; dShadow.style.opacity = '0';
+  $('#dHint').style.opacity = S.hintSeen ? '0' : '1';
+  Curl.active = false; glDraw();
+}
+function revealDetail(){
+  detail.style.pointerEvents = 'auto'; detail.style.opacity = '1';
+  glc.style.opacity = '1'; dFallback.style.opacity = '1'; dShadow.style.opacity = '1';
+  detail.classList.add('show'); D.open = true; D.busy = false;
+  const b = D.books[D.i]; setTitle(b.t, true); glDraw();
+}
+function fly2d(b, from, to, dur, done){
+  const el = document.createElement('div'); el.className = 'fly2d';
+  el.style.width = to.width + 'px'; el.style.height = to.height + 'px'; el.style.setProperty('--tint', rgba(b.c0, .5));
+  el.appendChild(coverCopy(b, 400, 600)); flyLayer.appendChild(el);
+  const s0 = from.width / to.width, s1 = 1;
+  const apply = p => { const s = lerp(s0, s1, p); el.style.transform = `translate3d(${lerp(from.left, to.left, p)}px,${lerp(from.top, to.top, p)}px,0) scale(${s})`; };
+  apply(0);
+  tween(dur, easeBack, apply, () => { el.remove(); done && done(); });
+  return el;
+}
+function fadeDetail(to, dur, done){ const from = parseFloat(detail.style.opacity) || 0; tween(dur, easeOut, p => detail.style.opacity = String(lerp(from, to, p)), done); }
+
+function openFromCarousel(){
+  if (D.open || D.busy || !Car.list.length) return;
+  const i = carIdx(), card = Car.cards[i], b = Car.list[i];
+  D.busy = true; D.books = Car.list.slice(); D.i = i; D.origin = {type:'car'};
+  Haptics.tick(true);
+  const from = card.front.getBoundingClientRect();
+  prepDetail(b); const to = pageRect();
+  card.el.style.opacity = '0';
+  fadeDetail(1, 260);
+  if (reduce()) { card.el.style.opacity = ''; revealDetail(); return; }
+  fly2d(b, from, to, 480, () => { card.el.style.opacity = ''; revealDetail(); });
+}
+function closeDetail(){
+  if (!D.open || D.busy || Curl.anim) return;
+  D.open = false; D.busy = true; detail.style.pointerEvents = 'none'; detail.classList.remove('show');
+  const b = D.books[D.i];
+  const from = pageRect();
+  Haptics.tick();
+  if (D.origin.type === 'shelf') { closeToShelf(b, from); return; }
+  if (D.dirty) { D.dirty = false; buildCarousel(); }
+  let idx = Car.list.indexOf(b);
+  const finish = () => { detail.style.visibility = 'hidden'; dInner.style.transform = ''; D.busy = false; };
+  if (idx < 0 || reduce()) {
+    if (idx >= 0) { Car.pos = Car.target = idx; Car.anim = false; Car.detent = idx; Car.dirty = true; kick(); }
+    fadeDetail(0, 260, finish); return;
+  }
+  Car.pos = Car.target = idx; Car.anim = false; Car.vel = 0; Car.detent = idx; renderCarousel(); updateAmb(); updateCaption(true);
+  const card = Car.cards[idx]; card.el.style.opacity = '0';
+  const to = card.front.getBoundingClientRect();
+  glc.style.opacity = '0'; dFallback.style.opacity = '0'; dShadow.style.opacity = '0'; seal.classList.remove('static', 'on');
+  fadeDetail(0, 300);
+  fly2dBack(b, from, to, () => { card.el.style.opacity = ''; finish(); });
+}
+function fly2dBack(b, from, to, done){
+  const el = document.createElement('div'); el.className = 'fly2d';
+  el.style.width = from.width + 'px'; el.style.height = from.height + 'px'; el.style.setProperty('--tint', rgba(b.c0, .5));
+  el.appendChild(coverCopy(b, 400, 600)); flyLayer.appendChild(el);
+  const s1 = to.width / from.width;
+  const apply = p => el.style.transform = `translate3d(${lerp(from.left, to.left, p)}px,${lerp(from.top, to.top, p)}px,0) scale(${lerp(1, s1, p)})`;
+  apply(0); tween(440, easeInOut, apply, () => { el.remove(); done(); });
+}
+
+// Gestes sur la fiche : horizontal = feuilletage, vers le bas = fermer
+detail.addEventListener('pointerdown', e => {
+  if (!D.open || D.busy || Curl.anim || e.target.closest('button') || D.drag) return;
+  const now = performance.now();
+  D.drag = {id:e.pointerId, x0:e.clientX, y0:e.clientY, t0:now, axis:null, mode:null, last:[{t:now, x:e.clientX, y:e.clientY}]};
+  try { detail.setPointerCapture(e.pointerId); } catch(_){}
+  kick();
+});
+detail.addEventListener('pointermove', e => {
+  const d = D.drag; if (!d || d.id !== e.pointerId) return;
+  const dx = e.clientX - d.x0, dy = e.clientY - d.y0;
+  const now = performance.now(); d.last.push({t:now, x:e.clientX, y:e.clientY}); while (d.last.length > 2 && now - d.last[0].t > 90) d.last.shift();
+  if (!d.axis) {
+    if (Math.hypot(dx, dy) < 10) return;
+    d.axis = Math.abs(dx) > Math.abs(dy) * 1.1 ? 'x' : 'y';
+    if (d.axis === 'x') {
+      const dir = dx < 0 ? 1 : -1; const can = dir > 0 ? D.i < D.books.length - 1 : D.i > 0;
+      if (!can) d.mode = 'rubber';
+      else if (reduce() || !G.ok) { d.mode = 'fade'; d.dir = dir; }
+      else { d.mode = 'curl'; curlBegin(dir, d.y0); }
+    } else d.mode = dy > 0 ? 'dismiss' : 'none';
+  }
+  if (d.mode === 'curl') {
+    const a = d.last[0], z = d.last[d.last.length - 1]; const sp = z.t > a.t ? Math.abs((z.x - a.x) / (z.t - a.t)) : 0;
+    curlMove(dx, dy, sp, e.clientX);
+  } else if (d.mode === 'dismiss') {
+    const yy = Math.max(0, dy);
+    dInner.style.transform = `translateY(${yy * 0.65}px) scale(${1 - yy / 2600})`;
+    dBg.style.opacity = String(1 - Math.min(yy / 700, 0.6));
+  } else if (d.mode === 'rubber') {
+    dInner.style.transform = `translateX(${dx * 0.16}px)`;
+  }
+});
+function endDetailDrag(e){
+  const d = D.drag; if (!d || d.id !== e.pointerId) return; D.drag = null;
+  const a = d.last[0], z = d.last[d.last.length - 1];
+  const vx = (z.t - a.t) > 0 && performance.now() - z.t < 110 ? (z.x - a.x) / (z.t - a.t) : 0;
+  const vy = (z.t - a.t) > 0 && performance.now() - z.t < 110 ? (z.y - a.y) / (z.t - a.t) : 0;
+  const dx = e.clientX - d.x0, dy = e.clientY - d.y0;
+  if (d.mode === 'curl') curlRelease(vx);
+  else if (d.mode === 'dismiss') {
+    if (dy > 120 || vy > 0.6) closeDetail();
+    else { const y0 = Math.max(0, dy) * 0.65, o0 = parseFloat(dBg.style.opacity) || 1; tween(380, easeBack, p => { dInner.style.transform = `translateY(${lerp(y0, 0, p)}px)`; dBg.style.opacity = String(lerp(o0, 1, Math.min(p, 1))); }); }
+  } else if (d.mode === 'rubber') {
+    const x0 = dx * 0.16; tween(320, easeBack, p => dInner.style.transform = `translateX(${lerp(x0, 0, p)}px)`);
+    Haptics.tick();
+  } else if (d.mode === 'fade') {
+    if (Math.abs(dx) > 50) fadeToBook(D.i + d.dir);
+  }
+}
+detail.addEventListener('pointerup', endDetailDrag);
+detail.addEventListener('pointercancel', endDetailDrag);
+
+function curlBegin(dir, y){
+  const W = P.w;
+  if (dir > 0) { Curl.top = D.books[D.i]; Curl.under = D.books[D.i + 1]; Curl.fx = W; }
+  else { Curl.top = D.books[D.i - 1]; Curl.under = D.books[D.i]; Curl.fx = -W * 1.25; }
+  Curl.dir = dir; Curl.base = Curl.fx; Curl.active = true; Curl.anim = false; Curl.v = 0;
+  Curl.gy = clamp(y - (P.sy + P.y), 0, P.h); Curl.R = P.w * 0.13; Curl.ang = (Curl.gy / P.h - 0.5) * 0.22;
+  Curl.tipped = Curl.fx < W * 0.5; Curl.travel = 0; Curl.lastX = null;
+  if (!S.hintSeen) { S.hintSeen = true; $('#dHint').style.opacity = '0'; save(); }
+  Haptics.tick(true); Curl.dirty = true;
+}
+function curlMove(dx, dy, speed, x){
+  const W = P.w, k = Curl.dir > 0 ? 1.15 : 1.6;
+  Curl.fx = clamp(Curl.base + dx * k, -W * 1.3, W);
+  Curl.ang = clamp(dy / P.h * 0.7 + (Curl.gy / P.h - 0.5) * 0.22, -0.4, 0.4);
+  const Rb = P.w * 0.13; Curl.R = lerp(Curl.R, Rb * clamp(1 - speed * 0.25, 0.55, 1), 0.25);
+  const tipped = Curl.fx < W * 0.5;
+  if (tipped !== Curl.tipped) { Curl.tipped = tipped; Haptics.tick(true); }        // « clac » de bascule
+  if (Curl.lastX !== null) { Curl.travel += Math.abs(x - Curl.lastX); if (Curl.travel > 70) { Curl.travel = 0; Haptics.tick(); } } // grain de papier
+  Curl.lastX = x;
+  Curl.dirty = true; kick();
+}
+function curlRelease(vx){
+  const W = P.w;
+  if (Curl.dir > 0) Curl.completed = Curl.fx < W * 0.5 || vx < -0.6;
+  else Curl.completed = Curl.fx > -W * 0.15 || vx > 0.6;
+  if (Curl.dir > 0) Curl.target = Curl.completed ? -W * 1.3 : W;
+  else Curl.target = Curl.completed ? W : -W * 1.3;
+  const k = Curl.dir > 0 ? 1.15 : 1.6;
+  Curl.v = clamp(vx * 1000 * k, -6000, 6000);
+  Curl.anim = true; kick();
+}
+function curlFinish(){
+  Curl.active = false;
+  if (Curl.completed) { D.i += Curl.dir; setDetailBook(D.books[D.i], true); Haptics.tick(true); }
+  Curl.dirty = true; kick();
+}
+function fadeToBook(i){
+  const el = G.ok ? glc : dFallback;
+  D.busy = true;
+  tween(140, easeOut, p => el.style.opacity = String(1 - p), () => {
+    D.i = i; setDetailBook(D.books[D.i], true); glDraw(); Haptics.tick(true);
+    tween(200, easeOut, p => el.style.opacity = String(p), () => { D.busy = false; });
+  });
+}
+
+// Actions de la fiche
+$('#dClose').addEventListener('click', closeDetail);
+$('#dMain').addEventListener('click', () => {
+  if (!D.open || D.busy) return;
+  const b = D.books[D.i];
+  if (b.list === 'cours') {
+    b.list = 'lus'; b.page = b.p; books = [b].concat(books.filter(x => x !== b));
+    $('#sealText').textContent = `EX LIBRIS · LU EN ${YEAR} · `;
+    seal.classList.remove('static', 'on'); void seal.offsetWidth; seal.classList.add('on');
+    Haptics.tick(true); Haptics.pattern([150, 240, 310]);
+  } else if (b.list === 'envies') {
+    b.list = 'cours'; b.page = 0; books = [b].concat(books.filter(x => x !== b));
+    Haptics.tick(true); toast('Ajouté à « En cours »');
+  } else {
+    b.list = 'cours'; b.page = 0; books = [b].concat(books.filter(x => x !== b));
+    seal.classList.remove('static', 'on'); Haptics.tick(true); toast('De retour dans « En cours »');
+  }
+  $('#dKicker').textContent = LISTS[b.list]; $('#dMain').textContent = mainLabel(b);
+  const pr = progressInfo(b); $('#dProgFill').style.transform = `scaleX(${pr.f})`; $('#dProgText').textContent = pr.text;
+  D.dirty = true; updateGoal(); save();
+  if (D.origin.type === 'car') state.idx[state.list] = clamp(state.idx[state.list], 0, Math.max(0, listBooks(state.list).length - 1));
+});
+
+/* ───────────── Étagère vivante (concept C) ───────────── */
+const shelvesEl = $('#shelves');
+const Lib = {d:null, busy:false};
+const spineW = b => clamp(24 + b.p / 80, 24, 46);
+const spineH = (b, base) => base * (0.86 + ((b.id * 37) % 17) / 17 * 0.14);
+const spineStyle = b => `background-color:${b.c0};color:${b.c1}`;
+const mctx = document.createElement('canvas').getContext('2d');
+function authorFits(b, h){ // l'auteur n'apparaît sur le dos que s'il reste la place pour le titre entier
+  mctx.font = `600 ${h < 130 ? 10 : 11.5}px ${SERIF}`; const t = mctx.measureText(b.sp).width;
+  const n = lastName(b.a).toUpperCase(); mctx.font = `700 7px ${SANS}`; const a = mctx.measureText(n).width + n.length * 0.84;
+  return t + a + 6 + 27 <= h;
+}
+const spineInner = (b, h) => `<i class="band" style="top:7px;background:${b.c1}"></i><i class="band" style="top:11px;background:${b.c1};opacity:.45"></i><span class="sp-title">${esc(b.sp)}</span>${authorFits(b, h) ? `<span class="sp-auth">${esc(lastName(b.a))}</span>` : ''}<i class="band" style="bottom:6px;background:${b.c1}"></i>`;
+function buildShelves(){
+  Lib.d = null;
+  shelvesEl.innerHTML = '';
+  const rect = shelvesEl.getBoundingClientRect();
+  const avail = rect.width - 36 - 4;
+  const base = clamp(rect.height / 3 - 44, 80, 190);
+  [['lus', `Lus en ${YEAR}`], ['cours', 'En cours'], ['envies', 'Envies']].forEach(([k, label]) => {
+    const list = listBooks(k);
+    const ws = list.map(spineW); const total = ws.reduce((a, b) => a + b, 0) + 2 * Math.max(0, list.length - 1);
+    const sc = Math.min(1, avail / Math.max(total, 1));
+    const sh = document.createElement('div'); sh.className = 'shelf';
+    sh.innerHTML = `<div class="shelf-head"><span>${label}</span><span class="count">${list.length} ${list.length > 1 ? 'livres' : 'livre'}</span></div>`;
+    const row = document.createElement('div'); row.className = 'row'; row.dataset.list = k; row.style.height = (base + 14) + 'px';
+    if (!list.length) row.innerHTML = '<div class="shelf-empty">Étagère vide</div>';
+    list.forEach((b, i) => {
+      const s = document.createElement('div'); s.className = 'spine-el'; s.dataset.id = b.id;
+      const h = spineH(b, base);
+      s.style.cssText = `width:${(ws[i] * sc).toFixed(1)}px;height:${h.toFixed(1)}px;${spineStyle(b)}`;
+      if (h < 130) s.classList.add('small');
+      s.innerHTML = spineInner(b, h); row.appendChild(s);
+    });
+    const pl = document.createElement('div'); pl.className = 'plank';
+    sh.append(row, pl); shelvesEl.appendChild(sh);
+    attachRow(row, k);
+  });
+}
+function hitSpine(rects, x){
+  let best = -1, bd = 1e9;
+  rects.forEach((r, i) => { const d = x < r.left ? r.left - x : x > r.right ? x - r.right : 0; if (d < bd) { bd = d; best = i; } });
+  return bd < 30 ? best : -1;
+}
+function setLift(d, idx){
+  d.idx = idx;
+  d.spines.forEach((s, j) => {
+    s.style.transformOrigin = '';
+    if (idx < 0) { s.style.transform = ''; return; }
+    const k = Math.abs(j - idx); if (k > 3) { s.style.transform = ''; return; }
+    const f = Math.pow(0.42, k);
+    s.style.transform = `translateY(${(-10 * f).toFixed(2)}px) rotateX(${(-6 * f).toFixed(2)}deg)`;
+  });
+}
+function lean(spines, idx, on){
+  const L = spines[idx - 1], R = spines[idx + 1];
+  if (L) { L.style.transformOrigin = '100% 100%'; L.style.transform = on ? 'rotate(4deg)' : ''; }
+  if (R) { R.style.transformOrigin = '0% 100%'; R.style.transform = on ? 'rotate(-4deg)' : ''; }
+}
+function makeFly3d(b, W, H, T){
+  const el = document.createElement('div'); el.className = 'fly3d'; el.style.width = W + 'px'; el.style.height = H + 'px';
+  const front = document.createElement('div'); front.className = 'face front'; front.style.transform = `translateZ(${T/2}px)`; front.style.setProperty('--tint', rgba(b.c0, .5));
+  const cv = coverCopy(b, 300, 450); front.appendChild(cv);
+  const sp = document.createElement('div'); sp.className = 'face spine-face';
+  sp.style.cssText = `width:${T}px;left:${(W-T)/2}px;transform:rotateY(-90deg) translateZ(${W/2}px);${spineStyle(b)}`; sp.innerHTML = spineInner(b, H);
+  const ed = document.createElement('div'); ed.className = 'face edge'; ed.style.cssText = `width:${T}px;left:${(W-T)/2}px;transform:rotateY(90deg) translateZ(${W/2}px)`;
+  const bk = document.createElement('div'); bk.className = 'face back'; bk.style.cssText = `left:0;width:${W}px;transform:rotateY(180deg) translateZ(${T/2}px);background:${b.c0}`;
+  const tp = document.createElement('div'); tp.className = 'face capface'; tp.style.cssText = `left:0;width:${W}px;height:${T}px;top:${(H-T)/2}px;transform:rotateX(90deg) translateZ(${H/2}px)`;
+  const bt = document.createElement('div'); bt.className = 'face capface'; bt.style.cssText = `left:0;width:${W}px;height:${T}px;top:${(H-T)/2}px;transform:rotateX(-90deg) translateZ(${H/2}px)`;
+  el.append(bk, tp, bt, ed, sp, front); flyLayer.appendChild(el);
+  return el;
+}
+const flyApply = F => { F.el.style.transform = `translate3d(${F.X.toFixed(2)}px,${F.Y.toFixed(2)}px,0) rotateY(${F.th.toFixed(2)}deg) scale(${F.s.toFixed(4)})`; };
+function extractSet(F, e, dy){
+  F.e = e; F.th = reduce() ? 0 : 90 * (1 - e); F.s = 1 + 0.3 * e;
+  F.X = F.X0 + e * ((innerWidth / 2 - F.W * F.s / 2) - F.X0);
+  F.Y = F.Y0 + Math.min(0, dy) * 0.9;
+  flyApply(F);
+  const step = Math.floor(e * 3.0001); if (step !== F.step) { F.step = step; Haptics.tick(); }
+}
+function startExtract(d){
+  d.mode = 'extract';
+  const s = d.spines[d.idx], b = bookById(s.dataset.id);
+  const r = s.getBoundingClientRect();
+  setLift(d, -1);
+  s.style.transition = 'none'; s.style.transform = ''; const r0 = s.getBoundingClientRect(); s.style.transition = '';
+  const H = r0.height, W = H / 1.5, T = r0.width;
+  const el = makeFly3d(b, W, H, T);
+  const F = {el, b, W, H, T, X0:r0.left + T / 2, Y0:r.top, X:0, Y:0, th:90, s:1, e:0, step:0};
+  extractSet(F, 0, 0);
+  s.style.visibility = 'hidden';
+  lean(d.spines, d.idx, true);
+  d.fly = F; Haptics.tick(true);
+}
+function attachRow(row, k){
+  row.addEventListener('pointerdown', e => {
+    if (Lib.busy || Lib.d || D.open || D.busy) return;
+    const spines = [...row.querySelectorAll('.spine-el')]; if (!spines.length) return;
+    const d = {row, k, spines, rects:spines.map(s => s.getBoundingClientRect()), id:e.pointerId, x0:e.clientX, y0:e.clientY, t0:performance.now(), idx:-1, mode:'scrub', moved:false};
+    Lib.d = d;
+    try { row.setPointerCapture(e.pointerId); } catch(_){}
+    const i = hitSpine(d.rects, e.clientX); setLift(d, i); if (i >= 0) Haptics.tick();
+  });
+  row.addEventListener('pointermove', e => {
+    const d = Lib.d; if (!d || d.id !== e.pointerId) return;
+    const dx = e.clientX - d.x0, dy = e.clientY - d.y0;
+    if (Math.hypot(dx, dy) > 6) d.moved = true;
+    if (d.mode === 'scrub') {
+      if (dy < -16 && Math.abs(dy) > Math.abs(dx) * 1.2 && d.idx >= 0) startExtract(d);
+      else { const i = hitSpine(d.rects, e.clientX); if (i !== d.idx && i >= 0) { setLift(d, i); Haptics.tick(); } }
+    }
+    if (d.mode === 'extract') extractSet(d.fly, clamp(-dy / 120, 0, 1), dy);
+  });
+  const end = e => {
+    const d = Lib.d; if (!d || d.id !== e.pointerId) return; Lib.d = null;
+    if (d.mode === 'scrub') {
+      const tap = !d.moved && performance.now() - d.t0 < 450;
+      if (tap && d.idx >= 0 && e.type === 'pointerup') autoExtract(d); else setLift(d, -1);
+    } else if (d.mode === 'extract') {
+      if (d.fly.e >= 0.98) openFromShelf(d); else returnToShelf(d);
+    }
+  };
+  row.addEventListener('pointerup', end); row.addEventListener('pointercancel', end);
+}
+function autoExtract(d){
+  startExtract(d); Lib.busy = true;
+  tween(400, easeInOut, p => extractSet(d.fly, p, -120 * p), () => { Lib.busy = false; openFromShelf(d); });
+}
+function returnToShelf(d){
+  const F = d.fly, s = d.spines[d.idx]; Lib.busy = true;
+  const e0 = F.e, Y0 = F.Y;
+  tween(380, easeOut, p => { const e = lerp(e0, 0, p); F.e = e; F.th = reduce() ? 0 : 90 * (1 - e); F.s = 1 + 0.3 * e; F.X = F.X0 + e * ((innerWidth / 2 - F.W * F.s / 2) - F.X0); F.Y = lerp(Y0, F.Y0, p); flyApply(F); },
+    () => { F.el.remove(); s.style.visibility = ''; lean(d.spines, d.idx, false); s.classList.add('settle'); setTimeout(() => s.classList.remove('settle'), 520); Haptics.tick(true); Lib.busy = false; });
+}
+function openFromShelf(d){
+  const F = d.fly, b = F.b, list = listBooks(d.k);
+  D.busy = true; D.books = list; D.i = Math.max(0, list.indexOf(b)); D.origin = {type:'shelf', k:d.k};
+  prepDetail(b); const to = pageRect();
+  const s1 = to.width / F.W, Y1 = to.top - F.H / 2 + F.H * s1 / 2;
+  const st = {X:F.X, Y:F.Y, s:F.s, th:F.th};
+  Haptics.tick(true);
+  fadeDetail(1, 300);
+  tween(480, easeBack, p => { F.X = lerp(st.X, to.left, p); F.Y = lerp(st.Y, Y1, p); F.s = lerp(st.s, s1, p); F.th = lerp(st.th, 0, Math.min(p, 1)); flyApply(F); },
+    () => { revealDetail(); F.el.remove(); });
+}
+function closeToShelf(b, from){
+  const finish = () => { detail.style.visibility = 'hidden'; dInner.style.transform = ''; D.busy = false; D.dirty = false; };
+  buildShelves();
+  const s = shelvesEl.querySelector(`.spine-el[data-id="${b.id}"]`);
+  glc.style.opacity = '0'; dFallback.style.opacity = '0'; dShadow.style.opacity = '0'; seal.classList.remove('static', 'on');
+  if (!s || reduce()) { fadeDetail(0, 260, finish); return; }
+  const spines = [...s.parentElement.querySelectorAll('.spine-el')], idx = spines.indexOf(s);
+  const r = s.getBoundingClientRect(); s.style.visibility = 'hidden';
+  spines.forEach(x => x.style.transition = 'none'); lean(spines, idx, true); void s.offsetWidth; spines.forEach(x => x.style.transition = '');
+  const H = r.height, W = H / 1.5, T = r.width;
+  const F = {el:makeFly3d(b, W, H, T), b, W, H, T};
+  const s0 = from.width / W, X0 = from.left, Y0 = from.top - H / 2 + H * s0 / 2;
+  const X1 = r.left + T / 2, Y1 = r.top;
+  F.X = X0; F.Y = Y0; F.s = s0; F.th = 0; flyApply(F);
+  fadeDetail(0, 320);
+  tween(520, easeInOut, p => { F.X = lerp(X0, X1, p); F.Y = lerp(Y0, Y1, p) - Math.sin(p * Math.PI) * 30; F.s = lerp(s0, 1, p); F.th = lerp(0, 90, p); flyApply(F); },
+    () => { F.el.remove(); s.style.visibility = ''; lean(spines, idx, false); s.classList.add('settle'); setTimeout(() => s.classList.remove('settle'), 520); Haptics.tick(true); finish(); });
+}
+
+/* ───────────── Décodeur EAN-13 intégré (secours hors ligne) ─────────────
+   Lit le code-barres ISBN sur plusieurs lignes de l'image, corrige l'étalement de l'encre
+   à partir des barres de garde, puis valide la clé de contrôle. */
+const EAN = (() => {
+  const LW = ['3211','2221','2122','1411','1132','1231','1114','1312','1213','3112'].map(s => [...s].map(Number));
+  const GW = LW.map(p => p.slice().reverse());
+  const PAR = ['LLLLLL','LLGLGG','LLGGLG','LLGGGL','LGLLGG','LGGLLG','LGGGLL','LGLGLG','LGLGGL','LGGLGL'];
+  const LEFT = [['L', LW], ['G', GW]], RIGHT = [['R', LW]];
+  function best(w, tabs){
+    let bd = -1, bv = 1e9, bt = '';
+    for (const [tn, tab] of tabs) for (let d = 0; d < 10; d++) {
+      const p = tab[d]; const v = Math.abs(w[0] - p[0]) + Math.abs(w[1] - p[1]) + Math.abs(w[2] - p[2]) + Math.abs(w[3] - p[3]);
+      if (v < bv) { bv = v; bd = d; bt = tn; }
+    }
+    return bv <= 1.7 ? {d:bd, t:bt} : null;
+  }
+  function norm4(a, b, c, d, spread, firstBar){
+    const w = [a, b, c, d].map((x, i) => { const bar = firstBar ? i % 2 === 0 : i % 2 === 1; return Math.max(0.2, bar ? x - spread : x + spread); });
+    const s = w[0] + w[1] + w[2] + w[3]; return w.map(x => x * 7 / s);
+  }
+  const check = code => { let s = 0; for (let i = 0; i < 12; i++) s += +code[i] * (i % 2 ? 3 : 1); return (10 - s % 10) % 10 === +code[12]; };
+  function tryRuns(runs, dark, offs){
+    const out = [];
+    for (let i = 1; i + 59 <= runs.length; i++) {
+      if (!dark[i]) continue;
+      let T = 0; for (let k = 0; k < 59; k++) T += runs[i + k];
+      const m = T / 95; if (runs[i - 1] < m * 3) continue;
+      const g = k => runs[i + k];
+      let ok = true;
+      for (const k of [0,1,2,27,28,29,30,31,56,57,58]) { const v = g(k); if (v < m * 0.3 || v > m * 2.2) { ok = false; break; } }
+      if (!ok) continue;
+      const bars = (g(0) + g(2) + g(28) + g(30) + g(56) + g(58)) / 6, spaces = (g(1) + g(27) + g(29) + g(31) + g(57)) / 5;
+      const spread = (bars - spaces) / 2;
+      let left = '', par = '', right = '';
+      for (let j = 0; j < 6 && ok; j++) { const b = 3 + j * 4; const r = best(norm4(g(b), g(b + 1), g(b + 2), g(b + 3), spread, false), LEFT); if (!r) ok = false; else { left += r.d; par += r.t; } }
+      for (let j = 0; j < 6 && ok; j++) { const b = 32 + j * 4; const r = best(norm4(g(b), g(b + 1), g(b + 2), g(b + 3), spread, true), RIGHT); if (!r) ok = false; else right += r.d; }
+      if (!ok) continue;
+      const first = PAR.indexOf(par); if (first < 0) continue;
+      const code = first + left + right; if (!check(code)) continue;
+      out.push({code, x0:offs[i], x1:offs[i + 58] + runs[i + 58]}); i += 58;
+    }
+    return out;
+  }
+  function decodeLine(line, n){
+    const s = new Float32Array(n);
+    for (let x = 0; x < n; x++) s[x] = (line[Math.max(0, x - 1)] + 2 * line[x] + line[Math.min(n - 1, x + 1)]) / 4;
+    const W = Math.max(12, Math.round(n / 14)), bits = new Uint8Array(n); let prevT = -1;
+    for (let x = 0; x < n; x++) {
+      let mn = 255, mx = 0; const a = Math.max(0, x - W), b = Math.min(n - 1, x + W);
+      for (let k = a; k <= b; k += 2) { const v = s[k]; if (v < mn) mn = v; if (v > mx) mx = v; }
+      const t = (mx - mn) > 28 ? (mn + mx) / 2 : (prevT < 0 ? 128 : prevT); prevT = t;
+      bits[x] = s[x] < t ? 1 : 0;
+    }
+    const runs = [], dark = [], offs = []; let cur = bits[0], len = 0, start = 0;
+    for (let x = 0; x < n; x++) { if (bits[x] === cur) len++; else { runs.push(len); dark.push(cur === 1); offs.push(start); start = x; cur = bits[x]; len = 1; } }
+    runs.push(len); dark.push(cur === 1); offs.push(start);
+    let res = tryRuns(runs, dark, offs);
+    if (!res.length) {   // code-barres à l'envers
+      const rr = runs.slice().reverse(), rd = dark.slice().reverse(), ro = []; let acc = 0; for (const r of rr) { ro.push(acc); acc += r; }
+      res = tryRuns(rr, rd, ro).map(o => ({code:o.code, x0:n - o.x1, x1:n - o.x0}));
+    }
+    return res;
+  }
+  function detect(img){
+    const w = img.width, h = img.height, data = img.data, g = new Float32Array(w * h);
+    for (let i = 0, j = 0; i < g.length; i++, j += 4) g[i] = data[j] * 0.299 + data[j + 1] * 0.587 + data[j + 2] * 0.114;
+    const hits = {}, line = new Float32Array(Math.max(w, h));
+    const add = (code, a, b, at, vertical) => { const h = hits[code] || (hits[code] = {rawValue:code, format:'ean_13', votes:0, a:[], b:[], at:[], vertical}); h.votes++; h.a.push(a); h.b.push(b); h.at.push(at); };
+    const ROWS = 16;
+    for (let r = 0; r < ROWS; r++) {
+      const y = Math.round(h * (0.12 + 0.76 * r / (ROWS - 1))), y0 = Math.max(0, y - 1) * w, y1 = y * w, y2 = Math.min(h - 1, y + 1) * w;
+      for (let x = 0; x < w; x++) line[x] = (g[y0 + x] + g[y1 + x] + g[y2 + x]) / 3;
+      for (const o of decodeLine(line, w)) add(o.code, o.x0, o.x1, y, false);
+    }
+    if (!Object.keys(hits).length) {  // livre tenu de côté
+      const COLS = 12;
+      for (let c = 0; c < COLS; c++) {
+        const x = Math.round(w * (0.12 + 0.76 * c / (COLS - 1))), xa = Math.max(0, x - 1), xb = Math.min(w - 1, x + 1);
+        for (let y = 0; y < h; y++) line[y] = (g[y * w + xa] + g[y * w + x] + g[y * w + xb]) / 3;
+        for (const o of decodeLine(line, h)) add(o.code, o.x0, o.x1, x, true);
+      }
+    }
+    // contour du code : lignes lues + une marge, pour le surligner à l'écran
+    const med = arr => arr.slice().sort((p, q) => p - q)[arr.length >> 1];
+    return Object.values(hits).map(h => {
+      const a = med(h.a), b = med(h.b), pad = (b - a) * 0.06, lo = Math.min(...h.at) - pad * 2, hi = Math.max(...h.at) + pad * 2;
+      h.cornerPoints = h.vertical ? [{x:lo, y:a - pad}, {x:hi, y:a - pad}, {x:hi, y:b + pad}, {x:lo, y:b + pad}] : [{x:a - pad, y:lo}, {x:b + pad, y:lo}, {x:b + pad, y:hi}, {x:a - pad, y:hi}];
+      delete h.a; delete h.b; delete h.at; delete h.vertical; return h;
+    });
+  }
+  return {detect, check};
+})();
+
+/* ───────────── ISBN ───────────── */
+const isbn13ok = s => /^\d{13}$/.test(s) && EAN.check(s);
+function isbn10to13(s){
+  s = s.toUpperCase(); if (!/^\d{9}[\dX]$/.test(s)) return null;
+  let sum = 0; for (let i = 0; i < 10; i++) sum += (s[i] === 'X' ? 10 : +s[i]) * (10 - i);
+  if (sum % 11) return null;
+  const b = '978' + s.slice(0, 9); let t = 0; for (let i = 0; i < 12; i++) t += +b[i] * (i % 2 ? 3 : 1);
+  return b + ((10 - t % 10) % 10);
+}
+function extractISBN(raw){
+  const s = String(raw || '').trim(); if (!s) return null;
+  const compact = s.replace(/[\s\-‐‑]/g, '');
+  if (/^97[89]\d{10}$/.test(compact) && isbn13ok(compact)) return compact;
+  if (/^\d{9}[\dXx]$/.test(compact)) return isbn10to13(compact);
+  for (const m of s.match(/97[89][\d\s\-‐‑]{10,17}/g) || []) { const d = m.replace(/\D/g, '').slice(0, 13); if (isbn13ok(d)) return d; }
+  for (const m of s.match(/(?:^|[^\d])(\d{9}[\dXx])(?![\d])/g) || []) { const r = isbn10to13(m.replace(/[^\dXx]/g, '')); if (r) return r; }
+  return null;
+}
+
+/* ───────────── Recherche des infos du livre ───────────── */
+const withTimeout = (p, ms) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), ms))]);
+async function fetchJSON(url, ms){
+  const ac = typeof AbortController !== 'undefined' ? new AbortController() : null;
+  const t = setTimeout(() => ac && ac.abort(), ms || 8000);
+  try { const r = await fetch(url, ac ? {signal:ac.signal} : {}); if (!r.ok) throw new Error('HTTP ' + r.status); return await r.json(); }
+  finally { clearTimeout(t); }
+}
+const yearOf = s => { const m = String(s || '').match(/\d{4}/); return m ? +m[0] : ''; };
+const https = u => u ? String(u).replace(/^http:/, 'https:').replace('&edge=curl', '') : null;
+function gThumb(v){ const l = v && v.imageLinks; if (!l) return null; return https(l.extraLarge || l.large || l.medium || l.small || l.thumbnail || l.smallThumbnail); }
+function isbnFromIds(ids){
+  ids = ids || []; const a = ids.find(i => i.type === 'ISBN_13'); if (a && isbn13ok(a.identifier)) return a.identifier;
+  const b = ids.find(i => i.type === 'ISBN_10'); return b ? isbn10to13(b.identifier) : null;
+}
+async function lookupISBN(isbn){
+  const [g, o] = await Promise.allSettled([
+    fetchJSON(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`),
+    fetchJSON(`https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`)
+  ]);
+  const gv = g.status === 'fulfilled' && g.value.items && g.value.items[0] ? g.value.items[0].volumeInfo : null;
+  const ov = o.status === 'fulfilled' && o.value ? o.value['ISBN:' + isbn] : null;
+  if (!gv && !ov) return {isbn, found:false, offline:g.status === 'rejected' && o.status === 'rejected'};
+  const authors = (gv && gv.authors) || (ov && (ov.authors || []).map(x => x.name)) || [];
+  return {
+    isbn, found:true,
+    t: (gv && gv.title) || (ov && ov.title) || '',
+    a: authors.join(', '),
+    y: yearOf((gv && gv.publishedDate) || (ov && ov.publish_date)),
+    p: (gv && gv.pageCount) || (ov && ov.number_of_pages) || 0,
+    desc: (gv && gv.description) || (ov && ov.notes && (ov.notes.value || ov.notes)) || '',
+    covers: [`https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg?default=false`, ov && ov.cover && https(ov.cover.large || ov.cover.medium), gThumb(gv)].filter(Boolean)
+  };
+}
+async function searchBooks(q){
+  try {
+    const j = await fetchJSON(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(q)}&maxResults=12&printType=books`);
+    const items = (j.items || []).map(it => { const v = it.volumeInfo || {}; const isbn = isbnFromIds(v.industryIdentifiers);
+      return {t:v.title || '', a:(v.authors || []).join(', '), y:yearOf(v.publishedDate), p:v.pageCount || 0, desc:v.description || '', isbn, thumb:gThumb(v),
+        covers:[isbn && `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg?default=false`, gThumb(v)].filter(Boolean)}; }).filter(x => x.t);
+    if (items.length) return items;
+  } catch(e){}
+  const j = await fetchJSON(`https://openlibrary.org/search.json?q=${encodeURIComponent(q)}&limit=12&fields=title,author_name,first_publish_year,isbn,cover_i,number_of_pages_median`);
+  return (j.docs || []).map(d => { const isbn = (d.isbn || []).map(x => x.length === 10 ? isbn10to13(x) : x).find(x => x && isbn13ok(x)) || null;
+    return {t:d.title || '', a:(d.author_name || []).join(', '), y:d.first_publish_year || '', p:d.number_of_pages_median || 0, desc:'', isbn,
+      thumb:d.cover_i ? `https://covers.openlibrary.org/b/id/${d.cover_i}-M.jpg` : null,
+      covers:[d.cover_i && `https://covers.openlibrary.org/b/id/${d.cover_i}-L.jpg`, isbn && `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg?default=false`].filter(Boolean)}; }).filter(x => x.t);
+}
+function loadImg(src, cors, ms){
+  return new Promise((res, rej) => {
+    const im = new Image(); if (cors) im.crossOrigin = 'anonymous';
+    const t = setTimeout(() => { im.src = ''; rej(new Error('timeout')); }, ms || 7000);
+    im.onload = () => { clearTimeout(t); (im.naturalWidth > 40 && im.naturalHeight > 40) ? res(im) : rej(new Error('vide')); };
+    im.onerror = () => { clearTimeout(t); rej(new Error('erreur')); };
+    im.src = src;
+  });
+}
+async function attachCover(c){
+  for (const url of c.covers || []) {
+    try {
+      const im = await loadImg(url, true, 6000);
+      const t = document.createElement('canvas'); t.width = t.height = 4; t.getContext('2d').drawImage(im, 0, 0, 4, 4); t.getContext('2d').getImageData(0, 0, 1, 1); // vérifie que l'image est exploitable (CORS)
+      c.img = im; return;
+    } catch(e){}
+  }
+}
+// Palette dominante de la couverture (k-moyennes sur une miniature), comme prévu au cahier des charges.
+function palette(img){
+  try {
+    const c = document.createElement('canvas'); c.width = 24; c.height = 36; const x = c.getContext('2d'); x.drawImage(img, 0, 0, 24, 36);
+    const d = x.getImageData(0, 0, 24, 36).data, px = [];
+    for (let i = 0; i < d.length; i += 4) px.push([d[i], d[i + 1], d[i + 2]]);
+    let cents = [0, .33, .66, .99].map(f => px[Math.floor(f * (px.length - 1))].slice()), counts = [0, 0, 0, 0];
+    for (let it = 0; it < 8; it++) {
+      const sums = cents.map(() => [0, 0, 0, 0]);
+      for (const p of px) { let bi = 0, bd = 1e12; cents.forEach((c, k) => { const dd = (p[0] - c[0]) ** 2 + (p[1] - c[1]) ** 2 + (p[2] - c[2]) ** 2; if (dd < bd) { bd = dd; bi = k; } }); const s = sums[bi]; s[0] += p[0]; s[1] += p[1]; s[2] += p[2]; s[3]++; }
+      cents = cents.map((c, k) => sums[k][3] ? [sums[k][0] / sums[k][3], sums[k][1] / sums[k][3], sums[k][2] / sums[k][3]] : c); counts = sums.map(s => s[3]);
+    }
+    const order = counts.map((n, k) => [n, k]).sort((a, b) => b[0] - a[0]);
+    const lum = c => (0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]) / 255;
+    const c0 = cents[order[0][1]]; let best = null, bs = -1;
+    for (const [n, k] of order.slice(1)) { if (!n) continue; const c = cents[k]; const sc = Math.abs(lum(c) - lum(c0)) * (0.5 + Math.min(n / px.length, 0.3)); if (sc > bs) { bs = sc; best = c; } }
+    const c1 = best && Math.abs(lum(best) - lum(c0)) > 0.28 ? best : (lum(c0) > 0.55 ? [27, 26, 24] : [246, 243, 238]);
+    const hex = c => '#' + c.map(v => Math.round(clamp(v, 0, 255)).toString(16).padStart(2, '0')).join('');
+    return [hex(c0), hex(c1)];
+  } catch(e) { return PAIRS[0]; }
+}
+
+/* ───────────── Scanner (caméra) ───────────── */
+const scanner = $('#scanner'), camVideo = $('#camVideo'), scFrame = $('#scFrame'), scStatus = $('#scStatus'), scPoly = $('#scPoly');
+const work = document.createElement('canvas'); const wctx = work.getContext('2d', {willReadFrequently:true});
+const Sc = {open:false, stream:null, track:null, running:false, busy:false, paused:false, handled:false, primary:null, loading:false, votes:{}, cand:null, list:'envies', torch:false, timer:0, qrNote:0, lookupId:0, searchId:0, tb:null};
+const BD_URLS = ['https://fastly.jsdelivr.net/npm/barcode-detector@3/dist/es/ponyfill.min.js', 'https://cdn.jsdelivr.net/npm/barcode-detector@3/dist/es/ponyfill.min.js', 'https://unpkg.com/barcode-detector@3/dist/es/ponyfill.min.js'];
+const FORMATS = ['ean_13', 'qr_code'];
+const localEngine = {name:'local', detect: c => Promise.resolve(EAN.detect(wctx.getImageData(0, 0, c.width, c.height)))};
+function setStatus(msg){ scStatus.textContent = msg || ''; scStatus.style.opacity = msg ? '1' : '0'; }
+// Moteur principal : BarcodeDetector natif (Android) ou ZXing en WebAssembly (iPhone), chargé à la demande.
+async function loadPrimaryEngine(){
+  if (Sc.primary || Sc.loading) return; Sc.loading = true;
+  try {
+    if ('BarcodeDetector' in window) {
+      try {
+        const fm = await window.BarcodeDetector.getSupportedFormats();
+        if (fm.includes('ean_13')) { const d = new window.BarcodeDetector({formats:FORMATS.filter(f => fm.includes(f))}); Sc.primary = {name:'native', detect:c => d.detect(c)}; return; }
+      } catch(e){}
+    }
+    for (const url of BD_URLS) {
+      try {
+        const mod = await withTimeout(import(url), 12000);
+        const d = new mod.BarcodeDetector({formats:FORMATS});
+        const warm = document.createElement('canvas'); warm.width = warm.height = 32;
+        await withTimeout(d.detect(warm), 25000);
+        Sc.primary = {name:'zxing', detect:c => d.detect(c)}; return;
+      } catch(e){ console.warn('Lecteur ZXing indisponible', url, e && e.message); }
+    }
+  } finally { Sc.loading = false; }
+}
+async function startCamera(){
+  if (!window.isSecureContext) throw Object.assign(new Error('insecure'), {name:'InsecureContext'});
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw Object.assign(new Error('nocam'), {name:'NotFoundError'});
+  const stream = await navigator.mediaDevices.getUserMedia({audio:false, video:{facingMode:{ideal:'environment'}, width:{ideal:1920}, height:{ideal:1080}}});
+  if (!Sc.open) { stream.getTracks().forEach(t => t.stop()); return; }
+  Sc.stream = stream; camVideo.srcObject = stream;
+  try { await camVideo.play(); } catch(e){}
+  Sc.track = stream.getVideoTracks()[0];
+  const caps = Sc.track && Sc.track.getCapabilities ? Sc.track.getCapabilities() : {};
+  $('#scTorch').hidden = !caps.torch; $('#scTorch').classList.remove('on');
+  const adv = [];
+  if (caps.focusMode && caps.focusMode.includes && caps.focusMode.includes('continuous')) adv.push({focusMode:'continuous'});
+  if (caps.zoom && caps.zoom.max >= 1.5) adv.push({zoom:Math.min(1.6, caps.zoom.max)});  // permet de tenir le livre un peu plus loin : mise au point plus nette
+  if (adv.length) Sc.track.applyConstraints({advanced:adv}).catch(() => {});
+}
+function stopCamera(){
+  Sc.running = false; clearTimeout(Sc.timer);
+  if (Sc.stream) Sc.stream.getTracks().forEach(t => t.stop());
+  Sc.stream = null; Sc.track = null; camVideo.srcObject = null; Sc.torch = false;
+}
+function camError(e){
+  const n = (e && (e.name || e.message)) || '';
+  let msg = 'Caméra indisponible. Vous pouvez chercher le livre par son titre ou son ISBN.';
+  if (n === 'InsecureContext') msg = 'La caméra ne s’ouvre que sur une page en https (Netlify, GitHub Pages). Cherchez par titre ou ISBN en attendant.';
+  else if (n === 'NotAllowedError' || n === 'SecurityError') msg = 'L’accès à la caméra a été refusé. Autorisez-le dans Réglages → Safari → Caméra, ou cherchez par titre.';
+  else if (n === 'NotFoundError' || n === 'OverconstrainedError') msg = 'Aucune caméra trouvée sur cet appareil. Cherchez par titre ou ISBN.';
+  else if (n === 'NotReadableError') msg = 'La caméra est déjà utilisée par une autre app. Fermez-la puis réessayez.';
+  $('#scNocamMsg').textContent = msg; scanner.classList.add('nocam'); setStatus('');
+}
+async function openScanner(){
+  if (Sc.open || D.open || D.busy) return;
+  Sc.open = true; Haptics.tick(); $('#toast').classList.remove('on');
+  scanner.className = 'scanner opening'; scanner.style.visibility = 'visible'; scanner.style.opacity = '0';
+  Object.assign(Sc, {handled:false, paused:false, votes:{}, cand:null}); scPoly.setAttribute('points', '');
+  tween(280, easeOut, p => scanner.style.opacity = String(p));
+  requestAnimationFrame(() => requestAnimationFrame(() => scanner.classList.remove('opening')));
+  setStatus('Ouverture de la caméra…');
+  loadPrimaryEngine();
+  try {
+    await startCamera(); if (!Sc.open) return;
+    setStatus(''); Sc.running = true; scheduleScan(250);
+  } catch(e) { if (Sc.open) camError(e); }
+}
+function closeScanner(instant){
+  if (!Sc.open) return;
+  Sc.open = false; Sc.lookupId++; Sc.searchId++; stopCamera();
+  if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+  const done = () => { scanner.style.visibility = 'hidden'; scanner.className = 'scanner'; setStatus(''); };
+  if (instant) { scanner.style.opacity = '0'; done(); return; }
+  const o0 = parseFloat(scanner.style.opacity) || 1;
+  tween(260, easeOut, p => scanner.style.opacity = String(o0 * (1 - p)), done);
+}
+function scheduleScan(ms){ clearTimeout(Sc.timer); Sc.timer = setTimeout(scanLoop, ms); }
+// Zone analysée = le cadre du viseur (un peu élargi), convertie en pixels de la vidéo.
+function cropGeom(){
+  const vw0 = camVideo.videoWidth, vh0 = camVideo.videoHeight, W = scanner.clientWidth, H = scanner.clientHeight;
+  const sc = Math.max(W / vw0, H / vh0), ox = (W - vw0 * sc) / 2, oy = (H - vh0 * sc) / 2;
+  const fr = scFrame.getBoundingClientRect(), mx = fr.width * 0.12, my = fr.height * 0.22;
+  let vx = clamp((fr.left - mx - ox) / sc, 0, vw0), vy = clamp((fr.top - my - oy) / sc, 0, vh0);
+  const vw = Math.min((fr.width + 2 * mx) / sc, vw0 - vx), vh = Math.min((fr.height + 2 * my) / sc, vh0 - vy);
+  const k = Math.min(1, 960 / vw);
+  return {vx, vy, vw, vh, ww:Math.max(8, Math.round(vw * k)), wh:Math.max(8, Math.round(vh * k)), k, sc, ox, oy};
+}
+async function scanLoop(){
+  if (!Sc.running) return;
+  if (Sc.busy || Sc.paused || Sc.handled || camVideo.readyState < 2 || !camVideo.videoWidth) { scheduleScan(120); return; }
+  Sc.busy = true;
+  const g = cropGeom(); work.width = g.ww; work.height = g.wh;
+  let res = [], eng = Sc.primary || localEngine;
+  try {
+    wctx.drawImage(camVideo, g.vx, g.vy, g.vw, g.vh, 0, 0, g.ww, g.wh);
+    res = await eng.detect(work);
+  } catch(e) { if (eng !== localEngine) { try { eng = localEngine; res = await localEngine.detect(work); } catch(_){} } }
+  Sc.busy = false;
+  if (!Sc.running || Sc.handled || Sc.paused) { scheduleScan(150); return; }
+  for (const r of res || []) {
+    const isbn = extractISBN(r.rawValue);
+    if (isbn) {
+      if (eng === localEngine) { Sc.votes[isbn] = (Sc.votes[isbn] || 0) + (r.votes || 1); if (Sc.votes[isbn] < 2) continue; }
+      onDetected(isbn, r, g); return;
+    }
+    if (r.format === 'qr_code' && performance.now() - Sc.qrNote > 2600) {
+      Sc.qrNote = performance.now(); setStatus('QR code sans ISBN : ' + String(r.rawValue).slice(0, 42));
+      setTimeout(() => { if (Sc.open && !Sc.handled) setStatus(''); }, 2400);
+    }
+  }
+  scheduleScan(eng === localEngine ? 60 : 50);
+}
+function onDetected(isbn, r, g){
+  Sc.handled = true; Sc.paused = true;
+  try { camVideo.pause(); } catch(e){}
+  Haptics.tick(true); Haptics.pattern([120]);
+  let pts = r.cornerPoints && r.cornerPoints.length >= 4 ? r.cornerPoints : null;
+  if (!pts && r.boundingBox) { const b = r.boundingBox; pts = [{x:b.x, y:b.y}, {x:b.x + b.width, y:b.y}, {x:b.x + b.width, y:b.y + b.height}, {x:b.x, y:b.y + b.height}]; }
+  scPoly.setAttribute('points', pts ? pts.map(p => `${(g.ox + (g.vx + p.x / g.k) * g.sc).toFixed(1)},${(g.oy + (g.vy + p.y / g.k) * g.sc).toFixed(1)}`).join(' ') : '');
+  scanner.classList.add('hit');
+  setStatus('ISBN ' + isbn);
+  showCardFor(isbn);
+}
+function resumeScan(){
+  scanner.classList.remove('card', 'hit'); Object.assign(Sc, {cand:null, handled:false, paused:false, votes:{}}); Sc.lookupId++;
+  if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+  setStatus(''); try { camVideo.play(); } catch(e){}
+  if (Sc.stream) { Sc.running = true; scheduleScan(350); }
+}
+
+/* ───────────── Fiche résultat ───────────── */
+const card = {el:$('#scCard'), cover:$('#cardCover'), kicker:$('#cardKicker'), title:$('#cardTitle'), author:$('#cardAuthor'), pages:$('#cardPages'), year:$('#cardYear'), pitch:$('#cardPitch'), add:$('#cardAdd'), again:$('#cardAgain')};
+function setCardList(k){ Sc.list = k; card.el.querySelectorAll('.card-lists button').forEach(b => b.classList.toggle('on', b.dataset.k === k)); }
+function cardLoading(isbn){
+  Sc.cand = null; card.el.classList.remove('dup'); card.el.classList.add('loading');
+  card.kicker.textContent = isbn ? 'Recherche · ISBN ' + isbn : 'Recherche…';
+  card.title.value = ''; card.author.value = ''; card.pages.value = ''; card.year.textContent = ''; card.pitch.textContent = ''; card.cover.innerHTML = '';
+  card.title.readOnly = card.author.readOnly = card.pages.readOnly = true; card.add.disabled = true;
+  scanner.classList.add('card');
+}
+function tempBook(c){
+  const t = card.title.value.trim() || c.t || 'Sans titre', key = c.isbn || t;
+  const pal = c.pal || hashPalette(key);
+  return {id:'tmp', t, sp:spineTitle(t), a:card.author.value.trim() || c.a || '', y:c.y || '', p:+card.pages.value || c.p || 300, c0:pal[0], c1:pal[1], s:hashInt(key) % 5};
+}
+function renderCardCover(){
+  const c = Sc.cand; if (!c || c.dup) return;
+  const tb = tempBook(c); const cv = drawCover(tb, c.img || null);
+  card.cover.innerHTML = ''; card.cover.appendChild(cv); card.cover.style.setProperty('--tint', rgba(tb.c0, .5));
+}
+function cardShow(c){
+  Sc.cand = c; if (c.img && !c.pal) c.pal = palette(c.img);
+  card.el.classList.remove('loading', 'dup');
+  card.title.readOnly = card.author.readOnly = card.pages.readOnly = false;
+  card.kicker.textContent = c.found ? (c.isbn ? `Trouvé · ISBN ${c.isbn}` : 'Trouvé') : (c.offline ? `Hors connexion · ISBN ${c.isbn}` : `Introuvable en ligne · ISBN ${c.isbn}`);
+  card.title.value = c.t || ''; card.author.value = c.a || ''; card.pages.value = c.p || ''; card.year.textContent = c.y ? '· ' + c.y : '';
+  card.pitch.textContent = c.found ? (c.desc ? cleanDesc(c.desc, 220) : 'Pas de résumé disponible pour cette édition.') : 'Complétez le titre et l’auteur : la couverture se compose toute seule.';
+  card.add.textContent = 'Ajouter'; card.add.disabled = false; card.again.textContent = scanner.classList.contains('nocam') ? 'Chercher un autre' : 'Scanner un autre';
+  setCardList(Sc.list); renderCardCover();
+  Haptics.tick();
+}
+function cardDuplicate(b){
+  Sc.cand = {dup:b}; card.el.classList.remove('loading'); card.el.classList.add('dup');
+  card.title.readOnly = card.author.readOnly = card.pages.readOnly = true;
+  card.kicker.textContent = `Déjà dans « ${LISTS[b.list]} »`;
+  card.title.value = b.t; card.author.value = b.a; card.pages.value = b.p || ''; card.year.textContent = b.y ? '· ' + b.y : '';
+  card.pitch.textContent = b.pitch || '';
+  card.cover.innerHTML = ''; card.cover.appendChild(coverCopy(b, 184, 276)); card.cover.style.setProperty('--tint', rgba(b.c0, .5));
+  card.add.textContent = 'Voir le livre'; card.add.disabled = false; card.again.textContent = scanner.classList.contains('nocam') ? 'Chercher un autre' : 'Scanner un autre';
+  scanner.classList.add('card');
+}
+async function showCardFor(isbn, fromItem){
+  const id = ++Sc.lookupId;
+  const dup = isbn && books.find(b => b.isbn === isbn);
+  if (dup) { cardDuplicate(dup); return; }
+  cardLoading(isbn);
+  let c = null;
+  if (isbn) { try { c = await lookupISBN(isbn); } catch(e) { c = {isbn, found:false, offline:true}; } }
+  if (fromItem) {
+    if (!c || !c.found) c = Object.assign({found:true}, fromItem, {isbn:isbn || fromItem.isbn || ''});
+    else { for (const k of ['t', 'a', 'y', 'p', 'desc']) if (!c[k] && fromItem[k]) c[k] = fromItem[k]; c.covers = (c.covers || []).concat(fromItem.covers || []); }
+  }
+  if (id !== Sc.lookupId) return;
+  if (c.found) await attachCover(c);
+  if (id !== Sc.lookupId || !Sc.open) return;
+  cardShow(c);
+}
+let coverT = 0;
+card.title.addEventListener('input', () => { clearTimeout(coverT); coverT = setTimeout(renderCardCover, 220); });
+card.author.addEventListener('input', () => { clearTimeout(coverT); coverT = setTimeout(renderCardCover, 220); });
+$('#cardLists').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { setCardList(b.dataset.k); Haptics.tick(); } });
+card.again.addEventListener('click', () => { Haptics.tick(); if (scanner.classList.contains('nocam')) { scanner.classList.remove('card', 'hit'); openManual(); } else resumeScan(); });
+card.add.addEventListener('click', () => {
+  const c = Sc.cand; if (!c) return;
+  if (c.dup) { goToBook(c.dup); return; }
+  const t = card.title.value.trim(); if (!t) { card.title.focus(); toast('Ajoutez au moins un titre'); return; }
+  const b = createBook(c, t, card.author.value.trim(), parseInt(card.pages.value, 10) || 0, Sc.list);
+  addBookFlow(b, card.cover.getBoundingClientRect());
+});
+function createBook(c, t, a, p, list){
+  const key = c.isbn || t, pal = c.img ? (c.pal || palette(c.img)) : hashPalette(key);
+  const b = {id:Date.now(), t, sp:spineTitle(t), a:a || 'Auteur inconnu', y:c.y || '', p:p || 300, pEst:!p, c0:pal[0], c1:pal[1], s:hashInt(key) % 5,
+    list, page:0, isbn:c.isbn || '', user:true, img:null,
+    pitch:c.desc ? cleanDesc(c.desc, 190) : `Ajouté le ${new Date().toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'})}.`};
+  if (list === 'lus') b.page = b.p;
+  if (c.img) {
+    coverImgs.set(b.id, c.img);
+    try { const cv = document.createElement('canvas'); cv.width = 360; cv.height = 540; const x = cv.getContext('2d'); const im = c.img, iw = im.naturalWidth, ih = im.naturalHeight, s = Math.max(360 / iw, 540 / ih);
+      x.drawImage(im, (360 - iw * s) / 2, (540 - ih * s) / 2, iw * s, ih * s); b.img = cv.toDataURL('image/jpeg', 0.82); } catch(e){}
+  }
+  return b;
+}
+function showLecture(list, idx){
+  setTab('read', true);
+  state.list = list; state.idx[list] = idx; placeSeg(); $('#listTitle').textContent = LISTS[list];
+  stage.classList.remove('hide'); buildCarousel();
+}
+function addBookFlow(b, from){
+  books = [b].concat(books); save(); updateGoal();
+  showLecture(b.list, 0);
+  const c0 = Car.cards[0];
+  Haptics.tick(true);
+  closeScanner();
+  if (!c0 || reduce()) { toast(`Ajouté à « ${LISTS[b.list]} »`); sessionView(); return; }
+  c0.el.style.opacity = '0';
+  const to = c0.front.getBoundingClientRect();
+  fly2d(b, from, to, 620, () => {
+    c0.el.style.opacity = ''; Haptics.tick(true); sessionView();
+    const T = thick(b, Car.W);
+    if (c0.front.animate) c0.front.animate([{transform:`translateZ(${T / 2}px) scale(1.07)`}, {transform:`translateZ(${T / 2}px) scale(1)`}], {duration:460, easing:'cubic-bezier(.3,1.6,.5,1)'});
+    toast(`Ajouté à « ${LISTS[b.list]} »`);
+  });
+}
+function goToBook(b){
+  closeScanner();
+  const list = listBooks(b.list); showLecture(b.list, Math.max(0, list.indexOf(b)));
+  setTimeout(openFromCarousel, 380);
+}
+
+/* ───────────── Recherche manuelle ───────────── */
+const scQuery = $('#scQuery'), scResults = $('#scResults');
+function openManual(){ scanner.classList.add('manual'); Sc.paused = true; setTimeout(() => scQuery.focus(), 380); }
+function closeManual(){
+  scanner.classList.remove('manual'); scQuery.blur();
+  if (scanner.classList.contains('nocam') && !scanner.classList.contains('card')) { closeScanner(); return; }
+  if (!Sc.handled) { Sc.paused = false; if (Sc.stream) scheduleScan(300); }
+}
+$('#scManual').addEventListener('click', () => { Haptics.tick(); openManual(); });
+$('#scNocamManual').addEventListener('click', () => { Haptics.tick(); openManual(); });
+$('#scSearchCancel').addEventListener('click', closeManual);
+$('#scClose').addEventListener('click', () => closeScanner());
+$('#scTorch').addEventListener('click', () => {
+  if (!Sc.track) return; Sc.torch = !Sc.torch;
+  Sc.track.applyConstraints({advanced:[{torch:Sc.torch}]}).catch(() => {}); $('#scTorch').classList.toggle('on', Sc.torch); Haptics.tick();
+});
+function pickFromManual(isbn, item){
+  scanner.classList.remove('manual'); scQuery.blur();
+  Sc.handled = true; Sc.paused = true; try { camVideo.pause(); } catch(e){}
+  setStatus(isbn ? 'ISBN ' + isbn : '');
+  showCardFor(isbn, item);
+}
+$('#scForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const q = scQuery.value.trim(); if (!q) return;
+  const isbn = extractISBN(q);
+  if (isbn) { pickFromManual(isbn, null); return; }
+  const id = ++Sc.searchId;
+  scResults.innerHTML = '<div class="res-msg">Recherche…</div>';
+  let items;
+  try { items = await searchBooks(q); }
+  catch(err) { if (id === Sc.searchId) scResults.innerHTML = '<div class="res-msg">Pas de connexion. Réessayez une fois en ligne.</div>'; return; }
+  if (id !== Sc.searchId) return;
+  if (!items.length) { scResults.innerHTML = '<div class="res-msg">Aucun résultat. Essayez avec l’auteur ou l’ISBN.</div>'; return; }
+  scResults.innerHTML = '';
+  items.forEach(it => {
+    const b = document.createElement('button'); b.className = 'res'; b.type = 'button';
+    b.innerHTML = `${it.thumb ? `<img src="${esc(it.thumb)}" alt="" loading="lazy" referrerpolicy="no-referrer">` : '<div class="ph"></div>'}<div><div class="rt">${esc(it.t)}</div><div class="ra">${esc([it.a, it.y].filter(Boolean).join(' · '))}</div></div>`;
+    const im = b.querySelector('img'); if (im) im.onerror = () => { const ph = document.createElement('div'); ph.className = 'ph'; im.replaceWith(ph); };
+    b.addEventListener('click', () => { Haptics.tick(); pickFromManual(it.isbn, it); });
+    scResults.appendChild(b);
+  });
+});
+document.addEventListener('visibilitychange', () => {
+  if (!Sc.open || scanner.classList.contains('nocam')) return;
+  if (document.hidden) stopCamera();
+  else startCamera().then(() => { if (!Sc.open) return; Sc.running = true; if (Sc.paused) { try { camVideo.pause(); } catch(e){} } scheduleScan(300); }).catch(camError);
+});
+
+/* ───────────── Réglages ───────────── */
+const optH = $('#optHaptic'), optR = $('#optReduce');
+optH.checked = S.haptics;
+optH.addEventListener('change', () => { S.haptics = optH.checked; save(); });
+optR.checked = reduce();
+optR.addEventListener('change', () => { S.reduce = optR.checked; save(); renderCarousel(); });
+$('#optTheme').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; S.theme = b.dataset.v; save(); applyTheme(); });
+$('#optReset').addEventListener('click', () => {
+  if (!confirm('Tout réinitialiser ? Les livres scannés et vos progrès seront effacés.')) return;
+  try { localStorage.removeItem(KEY); localStorage.removeItem(KEY_V1); } catch(_){} location.reload();
+});
+$('#optDemo').addEventListener('click', () => {
+  const demo = books.filter(b => !b.user);
+  if (!demo.length) { toast('Plus aucun livre d’exemple'); return; }
+  if (!confirm(`Retirer les ${demo.length} livres d’exemple ? Vos livres ajoutés restent.`)) return;
+  demo.forEach(b => forgetCaches(b.id)); books = books.filter(b => b.user);
+  save(); updateGoal(); buildCarousel(); sessionView(); Haptics.tick(true); toast('Livres d’exemple retirés');
+});
+
+/* ───────────── Retirer un livre ───────────── */
+function forgetCaches(id){
+  covers.delete(id); blurs.delete(id); thumbs.delete(id); coverImgs.delete(id);
+  if (G.ok && G.tex.has(id)) { G.gl.deleteTexture(G.tex.get(id)); G.tex.delete(id); }
+}
+$('#dTrash').addEventListener('click', () => {
+  if (!D.open || D.busy || Curl.anim) return;
+  const b = D.books[D.i];
+  if (!confirm(`Retirer « ${b.t} » de votre bibliothèque ?`)) return;
+  books = books.filter(x => x !== b); save(); updateGoal();
+  D.open = false; D.busy = true; detail.style.pointerEvents = 'none'; detail.classList.remove('show');
+  Haptics.tick(true); toast('Retiré de la bibliothèque');
+  fadeDetail(0, 260, () => {
+    detail.style.visibility = 'hidden'; dInner.style.transform = ''; D.busy = false; D.dirty = false;
+    forgetCaches(b.id); buildCarousel(); if (state.tab === 'lib') buildShelves(); sessionView();
+  });
+});
+
+/* ───────────── Démarrage ───────────── */
+function updateGoal(){ const n = listBooks('lus').length; $('#goal').innerHTML = `<b>${n}</b> / ${GOAL} livres en ${YEAR}`; }
+function init(){
+  const d = new Date().toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long'});
+  $('#kDate').textContent = d;
+  $('#listTitle').textContent = LISTS[state.list];
+  $('#sealText').textContent = `EX LIBRIS · LU EN ${YEAR} · `;
+  updateGoal(); applyTheme(); glInit(); Haptics.ensure();
+  const withImg = books.filter(b => b.img);
+  Promise.all(withImg.map(b => loadImg(b.img, false, 5000).then(im => coverImgs.set(b.id, im)).catch(() => { b.img = null; })))
+    .then(() => {
+      books.forEach(b => cover(b));
+      buildCarousel(); placeSeg(); sessionView();
+      if (!S.hintSeen) setTimeout(() => toast('Glissez les couvertures · touchez pour ouvrir'), 700);
+    });
+}
+let rsT = 0;
+addEventListener('resize', () => { clearTimeout(rsT); rsT = setTimeout(() => { buildCarousel(); placeSeg(); if (state.tab === 'lib') buildShelves(); if (D.open) { layoutDetail(); glDraw(); } }, 150); });
+document.addEventListener('gesturestart', e => e.preventDefault());
+document.addEventListener('touchmove', e => { if (!e.target.closest('.scroll')) e.preventDefault(); }, {passive:false});
+document.addEventListener('dblclick', e => e.preventDefault());
+window.__exlibris = {Car, D, Curl, G, state, Sc, EAN, extractISBN, openScanner, get books(){ return books; }};
+requestAnimationFrame(init);
+})();
+</script>
+</body>
+</html>
