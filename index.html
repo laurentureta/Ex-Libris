@@ -214,40 +214,62 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webki
 .toast.on{transform:translate(-50%,0);opacity:1}
 .hap{position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;pointer-events:none;overflow:hidden}
 
-/* ───── Écran de chargement : livre qui s'effeuille + barre ───── */
-#splash{position:fixed;inset:0;z-index:200;overflow:hidden;color:#EFE3C8;-webkit-user-select:none;user-select:none;background:#0C0A08}
+/* ───── Écran de chargement : le grimoire ───── */
+#splash{position:fixed;inset:0;z-index:200;overflow:hidden;color:#EFE3C8;-webkit-user-select:none;user-select:none;background:#07060A}
 #splash.gone{pointer-events:none}
-.ld-bg{position:absolute;inset:0;background:radial-gradient(90% 55% at 50% 38%,#33281F 0%,#17120E 55%,#0A0807 100%);transition:opacity .8s ease}
-.ld-bg::after{content:"";position:absolute;inset:0;background-image:var(--grain,none);background-size:180px;opacity:.9}
-.ld-bg::before{content:"";position:absolute;left:50%;top:36%;width:150vw;height:80vw;margin:-40vw 0 0 -75vw;background:radial-gradient(closest-side,rgba(255,196,120,.16),rgba(255,196,120,0));animation:ldGlow 3.2s ease-in-out infinite alternate}
-@keyframes ldGlow{to{transform:scale(1.12);opacity:.75}}
+.ld-bg{position:absolute;inset:0;background:radial-gradient(70% 45% at 50% 34%,#2B2030 0%,#140F18 45%,#07060A 100%)}
+.ld-bg::before{content:"";position:absolute;left:50%;top:-10%;width:90vw;height:70%;margin-left:-45vw;background:linear-gradient(180deg,rgba(255,214,150,.11),rgba(255,214,150,0));clip-path:polygon(38% 0,62% 0,100% 100%,0 100%);filter:blur(18px);animation:ldBeam 5s ease-in-out infinite alternate}
+.ld-bg::after{content:"";position:absolute;inset:0;background-image:var(--grain,none);background-size:180px;opacity:.7}
+@keyframes ldBeam{to{opacity:.55;transform:scaleX(1.12)}}
+.ld-rays{position:absolute;left:50%;top:32%;width:190vmax;height:190vmax;margin:-95vmax 0 0 -95vmax;background:repeating-conic-gradient(from 0deg,rgba(255,214,140,.2) 0deg 2.2deg,rgba(255,214,140,0) 2.2deg 12deg);-webkit-mask-image:radial-gradient(circle,#000 0%,rgba(0,0,0,.4) 18%,transparent 42%);mask-image:radial-gradient(circle,#000 0%,rgba(0,0,0,.4) 18%,transparent 42%);opacity:0;animation:ldSpin 48s linear infinite}
+@keyframes ldSpin{to{rotate:360deg}}
+.ld-gshadow{position:absolute;left:50%;top:calc(32% + var(--ph) * .5);width:calc(var(--pw) * 2.5);height:calc(var(--pw) * .42);margin-left:calc(var(--pw) * -1.25);background:radial-gradient(closest-side,rgba(0,0,0,.85),rgba(0,0,0,0));animation:ldShadow 3.6s ease-in-out infinite}
+@keyframes ldShadow{50%{transform:scale(.86);opacity:.7}}
 .ld-scene{position:absolute;left:0;right:0;top:0;height:64%;perspective:1100px;perspective-origin:50% 30%;display:flex;align-items:center;justify-content:center}
+.ld-float{transform-style:preserve-3d;-webkit-transform-style:preserve-3d;animation:ldBob 3.6s ease-in-out infinite}
+@keyframes ldBob{50%{transform:translate3d(0,-10px,0)}}
 .ld-book{position:relative;width:calc(var(--pw) * 2);height:var(--ph);transform-style:preserve-3d;-webkit-transform-style:preserve-3d;transform:rotateX(36deg)}
 .ld-book>*{position:absolute}
-.ld-shadow{left:-14%;right:-14%;top:12%;bottom:-22%;background:radial-gradient(closest-side,rgba(0,0,0,.75),rgba(0,0,0,0));transform:translateZ(-12px)}
-.ld-cover{left:-9px;right:-9px;top:-8px;bottom:-8px;border-radius:5px;background:linear-gradient(90deg,#4A1410,#7A2219 20%,#5A1812 48%,#3A0F0B 50%,#5A1812 52%,#7A2219 80%,#4A1410);box-shadow:inset 0 0 0 1.5px rgba(212,175,103,.55),inset 0 0 0 4px rgba(0,0,0,.25),0 2px 0 #2A0B08;transform:translateZ(-6px)}
+.ld-board{left:var(--pw);top:-8px;width:calc(var(--pw) + 9px);height:calc(var(--ph) + 16px);border-radius:0 5px 5px 0;background:linear-gradient(90deg,#3A0F0B,#6E1E16 30%,#4A1410);box-shadow:inset 0 0 0 1.5px rgba(212,175,103,.5),0 2px 0 #24080A;transform:translateZ(-6px)}
 .ld-stack{top:0;width:var(--pw);height:var(--ph);transform:translateZ(-1px)}
-.ld-left{left:0;border-radius:3px 0 0 3px;box-shadow:-1px 1px 0 #E3D7C2,-2px 2px 0 #CDBFA6,-3px 3px 0 #E3D7C2,-4px 4px 0 #C7B89D,-5px 5px 0 #DCCFB7}
+.ld-left{left:0;border-radius:3px 0 0 3px;box-shadow:-1px 1px 0 #E3D7C2,-2px 2px 0 #CDBFA6,-3px 3px 0 #E3D7C2,-4px 4px 0 #C7B89D;opacity:0}
 .ld-right{left:var(--pw);border-radius:0 3px 3px 0;box-shadow:1px 1px 0 #E3D7C2,2px 2px 0 #CDBFA6,3px 3px 0 #E3D7C2,4px 4px 0 #C7B89D,5px 5px 0 #DCCFB7}
-.ld-rib{left:calc(var(--pw) + 18px);top:-4px;width:11px;height:calc(var(--ph) + 34px);background:var(--rib);clip-path:polygon(0 0,100% 0,100% 100%,50% calc(100% - 7px),0 100%);transform:translateZ(.2px);box-shadow:0 0 6px rgba(0,0,0,.4)}
+.ld-rib{left:calc(var(--pw) + 18px);top:-4px;width:11px;height:calc(var(--ph) + 34px);background:var(--rib);clip-path:polygon(0 0,100% 0,100% 100%,50% calc(100% - 7px),0 100%);transform:translateZ(.2px)}
 #ldLeaves{left:0;top:0;width:100%;height:100%;transform-style:preserve-3d;-webkit-transform-style:preserve-3d}
-.ld-leaf{position:absolute;left:var(--pw);top:0;height:var(--ph);width:0;transform-origin:0 50%;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;will-change:transform}
+.ld-leaf{position:absolute;left:var(--pw);top:0;height:var(--ph);width:0;transform-origin:0 50%;transform-style:preserve-3d;-webkit-transform-style:preserve-3d}
 .ld-seg{position:absolute;left:0;top:0;height:100%;transform-origin:0 50%;transform-style:preserve-3d;-webkit-transform-style:preserve-3d}
-.ld-seg .ld-seg{left:100%}
 .ld-f,.ld-b{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;background-repeat:no-repeat}
 .ld-b{transform:rotateY(180deg)}
-.ld-f i,.ld-b i{position:absolute;inset:0;background:#000;opacity:0;will-change:opacity}
-.ld-ui{position:absolute;left:0;right:0;top:63%;display:flex;flex-direction:column;align-items:center;transition:opacity .5s ease,transform .7s cubic-bezier(.5,0,.2,1)}
-.ld-word{font-family:var(--serif);font-weight:600;font-size:46px;letter-spacing:-.01em;line-height:1.05;background:var(--foil);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:ldFoil 3s ease-in-out infinite alternate;padding:0 .1em}
-@keyframes ldFoil{from{background-position:100% 0}to{background-position:0 0}}
-.ld-tag{font-family:var(--serif);font-style:italic;font-size:16px;color:rgba(236,218,176,.7);margin-top:6px}
-.ld-bar{position:relative;width:min(62vw,240px);height:2px;margin-top:30px;border-radius:2px;background:rgba(212,175,103,.18);overflow:visible}
-.ld-bar i{position:absolute;left:0;top:0;bottom:0;width:100%;border-radius:2px;background:linear-gradient(90deg,#8A6A2F,#F3DFA2 70%,#FFF6D8);transform-origin:0 50%;transform:scaleX(var(--lp,0))}
-.ld-bar::after{content:"";position:absolute;top:50%;left:0;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,236,180,.95),rgba(255,214,140,.35) 40%,rgba(255,214,140,0));transform:translateX(calc(var(--lp,0) * min(62vw,240px)))}
-.ld-row{display:flex;justify-content:space-between;width:min(62vw,240px);margin-top:11px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:rgba(212,175,103,.7);font-variant-numeric:tabular-nums}
-#ldMsg{transition:opacity .25s}
-#splash.out .ld-ui{opacity:0;transform:translateY(24px)}
-#splash.out .ld-bg{opacity:0}
+.ld-f i,.ld-b i{position:absolute;inset:0;background:#000;opacity:0}
+.ld-front{left:var(--pw);top:-8px;width:calc(var(--pw) + 9px);height:calc(var(--ph) + 16px);transform-origin:0 50%;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;transform:rotateY(0deg) translateZ(3px)}
+.ld-fo,.ld-fi{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:0 5px 5px 0}
+.ld-fo{background:radial-gradient(120% 80% at 30% 20%,#7A2219,#4A1410 55%,#2E0B08);box-shadow:inset 0 0 0 1px rgba(0,0,0,.4),inset 6px 0 10px -4px rgba(0,0,0,.6)}
+.ld-fo::after{content:"";position:absolute;inset:0;border-radius:inherit;background-image:var(--grain,none);background-size:120px;opacity:.6;mix-blend-mode:overlay}
+.ld-fo svg{position:absolute;inset:0;width:100%;height:100%}
+.ld-fi{transform:rotateY(180deg);border-radius:5px 0 0 5px;background:repeating-radial-gradient(circle at 30% 35%,#4A1410 0 5px,#6A2018 5px 8px,#8A6A2F 8px 9px,#4A1410 9px 13px),#4A1410;box-shadow:inset 0 0 0 5px #3A0F0B,inset 0 0 0 6px rgba(212,175,103,.6)}
+.ld-halo{position:absolute;left:50%;top:32%;width:150vw;height:90vw;margin:-45vw 0 0 -75vw;border-radius:50%;background:radial-gradient(closest-side,rgba(255,226,160,.55),rgba(255,190,100,.18) 45%,rgba(255,190,100,0));mix-blend-mode:screen;opacity:0;pointer-events:none}
+.ld-ui{position:absolute;left:0;right:0;top:61%;display:flex;flex-direction:column;align-items:center}
+.ld-title{width:min(70vw,270px);overflow:visible;filter:drop-shadow(0 0 8px rgba(255,200,120,.45))}
+#ldTitle{font-family:var(--serif);font-style:italic;font-weight:600;font-size:72px;fill:url(#ldGold);fill-opacity:0;stroke:#F3DFA2;stroke-width:1;stroke-dasharray:320;stroke-dashoffset:320;stroke-linejoin:round}
+.ld-thread{position:relative;width:min(58vw,220px);height:1.5px;margin-top:12px;background:linear-gradient(90deg,rgba(212,175,103,0),rgba(212,175,103,.28) 15%,rgba(212,175,103,.28) 85%,rgba(212,175,103,0))}
+.ld-thread i{position:absolute;left:0;top:0;bottom:0;width:100%;background:linear-gradient(90deg,rgba(243,223,162,0),#F3DFA2 30%,#FFF6D8);transform-origin:0 50%;transform:scaleX(var(--lp,0));box-shadow:0 0 8px rgba(255,214,140,.8)}
+.ld-thread b{position:absolute;top:50%;left:0;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:radial-gradient(closest-side,#FFF8E1,rgba(255,226,160,.7) 30%,rgba(255,200,120,0));transform:translateX(calc(var(--lp,0) * min(58vw,220px)))}
+.ld-msg{display:flex;gap:10px;justify-content:center;margin-top:14px;font-family:var(--serif);font-style:italic;font-size:15px;color:rgba(236,218,176,.75);min-height:20px}
+#ldMsg{transition:opacity .3s}
+#ldPct{font-family:var(--sans);font-style:normal;font-size:11px;letter-spacing:.12em;color:rgba(212,175,103,.6);font-variant-numeric:tabular-nums;padding-top:3px}
+.ld-page{--r:-80px;position:absolute;inset:0;visibility:hidden;opacity:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding-bottom:8vh;background-color:#F2E9D8;background-image:radial-gradient(110% 80% at 50% 46%,rgba(255,250,235,.5) 0%,rgba(255,250,235,0) 45%,rgba(120,80,40,.3) 100%),var(--grain,none);background-size:auto,180px;-webkit-mask-image:radial-gradient(circle at 50% 46%,rgba(0,0,0,0) var(--r),#000 calc(var(--r) + 80px));mask-image:radial-gradient(circle at 50% 46%,rgba(0,0,0,0) var(--r),#000 calc(var(--r) + 80px))}
+.ld-ink{width:min(84vw,340px);overflow:visible;filter:drop-shadow(0 0 5px rgba(240,190,90,.45))}
+.ld-ink .ink{fill:none;stroke:#7A5A25;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:var(--len,400);stroke-dashoffset:var(--len,400)}
+.ld-ink .ink-t{font-family:var(--serif);font-style:italic;font-weight:600;font-size:76px;fill:#5A3E14;fill-opacity:0;stroke:#5A3E14;stroke-width:.9;--len:330}
+.ld-page.ink .ink{animation:inkDraw .85s cubic-bezier(.45,0,.2,1) var(--dl,0s) forwards}
+.ld-page.ink .ink-t{animation:inkDraw .9s cubic-bezier(.45,0,.2,1) var(--dl,0s) forwards,inkFill .45s ease .7s forwards}
+@keyframes inkDraw{to{stroke-dashoffset:0}}
+@keyframes inkFill{to{fill-opacity:1}}
+.ld-ptag{font-family:var(--serif);font-style:italic;font-size:19px;color:#6E5A3C;opacity:0;transform:translateY(6px);margin-top:4px}
+.ld-page.ink .ld-ptag{animation:ldRise .6s ease .65s forwards}
+@keyframes ldRise{to{opacity:1;transform:none}}
+.ld-flash{position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,rgba(255,250,230,1),rgba(255,228,170,.75) 35%,rgba(255,220,150,0) 75%);opacity:0;pointer-events:none}
+#ldDust{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 #splash.fade{transition:opacity .4s ease;opacity:0}
 
 /* ───── Finitions générales ───── */
@@ -517,20 +539,42 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
 <body>
 <div id="splash" aria-label="Signet">
   <div class="ld-bg"></div>
-  <div class="ld-scene"><div class="ld-book" id="ldBook">
-    <div class="ld-shadow"></div>
-    <div class="ld-cover"></div>
+  <div class="ld-rays" id="ldRays"></div>
+  <div class="ld-gshadow"></div>
+  <div class="ld-scene" id="ldScene"><div class="ld-float"><div class="ld-book" id="ldBook">
+    <div class="ld-board"></div>
     <div class="ld-stack ld-left" id="ldLeft"></div>
     <div class="ld-stack ld-right" id="ldRight"></div>
     <div class="ld-rib"></div>
     <div id="ldLeaves"></div>
-  </div></div>
+    <div class="ld-front" id="ldFront">
+      <div class="ld-fo"><svg viewBox="0 0 100 150" aria-hidden="true"><defs><linearGradient id="ldFoil" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#8A6A2F"/><stop offset=".4" stop-color="#F6E3A6"/><stop offset=".65" stop-color="#C9A45C"/><stop offset="1" stop-color="#7A5A25"/></linearGradient></defs>
+        <g fill="none" stroke="url(#ldFoil)"><rect x="7" y="7" width="86" height="136" rx="2" stroke-width="1.6"/><rect x="11" y="11" width="78" height="128" rx="1" stroke-width=".6"/>
+        <path d="M11 24c6 0 13-6 13-13M89 24c-6 0-13-6-13-13M11 126c6 0 13 6 13 13M89 126c-6 0-13 6-13 13" stroke-width=".9"/>
+        <circle cx="50" cy="70" r="19" stroke-width="1.2"/><circle cx="50" cy="70" r="15.5" stroke-width=".5"/></g>
+        <path d="M44.5 58h11v22l-5.5-4.2-5.5 4.2z" fill="url(#ldFoil)"/>
+        <path d="M50 35l3 3-3 3-3-3zM50 99l3 3-3 3-3-3z" fill="url(#ldFoil)"/>
+        <text x="50" y="118" text-anchor="middle" font-family="ui-serif, Georgia, serif" font-size="8.5" letter-spacing="2.4" fill="url(#ldFoil)">SIGNET</text></svg></div>
+      <div class="ld-fi"></div>
+    </div>
+  </div></div></div>
+  <div class="ld-halo" id="ldHalo"></div>
   <div class="ld-ui" id="ldUi">
-    <div class="ld-word">Signet</div>
-    <div class="ld-tag" data-t="tag">Chaque livre à sa page</div>
-    <div class="ld-bar"><i id="ldFill"></i></div>
-    <div class="ld-row"><span id="ldMsg"></span><span id="ldPct">0</span></div>
+    <svg class="ld-title" viewBox="0 0 320 92" aria-hidden="true"><defs><linearGradient id="ldGold" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#9A7834"/><stop offset=".45" stop-color="#F6E3A6"/><stop offset="1" stop-color="#B8914A"/></linearGradient></defs><text id="ldTitle" x="160" y="68" text-anchor="middle">Signet</text></svg>
+    <div class="ld-thread" id="ldThread"><i></i><b></b></div>
+    <div class="ld-msg"><span id="ldMsg"></span><span id="ldPct"></span></div>
   </div>
+  <div class="ld-page" id="ldPage">
+    <svg class="ld-ink" viewBox="0 0 300 200" aria-hidden="true">
+      <path class="ink" style="--dl:0s" d="M150 30l7 7-7 7-7-7z"/>
+      <path class="ink" style="--dl:.05s" d="M138 37C120 37 112 25 98 25 82 25 74 39 60 39 50 39 44 33 44 27 44 21 50 19 54 22 58 25 56 31 51 31M162 37C180 37 188 25 202 25 218 25 226 39 240 39 250 39 256 33 256 27 256 21 250 19 246 22 242 25 244 31 249 31"/>
+      <text class="ink ink-t" style="--dl:.15s" x="150" y="122" text-anchor="middle">Signet</text>
+      <path class="ink" style="--dl:.35s" d="M150 150l5 5-5 5-5-5zM140 155C124 155 116 148 104 148 94 148 88 155 80 155M160 155C176 155 184 148 196 148 206 148 212 155 220 155"/>
+    </svg>
+    <div class="ld-ptag" data-t="tag"></div>
+  </div>
+  <div class="ld-flash" id="ldFlash"></div>
+  <canvas id="ldDust"></canvas>
 </div>
 <div id="app">
   <div class="amb" id="ambA"></div><div class="amb" id="ambB"></div>
@@ -709,7 +753,7 @@ fr: {
  'list.cours':'En cours','list.lus':'Lus','list.envies':'Envies',
  'tab.read':'Lecture','tab.lib':'Bibliothèque','tab.stats':'Bilan','tab.set':'Réglages',
  'tag':'Chaque livre à sa page',
- 'load.0':'Ouverture','load.1':'Reliure des couvertures','load.2':'Mise en rayon','load.3':'Prêt',
+ 'load.0':'Le livre s’éveille','load.1':'Les pages s’animent','load.2':'L’encre prend vie','load.3':'Entrez',
  'goal':'<b>{n}</b> / {g} livres en {y}',
  'empty':'Aucun livre dans « {l} »','scanBook':'Scanner un livre',
  'pages':'{n} pages',
@@ -764,7 +808,7 @@ en: {
  'list.cours':'Reading','list.lus':'Read','list.envies':'Want to read',
  'tab.read':'Reading','tab.lib':'Library','tab.stats':'Stats','tab.set':'Settings',
  'tag':'Every book, right where you left it',
- 'load.0':'Opening','load.1':'Binding the covers','load.2':'Shelving','load.3':'Ready',
+ 'load.0':'The book awakens','load.1':'The pages come alive','load.2':'The ink stirs','load.3':'Step inside',
  'goal':'<b>{n}</b> / {g} books in {y}',
  'empty':'No books in “{l}”','scanBook':'Scan a book',
  'pages':'{n} pages',
@@ -3060,8 +3104,8 @@ function applyLang(){
   if (D.open) { const b = D.books[D.i]; $('#dKicker').textContent = listName(b.list); $('#dMain').textContent = mainLabel(b); $('#dMeta').textContent = metaLine(b, true); $('#dPitch').textContent = bookPitch(b); const pr = progressInfo(b); $('#dProgText').textContent = pr.text; }
 }
 
-/* ───────────── Écran de chargement : un livre qui s'effeuille ───────────── */
-const LD = {anims:[], shown:0, target:0, t0:performance.now(), ready:false, done:false, msgI:-1, rate:1};
+/* ───────────── Écran de chargement : le grimoire qui s'éveille ───────────── */
+const LD = {anims:[], shown:0, target:0, t0:performance.now(), ready:false, done:false, msgI:-1, rate:1, pw:0, ph:0, MIN:3000};
 const nextFrame = () => new Promise(r => requestAnimationFrame(() => r()));
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 function pageBG(pw, ph, variant, side, ox){
@@ -3081,13 +3125,84 @@ function pageBG(pw, ph, variant, side, ox){
   L.reverse();
   return `background-color:#F2E9D8;background-image:${L.map(l => l.img).join(',')};background-size:${L.map(l => `${l.w.toFixed(1)}px ${l.h.toFixed(1)}px`).join(',')};background-position:${L.map(l => `${(l.x - ox).toFixed(1)}px ${l.y.toFixed(1)}px`).join(',')};background-repeat:no-repeat`;
 }
+
+/* Poussière d'or et étincelles (un seul canvas, rendu additif) */
+const FX = {on:false, P:[], last:0, emit:null, ring:null};
+function fxMote(init){ return {k:0, x:Math.random() * FX.W, y:init ? Math.random() * FX.H : FX.H + 10, vx:(Math.random() - .5) * 8, vy:-(7 + Math.random() * 16), r:1.4 + Math.random() * 3.2, ph:Math.random() * 6.28, tw:.8 + Math.random() * 2.2, t:0}; }
+function spark(x, y, o){
+  o = o || {}; const a = (o.ang == null ? -Math.PI / 2 : o.ang) + (Math.random() - .5) * (o.spread == null ? 1.6 : o.spread), v = (o.v || 120) * (0.35 + Math.random() * 0.9);
+  FX.P.push({k:1, x, y, vx:Math.cos(a) * v, vy:Math.sin(a) * v, r:(o.r || 3) * (0.5 + Math.random()), t:0, life:(o.life || 1.1) * (0.6 + Math.random() * 0.7), g:o.g == null ? -20 : o.g, star:Math.random() < (o.star == null ? .3 : o.star), ph:Math.random() * 6.28});
+}
+function fxStart(){
+  const cv = $('#ldDust'), dpr = Math.min(window.devicePixelRatio || 1, 2);
+  FX.W = innerWidth; FX.H = innerHeight; cv.width = Math.round(FX.W * dpr); cv.height = Math.round(FX.H * dpr);
+  FX.x = cv.getContext('2d'); FX.x.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const sp = document.createElement('canvas'); sp.width = sp.height = 64; const g = sp.getContext('2d'), gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  gr.addColorStop(0, 'rgba(255,250,225,1)'); gr.addColorStop(.16, 'rgba(255,228,150,.9)'); gr.addColorStop(.42, 'rgba(240,180,80,.22)'); gr.addColorStop(1, 'rgba(240,180,80,0)');
+  g.fillStyle = gr; g.fillRect(0, 0, 64, 64); FX.sp = sp;
+  for (let i = 0; i < 55; i++) FX.P.push(fxMote(true));
+  FX.on = true; FX.last = performance.now(); requestAnimationFrame(fxLoop);
+}
+function fxLoop(now){
+  if (!FX.on) return;
+  const dt = Math.min(0.05, (now - FX.last) / 1000), x = FX.x; FX.last = now;
+  x.clearRect(0, 0, FX.W, FX.H); x.globalCompositeOperation = 'lighter';
+  if (FX.emit) FX.emit(dt);
+  const dot = (px, py, s, a) => { if (a <= 0.01) return; x.globalAlpha = Math.min(1, a); x.drawImage(FX.sp, px - s, py - s, s * 2, s * 2); };
+  if (FX.ring) {
+    const R = FX.ring, g = x.createRadialGradient(R.cx, R.cy, Math.max(0, R.r - 6), R.cx, R.cy, R.r + 90);
+    g.addColorStop(0, 'rgba(255,220,140,0)'); g.addColorStop(.08, 'rgba(255,240,190,.95)'); g.addColorStop(.3, 'rgba(240,180,80,.35)'); g.addColorStop(1, 'rgba(240,180,80,0)');
+    x.globalAlpha = R.a; x.fillStyle = g; x.fillRect(0, 0, FX.W, FX.H);
+    for (let i = 0; i < 5; i++) { const an = Math.random() * 6.283; spark(R.cx + Math.cos(an) * (R.r + 20), R.cy + Math.sin(an) * (R.r + 20), {ang:an, spread:.6, v:110, life:.7, r:2.2, g:0, star:.35}); }
+  }
+  for (let i = FX.P.length - 1; i >= 0; i--) {
+    const p = FX.P[i]; p.t += dt;
+    if (p.k === 0) {
+      p.x += (p.vx + Math.sin(p.t * .8 + p.ph) * 10) * dt; p.y += p.vy * dt;
+      if (p.y < -20) Object.assign(p, fxMote(false));
+      dot(p.x, p.y, p.r * 3, 0.2 + 0.4 * (0.5 + 0.5 * Math.sin(p.t * p.tw * 2 + p.ph))); continue;
+    }
+    if (p.t >= p.life) { FX.P.splice(i, 1); continue; }
+    const k = p.t / p.life, f = 1 - dt * 1.3;
+    p.vx *= f; p.vy = p.vy * f + p.g * dt; p.x += p.vx * dt; p.y += p.vy * dt;
+    const a = (1 - k) * (0.65 + 0.35 * Math.sin(p.t * 20 + p.ph));
+    dot(p.x, p.y, p.r * 4 * (1 - k * .4), a);
+    if (p.star && a > .05) { const s = p.r * 3.4 * (1 - k * .3); x.globalAlpha = a * .8; x.strokeStyle = '#FFF4D0'; x.lineWidth = .8; x.beginPath(); x.moveTo(p.x - s, p.y); x.lineTo(p.x + s, p.y); x.moveTo(p.x, p.y - s); x.lineTo(p.x, p.y + s); x.stroke(); }
+  }
+  x.globalAlpha = 1; x.globalCompositeOperation = 'source-over';
+  requestAnimationFrame(fxLoop);
+}
 function buildLoader(){
-  const sp = $('#splash'), pw = Math.round(clamp(innerWidth * 0.36, 118, 176)), ph = Math.round(pw * 1.42);
-  sp.style.setProperty('--pw', pw + 'px'); sp.style.setProperty('--ph', ph + 'px');
+  const sp = $('#splash'), pw = Math.round(clamp(innerWidth * 0.34, 112, 168)), ph = Math.round(pw * 1.42);
+  LD.pw = pw; LD.ph = ph; sp.style.setProperty('--pw', pw + 'px'); sp.style.setProperty('--ph', ph + 'px');
   $('#ldLeft').style.cssText = pageBG(pw, ph, 'B', 'left', 0);
   $('#ldRight').style.cssText = pageBG(pw, ph, 'A', 'right', 0);
-  if (reduce() || !Element.prototype.animate) return;
-  const N = 9, SEG = 3, sw = pw / SEG, DUR = 1150, host = $('#ldLeaves'), ease = 'cubic-bezier(.45,0,.3,1)';
+  document.querySelectorAll('#ldPage path.ink').forEach(p => { try { p.style.setProperty('--len', Math.ceil(p.getTotalLength() + 2)); } catch(e){} });
+  $('#ldThread').style.setProperty('--lp', 0);
+  const rm = reduce() || !Element.prototype.animate;
+  if (!rm) fxStart();
+  sp.addEventListener('click', () => { if (LD.ready && !LD.done) { LD.MIN = 0; LD.target = 1; } });   // toucher l'écran accélère la fin
+  if (rm) { $('#ldFront').style.transform = 'rotateY(-178deg)'; $('#ldLeft').style.opacity = 1; $('#ldBook').style.transform = 'rotateX(36deg)'; return; }
+  const OPEN = 380, OD = 1050, ease = 'cubic-bezier(.55,.05,.25,1)';
+  // 1. le livre fermé flotte, puis la couverture s'ouvre toute seule
+  LD.anims.push($('#ldBook').animate([{transform:`rotateX(36deg) translateX(${-pw / 2}px)`}, {transform:'rotateX(36deg) translateX(0px)'}], {duration:OD, delay:OPEN, easing:ease, fill:'both'}));
+  $('#ldFront').animate([{transform:'rotateY(0deg) translateZ(3px)'}, {transform:'rotateY(-178deg) translateZ(3px)'}], {duration:OD, delay:OPEN, easing:ease, fill:'both'});
+  $('#ldLeft').animate([{opacity:0}, {opacity:1}], {duration:260, delay:OPEN + OD * .78, fill:'both'});
+  $('#ldHalo').animate([{opacity:0}, {opacity:.7}], {duration:900, delay:OPEN + 250, fill:'both', easing:'ease-out'});
+  $('#ldRays').animate([{opacity:0}, {opacity:.4}], {duration:1400, delay:OPEN + 400, fill:'both'});
+  setTimeout(() => {   // la lumière s'échappe du livre
+    if (LD.done) return; const r = $('#ldBook').getBoundingClientRect();
+    for (let i = 0; i < 60; i++) spark(r.left + r.width / 2 + (Math.random() - .5) * 30, r.top + r.height * .45, {v:210, life:1.5, r:2.6, spread:1.4, g:-15, star:.45});
+    let acc = 0, cacc = 0;
+    FX.emit = dt => {   // des étincelles montent des pages qui tournent, et suivent le fil doré
+      const b = $('#ldBook').getBoundingClientRect(); acc += dt * 24 * LD.rate;
+      while (acc > 1) { acc--; spark(b.left + b.width * (.2 + Math.random() * .6), b.top + b.height * (.25 + Math.random() * .3), {v:80, life:1.6, r:2, g:-28, spread:1.1, star:.25}); }
+      if (!LD.thr) LD.thr = $('#ldThread').getBoundingClientRect();
+      cacc += dt * 40; while (cacc > 1) { cacc--; spark(LD.thr.left + LD.thr.width * LD.shown, LD.thr.top + 1, {v:40, life:.7, r:1.5, g:60, spread:6.28, star:.15}); }
+    };
+  }, OPEN + 500);
+  // 2. les pages se mettent à tourner, de plus en plus vite
+  const N = 9, SEG = 3, sw = pw / SEG, DUR = 1150, host = $('#ldLeaves'), le = 'cubic-bezier(.45,0,.3,1)', START = OPEN + OD - 150;
   for (let i = 0; i < N; i++) {
     const leaf = document.createElement('div'); leaf.className = 'ld-leaf'; host.appendChild(leaf);
     let parent = leaf; const segs = [], shades = [];
@@ -3098,12 +3213,12 @@ function buildLoader(){
       const fs = document.createElement('i'), bs = document.createElement('i'); f.appendChild(fs); b.appendChild(bs);
       s.append(f, b); parent.appendChild(s); parent = s; segs.push(s); shades.push([fs, bs]);
     }
-    const o = {duration:DUR, delay:i * DUR / N, iterations:Infinity, easing:ease}, z = (0.6 + i * 0.12).toFixed(2);
+    const o = {duration:DUR, delay:START + i * DUR / N, iterations:Infinity, easing:le}, z = (0.6 + i * 0.12).toFixed(2);
     LD.anims.push(leaf.animate([{transform:`translateZ(${z}px) rotateY(0deg)`}, {transform:`translateZ(${z}px) rotateY(-179.5deg)`}], o));
     segs.slice(1).forEach((s, k) => { const a = 16 + k * 10; LD.anims.push(s.animate([{transform:'rotateY(0deg)', offset:0}, {transform:`rotateY(${a}deg)`, offset:0.3}, {transform:`rotateY(${(-a * 0.3).toFixed(1)}deg)`, offset:0.72}, {transform:'rotateY(0deg)', offset:1}], o)); });
     shades.forEach(([fs, bs]) => {
-      LD.anims.push(fs.animate([{opacity:0}, {opacity:0.24, offset:0.46}, {opacity:0.34, offset:0.5}, {opacity:0.34}], o));
-      LD.anims.push(bs.animate([{opacity:0.34}, {opacity:0.34, offset:0.5}, {opacity:0.14, offset:0.56}, {opacity:0}], o));
+      LD.anims.push(fs.animate([{opacity:0}, {opacity:0.22, offset:0.46}, {opacity:0.3, offset:0.5}, {opacity:0.3}], o));
+      LD.anims.push(bs.animate([{opacity:0.3}, {opacity:0.3, offset:0.5}, {opacity:0.12, offset:0.56}, {opacity:0}], o));
     });
   }
 }
@@ -3111,27 +3226,58 @@ function splashProgress(p){ LD.target = Math.max(LD.target, p); }
 function loaderTick(){
   if (LD.done) return;
   const sp = $('#splash'); if (!sp) return;
-  const cap = Math.min(1, (performance.now() - LD.t0) / 2300), want = Math.min(LD.target, cap);
-  LD.shown += (want - LD.shown) * 0.1; if (want >= 1 && LD.shown > 0.994) LD.shown = 1;
-  sp.style.setProperty('--lp', LD.shown.toFixed(4));
-  $('#ldPct').textContent = Math.round(LD.shown * 100) + (LANG === 'en' ? '%' : ' %');
-  const mi = LD.shown >= 1 ? 3 : LD.shown > 0.62 ? 2 : LD.shown > 0.28 ? 1 : 0;
-  if (mi !== LD.msgI) { LD.msgI = mi; const m = $('#ldMsg'); m.style.opacity = '0'; setTimeout(() => { m.textContent = t('load.' + mi) + (mi < 3 ? '…' : ''); m.style.opacity = '1'; }, 140); }
-  const rate = 1 + LD.shown * 1.5;   // les pages tournent de plus en plus vite
-  if (Math.abs(rate - LD.rate) > 0.04) { LD.rate = rate; LD.anims.forEach(a => a.updatePlaybackRate ? a.updatePlaybackRate(rate) : (a.playbackRate = rate)); }
-  if (LD.shown >= 1 && LD.ready) { LD.done = true; setTimeout(exitLoader, 280); return; }
+  const cap = Math.min(1, (performance.now() - LD.t0) / LD.MIN), want = Math.min(LD.target, cap);
+  LD.shown += (want - LD.shown) * 0.09; if (want >= 1 && LD.shown > 0.994) LD.shown = 1;
+  const lp = LD.shown;
+  $('#ldThread').style.setProperty('--lp', lp.toFixed(4));
+  const tt = $('#ldTitle'); tt.style.strokeDashoffset = (320 * (1 - Math.min(1, lp * 1.15))).toFixed(1); tt.style.fillOpacity = clamp((lp - 0.78) / 0.22, 0, 1).toFixed(3);
+  $('#ldPct').textContent = Math.round(lp * 100) + (LANG === 'en' ? '%' : ' %');
+  const mi = lp >= 1 ? 3 : lp > 0.62 ? 2 : lp > 0.3 ? 1 : 0;
+  if (mi !== LD.msgI) { LD.msgI = mi; const m = $('#ldMsg'); m.style.opacity = '0'; setTimeout(() => { m.textContent = t('load.' + mi) + (mi < 3 ? '…' : ''); m.style.opacity = '1'; }, 150); }
+  const rate = 1 + lp * 1.6;
+  if (Math.abs(rate - LD.rate) > 0.04) { LD.rate = rate; LD.anims.forEach(a => { if (a.effect && a.effect.getTiming().iterations === Infinity) { if (a.updatePlaybackRate) a.updatePlaybackRate(rate); else a.playbackRate = rate; } }); }
+  if (lp >= 1 && LD.ready) { LD.done = true; setTimeout(exitLoader, 320); return; }
   requestAnimationFrame(loaderTick);
 }
+// Sortie : on plonge dans la page, l'encre écrit, puis la page s'ouvre en lumière sur l'app
 function exitLoader(){
   const sp = $('#splash'); if (!sp) return;
-  Splash.opened = true; applyTheme(); sp.classList.add('gone', 'out');
-  Haptics.tick(true); Sound.thump();
-  const finish = () => { LD.anims.forEach(a => a.cancel()); LD.anims = []; sp.remove(); };
-  if (reduce() || !Element.prototype.animate) { sp.classList.add('fade'); setTimeout(finish, 450); startIntro(0); return; }
-  $('#ldBook').animate([{transform:'rotateX(36deg) translateZ(0px) scale(1)', opacity:1}, {transform:'rotateX(12deg) translateZ(260px) scale(1.25)', opacity:1, offset:0.5}, {transform:'rotateX(0deg) translateZ(760px) scale(1.6)', opacity:0}], {duration:950, easing:'cubic-bezier(.6,0,.25,1)', fill:'forwards'});
-  sp.animate([{backgroundColor:'#0C0A08'}, {backgroundColor:'rgba(12,10,8,0)'}], {duration:650, delay:330, easing:'ease-out', fill:'forwards'});
-  startIntro(400);
-  setTimeout(finish, 1050);
+  Splash.opened = true; sp.classList.add('gone');
+  Haptics.tick(true); Sound.chime();
+  const finish = () => { FX.on = false; FX.P = []; LD.anims.forEach(a => { try { a.cancel(); } catch(e){} }); LD.anims = []; sp.remove(); applyTheme(); };
+  if (reduce() || !Element.prototype.animate) { applyTheme(); sp.classList.add('fade'); setTimeout(finish, 450); startIntro(0); return; }
+  const loops = LD.anims.filter(a => a.effect && a.effect.getTiming().iterations === Infinity);
+  loops.forEach(a => a.updatePlaybackRate ? a.updatePlaybackRate(3.4) : (a.playbackRate = 3.4));
+  FX.emit = null;
+  const br = $('#ldBook').getBoundingClientRect(), cx = br.left + br.width / 2, cy = br.top + br.height * .45;
+  for (let i = 0; i < 110; i++) spark(cx + (Math.random() - .5) * br.width * .7, cy, {v:300, life:1.5, r:2.8, spread:2.4, g:-10, star:.45});
+  $('#ldHalo').animate([{opacity:.7, transform:'scale(1)'}, {opacity:1, transform:'scale(1.7)'}], {duration:750, easing:'ease-out', fill:'forwards'});
+  $('#ldRays').animate([{opacity:.4}, {opacity:1}], {duration:550, fill:'forwards'});
+  $('#ldUi').animate([{opacity:1, transform:'none'}, {opacity:0, transform:'translateY(20px)'}], {duration:380, easing:'ease-in', fill:'forwards'});
+  setTimeout(() => {   // plongée dans la page de droite
+    $('#ldLeaves').animate([{opacity:1}, {opacity:0}], {duration:200, fill:'forwards'});
+    const bk = $('#ldBook'); bk.style.transformOrigin = '75% 50%';
+    bk.animate([{transform:'translateX(0px) rotateX(36deg) scale(1)'}, {transform:`translateX(${(-LD.pw * .3).toFixed(1)}px) rotateX(16deg) scale(2.1)`, offset:.45}, {transform:`translateX(${(-LD.pw * .5).toFixed(1)}px) rotateX(0deg) scale(8.5)`}], {duration:950, easing:'cubic-bezier(.62,0,.2,1)', fill:'forwards'});
+    $('.ld-gshadow').animate([{opacity:1}, {opacity:0}], {duration:300, fill:'forwards'});
+    $('#ldRays').animate([{opacity:1, transform:'scale(1)'}, {opacity:0, transform:'scale(2.6)'}], {duration:900, delay:150, fill:'forwards'});
+    $('#ldHalo').animate([{opacity:1}, {opacity:0}], {duration:400, delay:550, fill:'forwards'});
+  }, 300);
+  setTimeout(() => { Sound.flap(); $('#ldFlash').animate([{opacity:0}, {opacity:.9, offset:.3}, {opacity:0}], {duration:620, easing:'ease-out'}); }, 900);
+  setTimeout(() => {   // la page magique : l'encre s'écrit toute seule
+    const pg = $('#ldPage'); pg.style.visibility = 'visible';
+    pg.animate([{opacity:0}, {opacity:1}], {duration:240, fill:'forwards'}); pg.classList.add('ink');
+    $('#ldScene').style.visibility = 'hidden';
+    setTimeout(() => { const r = pg.querySelector('svg').getBoundingClientRect(); for (let i = 0; i < 50; i++) spark(r.left + Math.random() * r.width, r.top + r.height * (.3 + Math.random() * .5), {v:60, life:1.3, r:2, g:-30, spread:2.5, star:.5}); }, 450);
+  }, 1000);
+  setTimeout(() => {   // la page s'ouvre en lumière sur l'app
+    applyTheme(); Sound.chime();
+    const pg = $('#ldPage'), W = innerWidth, H = innerHeight, ccx = W / 2, ccy = H * .46, R = Math.hypot(W, H) * .62 + 90;
+    sp.style.background = 'transparent';
+    ['.ld-bg', '.ld-rays', '.ld-gshadow', '#ldScene', '#ldHalo', '#ldUi', '#ldFlash'].forEach(s => { const e = $(s); if (e) e.style.display = 'none'; });
+    startIntro(120);
+    tween(820, p => p * p * (3 - 2 * p), p => { const r = R * p - 80; pg.style.setProperty('--r', r.toFixed(1) + 'px'); FX.ring = {cx:ccx, cy:ccy, r:Math.max(0, r), a:1 - p * .7}; }, () => { FX.ring = null; pg.style.display = 'none'; });
+  }, 2050);
+  setTimeout(finish, 3300);
 }
 function startIntro(delay){
   if (reduce()) { Car.intro = 1; Car.dirty = true; kick(); afterIntro(); return; }
