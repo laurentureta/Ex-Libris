@@ -1725,7 +1725,7 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
 
   <section class="screen scroll" id="scr-set">
     <header class="top">
-      <div class="kicker">Signet · version 1.7.1</div>
+      <div class="kicker">Signet · version 1.7.2</div>
       <div class="title-row"><h1 class="list-title" data-t="set.title"></h1></div>
     </header>
     <div class="group">
@@ -2356,10 +2356,10 @@ function onOrient(e){
 }
 async function enableGyro(){
   try {
-    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-      const r = await DeviceOrientationEvent.requestPermission(); if (r !== 'granted') return false;
-    }
-    if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') { try { await DeviceMotionEvent.requestPermission(); } catch(_){} }
+    let mo = 'granted', ori = 'granted';
+    if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') { try { mo = await DeviceMotionEvent.requestPermission(); } catch(_){ mo = 'error'; } }
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') { try { ori = await DeviceOrientationEvent.requestPermission(); } catch(_){ ori = 'error'; } }
+    if (mo !== 'granted' && ori !== 'granted') return false;
     if (!Gyro.on) { window.addEventListener('deviceorientation', onOrient); window.addEventListener('devicemotion', onMotion); }
     Gyro.on = true; Gyro.base = null; return true;
   } catch(e) { return false; }
@@ -4417,7 +4417,16 @@ optG.addEventListener('change', async () => {
   else { S.gyro = false; disableGyro(); }
   save();
 });
-if (S.gyro) document.addEventListener('pointerdown', function once(){ document.removeEventListener('pointerdown', once, true); enableGyro(); }, true);
+const GyroAsk = {busy:false};
+async function gyroAsk(){
+  if (!S.gyro || Gyro.on || GyroAsk.busy) return; GyroAsk.busy = true;
+  try { const ok = await enableGyro();
+    if (ok && !S.gyro) disableGyro();   // l'option a été coupée entre-temps
+    else if (ok && OR.on && !OR.busy) $('#orHint').textContent = t('or.hint');
+  } finally { GyroAsk.busy = false; }
+}
+document.addEventListener('touchend', gyroAsk, {capture:true, passive:true});
+document.addEventListener('click', gyroAsk, true);
 optR.addEventListener('change', () => { S.reduce = optR.checked; save(); renderCarousel(); });
 $('#optAmb').addEventListener('change', e => { S.ambiance = e.target.checked; save(); Haptics.tick(); });
 $('#optSeal').addEventListener('click', openSealEditor);
@@ -9585,7 +9594,7 @@ addEventListener('resize', () => { clearTimeout(rsT); rsT = setTimeout(() => { b
 document.addEventListener('gesturestart', e => e.preventDefault());
 document.addEventListener('touchmove', e => { if (!e.target.closest('.scroll')) e.preventDefault(); }, {passive:false});
 document.addEventListener('dblclick', e => e.preventDefault());
-window.__exlibris = {P3, p3Init, pk3Open, p3Reveal, p3Stow, p3SkipAll, p3AutoTear, p3Rip, pkMeta, PKM, pkBuyLinks, photoLoad, photoEnv, cityReset, cityView, PK, PKV, PFX, PK_BY, PK_T, pkS, pkTier, pkRoll, pkGive, pkOpen, pkClose, pkShow, pkvClose, pkReveal, pkStow, pkSkipAll, pkAutoTear, pkRip, pkAlbum, PKA, buildCards, buildMyCards, CITY, cityLoad, cityEnv, questState, questCheck, buildQuests, roomRewards, roomLevel, levelUp, pubView, pubSnap, notifSheet, shelfResults, SHF, PV, TS, SEC, openTaste, closeTaste, openSecret, closeSecret, secretNext, secretPick, secretWhy, tasteVec, catFind, CAT, GENRES, RM, ROOM, roomFrame, startRoom, stopRoom, paintEdinburgh, Car, D, Curl, G, state, Sc, EAN, extractISBN, openScanner, Splash, Gyro, Sound, LD, statsData, SUPA, Sync, syncNow, syncView, createAccount, linkAccount, tombstone, bookSig, mergeLib, newKey, canonKey, Club, clubLoad, showStatsView, SE, openSeance, closeSeance, OCR, openOCR, openReco, RECO, parseCSV, csvBooks, importCSVFile, findCovers, Lib, buildChips, openNotes, kickerTxt, RM, W3, ST, OR, AMB, CV, S, openStory, stGo, openFromCarousel, openOracle, consultOracle, showLibView, openCardView, onBookFinished, openSealEditor, openBookFrom, setTab, rarity, gazFind, onMotion, get books(){ return books; }, get logs(){ return logs; }};
+window.__exlibris = {gyroAsk, GyroAsk, enableGyro, P3, p3Init, pk3Open, p3Reveal, p3Stow, p3SkipAll, p3AutoTear, p3Rip, pkMeta, PKM, pkBuyLinks, photoLoad, photoEnv, cityReset, cityView, PK, PKV, PFX, PK_BY, PK_T, pkS, pkTier, pkRoll, pkGive, pkOpen, pkClose, pkShow, pkvClose, pkReveal, pkStow, pkSkipAll, pkAutoTear, pkRip, pkAlbum, PKA, buildCards, buildMyCards, CITY, cityLoad, cityEnv, questState, questCheck, buildQuests, roomRewards, roomLevel, levelUp, pubView, pubSnap, notifSheet, shelfResults, SHF, PV, TS, SEC, openTaste, closeTaste, openSecret, closeSecret, secretNext, secretPick, secretWhy, tasteVec, catFind, CAT, GENRES, RM, ROOM, roomFrame, startRoom, stopRoom, paintEdinburgh, Car, D, Curl, G, state, Sc, EAN, extractISBN, openScanner, Splash, Gyro, Sound, LD, statsData, SUPA, Sync, syncNow, syncView, createAccount, linkAccount, tombstone, bookSig, mergeLib, newKey, canonKey, Club, clubLoad, showStatsView, SE, openSeance, closeSeance, OCR, openOCR, openReco, RECO, parseCSV, csvBooks, importCSVFile, findCovers, Lib, buildChips, openNotes, kickerTxt, RM, W3, ST, OR, AMB, CV, S, openStory, stGo, openFromCarousel, openOracle, consultOracle, showLibView, openCardView, onBookFinished, openSealEditor, openBookFrom, setTab, rarity, gazFind, onMotion, get books(){ return books; }, get logs(){ return logs; }};
 boot();
 })();
 </script>
