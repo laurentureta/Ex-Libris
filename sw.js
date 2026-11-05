@@ -1,7 +1,7 @@
 /* Signet : fonctionnement hors ligne.
    L'app s'ouvre tout de suite depuis le cache, puis se met à jour en arrière-plan. */
-const SHELL = 'signet-shell-v2', CDN = 'signet-cdn-v1', IMG = 'signet-img-v1', META = 'signet-meta';
-const CORE = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png'];
+const SHELL = 'signet-shell-v3', CDN = 'signet-cdn-v1', IMG = 'signet-img-v1', META = 'signet-meta';
+const CORE = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png', './three-r170.module.min.js'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(SHELL).then(c => Promise.all(CORE.map(u => c.add(new Request(u, {cache:'no-cache'})).catch(() => {})))).then(() => self.skipWaiting()));
@@ -62,6 +62,7 @@ self.addEventListener('fetch', e => {
   const r = e.request; if (r.method !== 'GET') return;
   const u = new URL(r.url);
   if (r.mode === 'navigate' && u.origin === location.origin && /(\/|\.html)$/.test(u.pathname)) { e.respondWith(shell(e)); return; }
+  if (u.origin === location.origin && /\.module\.min\.js$/.test(u.pathname)) { e.respondWith(cacheFirst(SHELL, r, 0, false).catch(() => fetch(r))); return; }
   if (u.origin === location.origin) { e.respondWith(caches.match(r, {ignoreSearch:true}).then(h => h || fetch(r))); return; }
   if (u.hostname === 'cdn.jsdelivr.net' || u.hostname === 'unpkg.com') { e.respondWith(cacheFirst(CDN, r, 0, true)); return; }
   if (u.hostname === 'covers.openlibrary.org' || u.hostname === 'books.google.com' || u.hostname.endsWith('.googleusercontent.com')) {
