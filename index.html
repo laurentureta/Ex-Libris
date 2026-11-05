@@ -1344,6 +1344,260 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
 /* ───── mise à jour ───── */
 .upd-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-left:6px;vertical-align:middle}
 
+/* ═════════════ v1.6 · Les packs du grimoire ═════════════ */
+:is(.pkc,.pk-cell,.pk-chips button,.pkv-k).t-c{--gem:#e9e0cf;--gl:rgba(255,245,225,.35);--fr:linear-gradient(145deg,#b9ab92,#efe5d2 38%,#cbbda3 62%,#f3ead9 82%,#a99a80);--hd:linear-gradient(90deg,#3a3129,#4b4036)}
+:is(.pkc,.pk-cell,.pk-chips button,.pkv-k).t-r{--gem:#69b4ff;--gl:rgba(90,170,255,.6);--fr:linear-gradient(145deg,#1f4f8c,#8cc6ff 36%,#2a68b3 60%,#b4dbff 80%,#1d4a85);--hd:linear-gradient(90deg,#0f3260,#1d5596)}
+:is(.pkc,.pk-cell,.pk-chips button,.pkv-k).t-e{--gem:#c47dff;--gl:rgba(190,110,255,.7);--fr:linear-gradient(145deg,#4d1880,#d7a8ff 36%,#7431bd 60%,#e8c9ff 80%,#451473);--hd:linear-gradient(90deg,#33105a,#5c2296)}
+:is(.pkc,.pk-cell,.pk-chips button,.pkv-k).t-l{--gem:#ffcd45;--gl:rgba(255,200,60,.85);--fr:linear-gradient(120deg,#7A5A25,#C9A45C 16%,#FFF3C8 28%,#D7B062 42%,#8A6A2F 58%,#F5DEA0 76%,#9A7834);--hd:linear-gradient(90deg,#4f350b,#8a6420)}
+:is(.pkc,.pk-cell,.pk-chips button,.pkv-k).t-m{--gem:#ffffff;--gl:rgba(255,255,255,.85);--fr:linear-gradient(115deg,#ff5f6d,#ffc371 14%,#f9f871 26%,#6bffb0 40%,#5fd4ff 54%,#a78bff 68%,#ff7ad9 82%,#ff5f6d);--hd:linear-gradient(90deg,#1a1033,#2d1550)}
+.pkc.t-m .pkc-f,.pk-cell.t-m{background-size:300% 300%!important;animation:pkRain 6s linear infinite}
+@keyframes pkRain{to{background-position:300% 0}}
+
+/* ── la carte ── */
+.pkc{position:relative;width:100%;height:100%;transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));-webkit-user-select:none;user-select:none}
+.pkc-f,.pkc-b{position:absolute;inset:0;border-radius:5.5% / 3.93%;overflow:hidden;container-type:inline-size;-webkit-backface-visibility:hidden;backface-visibility:hidden;transform:translateZ(.1px)}
+.pkc-f{background:var(--fr);box-shadow:0 6px 22px rgba(0,0,0,.35);transition:box-shadow .5s}
+.pkc-in{position:absolute;inset:3.2cqw;border-radius:3.2cqw;background:linear-gradient(#1c1612,#120d0a);display:flex;flex-direction:column;overflow:hidden;box-shadow:inset 0 0 0 .4cqw rgba(0,0,0,.35)}
+.pkc-top{flex:none;height:13cqw;display:flex;align-items:center;justify-content:space-between;gap:2cqw;padding:0 3.6cqw;background:var(--hd);box-shadow:inset 0 -.4cqw 0 rgba(255,255,255,.08)}
+.pkc-name{font-family:var(--serif);font-weight:600;font-size:5.6cqw;color:#fff6e6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.01em}
+.pkc-gem{flex:none;width:4.4cqw;height:4.4cqw;border-radius:.6cqw;transform:rotate(45deg);background:var(--gem);box-shadow:0 0 2.4cqw var(--gem),inset 0 0 0 .5cqw rgba(255,255,255,.45)}
+.t-m .pkc-gem{background:conic-gradient(#ff5f6d,#ffc371,#6bffb0,#5fd4ff,#a78bff,#ff5f6d)}
+.pkc-art{flex:1;min-height:0;margin:2.6cqw 2.6cqw 0;border-radius:2.2cqw;overflow:hidden;position:relative;background:#2a211a;box-shadow:0 0 0 .5cqw rgba(255,255,255,.07)}
+.pkc-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%;-webkit-user-drag:none}
+.pkc-art::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 6cqw rgba(0,0,0,.45);border-radius:inherit}
+.pkc-info{flex:none;display:flex;justify-content:space-between;gap:3cqw;padding:2.4cqw 3.6cqw 0;font-family:var(--serif);font-style:italic;font-size:4.1cqw;color:rgba(255,240,220,.82)}
+.pkc-info span:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pkc-info span:last-child{flex:none;font-style:normal;font-variant-numeric:tabular-nums;opacity:.7}
+.pkc-bot{flex:none;display:flex;justify-content:space-between;align-items:center;gap:2cqw;padding:1.6cqw 3.6cqw 3.2cqw;font-size:3cqw;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,240,220,.5);white-space:nowrap}
+.pkc-bot span:first-child{overflow:hidden;text-overflow:ellipsis}
+.pkc-rar{color:var(--gem);flex:none}
+.t-m .pkc-rar{background:linear-gradient(90deg,#ff8a8a,#ffe08a,#8affc1,#8adcff,#c49bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pkc-holo,.pkc-glare,.pkc-spark{position:absolute;inset:0;border-radius:inherit;pointer-events:none}
+.pkc-holo{opacity:0;mix-blend-mode:color-dodge;background:repeating-linear-gradient(115deg,hsla(0,100%,70%,.55) 0%,hsla(55,100%,70%,.55) 5%,hsla(130,100%,70%,.55) 10%,hsla(190,100%,70%,.55) 15%,hsla(260,100%,72%,.55) 20%,hsla(320,100%,72%,.55) 25%,hsla(360,100%,70%,.55) 30%);background-size:320% 320%;background-position:var(--mx,50%) var(--my,50%)}
+.pkc.t-e .pkc-holo{opacity:calc(.08 + var(--ho2,0) * .25)}
+.pkc.t-l .pkc-holo{opacity:calc(.1 + var(--ho2,0) * .3);filter:sepia(1) saturate(3) hue-rotate(-10deg)}
+.pkc.foil .pkc-holo,.pkc.t-m .pkc-holo{opacity:calc(.28 + var(--ho2,0) * .45);filter:none}
+.pkc-glare{background:radial-gradient(circle at var(--mx,50%) var(--my,40%),rgba(255,255,255,.5),rgba(255,255,255,0) 48%);mix-blend-mode:overlay;opacity:calc(.35 + var(--ho2,0) * .5)}
+.pkc-spark{opacity:0;mix-blend-mode:screen;background-image:radial-gradient(circle,rgba(255,255,255,.95) 0 .35cqw,transparent .8cqw),radial-gradient(circle,rgba(255,240,200,.8) 0 .25cqw,transparent .6cqw);background-size:13cqw 11cqw,9cqw 13cqw;background-position:0 0,5cqw 4cqw}
+.pkc.t-l .pkc-spark,.pkc.t-m .pkc-spark,.pkc.foil .pkc-spark{animation:pkTw 2.2s ease-in-out infinite alternate}
+@keyframes pkTw{0%{opacity:.1;background-position:0 0,5cqw 4cqw}100%{opacity:.75;background-position:2cqw -3cqw,3cqw 7cqw}}
+.pkc-b{transform:rotateY(180deg) translateZ(.1px);background:radial-gradient(rgba(255,255,255,.04) 1px,transparent 1.6px) 0 0/6px 6px,linear-gradient(160deg,#7a1b14,#951f17 35%,#5c0f0b 72%,#360806);box-shadow:0 6px 22px rgba(0,0,0,.4)}
+.pkb-in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5cqw}
+.pkb-orn{position:absolute;inset:5cqw;border:.5cqw solid rgba(232,200,130,.55);border-radius:3cqw;box-shadow:inset 0 0 0 1.4cqw rgba(0,0,0,.12),inset 0 0 0 1.8cqw rgba(232,200,130,.22)}
+.pkb-seal{width:46%;filter:drop-shadow(0 2cqw 3cqw rgba(0,0,0,.45))}
+.pkb-seal svg{display:block;width:100%}
+.pkb-t{font-family:var(--serif);font-weight:600;font-size:6cqw;letter-spacing:.42em;padding-left:.42em;background:var(--foil);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ── page Cartes : le bandeau des packs ── */
+.pk-hero{margin-top:4px;border-radius:24px;padding:18px 18px 16px;color:#F6EEDD;display:grid;grid-template-columns:auto 1fr;gap:14px 16px;align-items:center;position:relative;overflow:hidden;background:radial-gradient(120% 100% at 0% 0%,#4f1b14 0%,#24150f 52%,#140d0a 100%);box-shadow:0 14px 34px rgba(30,15,8,.28),inset 0 0 0 1px rgba(255,220,170,.08)}
+.pk-hero::before{content:"";position:absolute;inset:-40%;background:repeating-conic-gradient(from 0deg,rgba(255,215,150,.05) 0 6deg,transparent 6deg 18deg);animation:pkSpin 90s linear infinite;pointer-events:none}
+.pk-hero>*{position:relative}
+.pkh-packs{display:flex;gap:8px;padding:4px 2px 2px}
+.pkm{position:relative;width:48px;height:74px;border-radius:5px;clip-path:polygon(0 6%,8% 0,16% 6%,24% 0,32% 6%,40% 0,48% 6%,56% 0,64% 6%,72% 0,80% 6%,88% 0,96% 6%,100% 3%,100% 97%,92% 100%,84% 97%,76% 100%,68% 97%,60% 100%,52% 97%,44% 100%,36% 97%,28% 100%,20% 97%,12% 100%,4% 97%,0 100%);background:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1.6px) 0 0/4px 4px,linear-gradient(160deg,#7a1b14,#951f17 35%,#5c0f0b 72%,#360806);box-shadow:inset 0 0 0 3px rgba(0,0,0,.1),inset 0 0 0 4px rgba(232,200,130,.5);transition:transform .25s}
+.pkm.ty-or{background:linear-gradient(120deg,#7A5A25,#C9A45C 16%,#FFF3C8 30%,#D7B062 44%,#8A6A2F 62%,#F5DEA0 80%,#9A7834);background-size:220% 100%;animation:pkSheen 4s ease-in-out infinite alternate;box-shadow:inset 0 0 0 3px rgba(0,0,0,.05),inset 0 0 0 4px rgba(90,60,15,.45)}
+.pkm i{position:absolute;left:50%;top:44%;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;background:radial-gradient(circle at 38% 32%,#e2574b,#9c1c17 55%,#5a0b08);box-shadow:0 2px 4px rgba(0,0,0,.4)}
+.pkm b{position:absolute;right:4px;bottom:6px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#F6EEDD;color:#2a1a0e;font-size:11px;font-weight:800;line-height:18px;text-align:center}
+.pkm span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.pkm.empty{opacity:.32;filter:grayscale(.7)}
+.pkm:not(.empty){animation:pkBob 3.2s ease-in-out infinite}
+.pkm.ty-or:not(.empty){animation:pkBob 3.2s ease-in-out -1.6s infinite,pkSheen 4s ease-in-out infinite alternate}
+.pkm:active{transform:scale(.94)}
+@keyframes pkBob{0%,100%{translate:0 0}50%{translate:0 -3px}}
+@keyframes pkSheen{to{background-position:100% 0}}
+.pkh-k{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#E8C77E}
+.pkh-tx b{display:block;font-family:var(--serif);font-weight:600;font-size:21px;line-height:1.15;margin-top:3px}
+.pkh-ink{display:inline-flex;align-items:center;gap:7px;margin-top:6px;font-size:12.5px;color:rgba(246,238,221,.7);font-variant-numeric:tabular-nums}
+.pkh-ink i,.pk-craft i{width:9px;height:9px;border-radius:50% 0 50% 50%;transform:rotate(-45deg);background:linear-gradient(135deg,#8b7cff,#2b1d6b);box-shadow:0 0 6px rgba(140,120,255,.6);flex:none}
+.pkh-btns{grid-column:1/-1;display:flex;gap:8px}
+.pkh-btns button{flex:1;height:48px;border-radius:24px;font-weight:700;font-size:15px}
+.pkh-open{color:#2a1a08;background:linear-gradient(120deg,#C9A45C,#FFF1C2 35%,#D7B062 60%,#F5DEA0);background-size:220% 100%;animation:pkSheen 2.6s ease-in-out infinite alternate;box-shadow:0 6px 20px rgba(230,180,80,.35)}
+.pkh-daily{background:rgba(255,255,255,.1);color:#F6EEDD;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.pkh-daily:not(.wait){background:rgba(232,199,126,.16);box-shadow:inset 0 0 0 1px rgba(232,199,126,.5);color:#FFE7A6}
+.pkh-daily.wait{font-weight:600;font-size:13px;color:rgba(246,238,221,.6)}
+.pkh-how{grid-column:1/-1;font-size:12.5px;line-height:1.45;color:rgba(246,238,221,.58)}
+.pk-seg{display:flex;margin:16px 0 4px;padding:3px;border-radius:12px;background:var(--rule)}
+.pk-seg button{flex:1;height:34px;border-radius:9px;font-size:13.5px;font-weight:600;color:var(--ink2);transition:background .25s,color .25s}
+.pk-seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.pk-seg em{font-style:normal;font-weight:500;font-size:12px;opacity:.65;font-variant-numeric:tabular-nums}
+.pk-prog{margin-top:14px}
+.pk-prog div{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--ink2)}
+.pk-prog b{color:var(--ink);font-weight:600}
+.pk-prog i{display:block;height:6px;border-radius:3px;margin-top:7px;background:linear-gradient(90deg,#B08A43,#F2D898) 0 0/calc(var(--p) * 100%) 100% no-repeat,var(--rule)}
+.pk-chips{display:flex;gap:6px;overflow-x:auto;margin:12px -16px 14px;padding:0 16px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.pk-chips::-webkit-scrollbar{display:none}
+.pk-chips button{flex:none;height:32px;padding:0 12px;border-radius:16px;background:var(--surface);box-shadow:inset 0 0 0 1px var(--rule);font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.pk-chips em{font-style:normal;font-weight:500;color:var(--ink2);font-variant-numeric:tabular-nums;font-size:12px}
+.pk-chips button.on{background:var(--ink);color:var(--paper);box-shadow:none}
+.pk-chips button.on em{color:inherit;opacity:.65}
+.pkg-gem{display:inline-block;width:8px;height:8px;border-radius:1.5px;transform:rotate(45deg);background:var(--gem);box-shadow:0 0 5px var(--gem);flex:none}
+.t-c .pkg-gem{box-shadow:inset 0 0 0 1px rgba(0,0,0,.25)}
+.t-m .pkg-gem{background:conic-gradient(#ff5f6d,#ffc371,#6bffb0,#5fd4ff,#a78bff,#ff5f6d)}
+.pk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:10px}
+.pk-cell{position:relative;aspect-ratio:5/7;border-radius:10px;background:var(--fr);box-shadow:0 4px 12px rgba(40,25,10,.16);overflow:hidden;text-align:left;transition:transform .2s}
+.pk-cell:active{transform:scale(.95)}
+.pkg-art{position:absolute;inset:3px;border-radius:8px;background:#2a211a center 30%/cover no-repeat}
+.pk-cell>span{position:absolute;left:3px;right:3px;bottom:3px;padding:20px 7px 6px;border-radius:0 0 8px 8px;background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.86) 55%);color:#fff;font-family:var(--serif);font-weight:600;font-size:11.5px;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pk-cell em{position:absolute;top:6px;left:6px;font-style:normal;font-size:10.5px;font-weight:800;color:#fff;background:rgba(0,0,0,.6);padding:1px 6px;border-radius:8px}
+.pk-cell .pkg-gem{position:absolute;top:8px;right:8px}
+.pk-cell.foil::after,.pk-cell.t-m::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:.32;background:repeating-linear-gradient(115deg,hsla(0,100%,70%,.6) 0%,hsla(60,100%,70%,.6) 6%,hsla(140,100%,70%,.6) 12%,hsla(200,100%,70%,.6) 18%,hsla(270,100%,72%,.6) 24%,hsla(330,100%,72%,.6) 30%);background-size:300% 300%;animation:pkFoil 5s linear infinite}
+@keyframes pkFoil{to{background-position:300% 300%}}
+.pk-cell.locked{background:#17110d;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);animation:none}
+.pk-cell.locked::after{display:none}
+#pkCraft:disabled{opacity:.35}
+[data-theme=dark] .pk-cell.locked{background:#100c09}
+.pkg-q{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--serif);font-size:36px;color:rgba(255,235,210,.13);padding-bottom:12px}
+.pk-cell.locked>span{background:none;text-align:center;color:rgba(255,235,210,.32);font-family:var(--sans);font-weight:700;font-size:10px;letter-spacing:.08em}
+.pk-cell.locked .pkg-gem{opacity:.55}
+.pk-more{display:block;width:100%;height:44px;margin-top:14px;border-radius:22px;background:var(--rule);font-weight:600;font-size:14px}
+.pk-craft{display:flex;align-items:center;justify-content:center;gap:9px;margin-top:16px;font-weight:600;font-size:15px;font-variant-numeric:tabular-nums}
+.tab.pk-dot::after,#libViews button.pk-dot::after{content:"";position:absolute;width:8px;height:8px;border-radius:50%;background:#E2574B;box-shadow:0 0 0 2px var(--paper);animation:pkDot 2s ease-in-out infinite}
+.tab.pk-dot::after{top:7px;left:calc(50% + 8px)}
+#libViews button{position:relative}
+#libViews button.pk-dot::after{top:4px;right:7px;box-shadow:none}
+@keyframes pkDot{50%{transform:scale(1.25)}}
+.lu-pk{margin-top:12px;font-size:14px;font-weight:600;color:#FFE7A6;display:flex;align-items:center;justify-content:center;gap:8px}
+
+/* ── l'ouverture ── */
+.pko{position:fixed;inset:0;z-index:110;color:#F6EEDD;opacity:0;visibility:hidden;transition:opacity .45s ease,visibility 0s .45s;touch-action:none;-webkit-user-select:none;user-select:none;overflow:hidden;--tc:#fff;--lk:#fff3dc;--cw:min(58vw,244px,33vh);--pw:min(62vw,262px,35vh);--tw:min(16vw,70px)}
+.pko.on{opacity:1;visibility:visible;transition:opacity .45s ease}
+.pko-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 44%,#2b1b14 0%,#0e0907 62%,#040302 100%)}
+.pko-bg::after{content:"";position:absolute;left:50%;top:44%;width:180vmax;height:180vmax;margin:-90vmax 0 0 -90vmax;background:repeating-conic-gradient(from 0deg,rgba(255,220,170,.045) 0 5deg,transparent 5deg 15deg);-webkit-mask:radial-gradient(closest-side,#000,transparent 70%);mask:radial-gradient(closest-side,#000,transparent 70%);animation:pkSpin 80s linear infinite}
+.pko-bg::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 65% 48% at 50% 44%,var(--rc,transparent),transparent 72%);opacity:0;transition:opacity .7s ease}
+.pko.rv-r .pko-bg::before{--rc:rgba(70,140,255,.22);opacity:1}
+.pko.rv-e .pko-bg::before{--rc:rgba(160,70,240,.38);opacity:1}
+.pko.rv-l .pko-bg::before{--rc:rgba(255,190,40,.42);opacity:1}
+.pko.rv-m .pko-bg::before{--rc:rgba(255,255,255,.3);opacity:1}
+@keyframes pkSpin{to{transform:rotate(360deg)}}
+#pkFx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.pko-stage{position:absolute;inset:0;z-index:2}
+.pk-stack{position:absolute;inset:0;z-index:1}
+.pk-slot{position:absolute;left:50%;top:46%;width:var(--cw);height:calc(var(--cw) * 1.4);margin:calc(var(--cw) * -.7) 0 0 calc(var(--cw) / -2);perspective:1300px;opacity:0;transform:translateY(16%) scale(.9);transition:transform .8s cubic-bezier(.2,.9,.25,1.08),opacity .4s ease}
+.pk-stack.out .pk-slot{opacity:1;transform:translate(calc(var(--i) * 3px),calc(var(--i) * -5px)) rotate(calc(var(--i) * 1.7deg));transition-delay:calc(.25s + var(--i) * 60ms),calc(.2s + var(--i) * 60ms)}
+.pk-stack.out .pk-slot.lift{transform:translateY(-10px) scale(1.05);transition:transform .45s cubic-bezier(.2,.9,.25,1.2);transition-delay:0s}
+.pk-stack.out .pk-slot.shown{transform:translateY(-14px) scale(1.08)}
+.pk-slot::before{content:"";position:absolute;inset:-14%;border-radius:30%;opacity:0;transition:opacity .5s;filter:blur(22px);pointer-events:none}
+.pk-flip{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateY(180deg)}
+.pk-slot.top .pkc-b::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 2px rgba(255,236,200,.5);animation:pkTap 1.6s ease-in-out infinite}
+@keyframes pkTap{50%{box-shadow:inset 0 0 0 2px rgba(255,236,200,.05)}}
+.pk-slot.pre-r::before{opacity:.75;background:radial-gradient(closest-side,rgba(90,170,255,.9),transparent)}
+.pk-slot.pre-e::before{opacity:.9;background:radial-gradient(closest-side,rgba(190,110,255,.95),transparent);animation:pkPulse .45s ease-in-out infinite alternate}
+.pk-slot.pre-l::before{opacity:1;background:radial-gradient(closest-side,rgba(255,205,70,1),rgba(255,170,30,.5) 60%,transparent);animation:pkPulse .3s ease-in-out infinite alternate}
+.pk-slot.pre-m::before{opacity:1;inset:-20%;border-radius:50%;background:conic-gradient(#ff5f6d,#ffc371,#f9f871,#6bffb0,#5fd4ff,#a78bff,#ff7ad9,#ff5f6d);animation:pkSpin 1.1s linear infinite}
+@keyframes pkPulse{to{transform:scale(1.12)}}
+.pk-slot.pre-l .pkc,.pk-slot.pre-m .pkc{animation:pkTrem .09s linear infinite}
+.pk-slot.pre-e .pkc{animation:pkTrem .14s linear infinite;--tr:1.2px}
+@keyframes pkTrem{0%{translate:0 0}25%{translate:var(--tr,2.4px) calc(var(--tr,2.4px) * -.6)}50%{translate:calc(var(--tr,2.4px) * -.8) var(--tr,2.4px)}75%{translate:calc(var(--tr,2.4px) * .6) calc(var(--tr,2.4px) * .9)}100%{translate:0 0}}
+.pk-slot.shown .pkc-f{box-shadow:0 0 0 1px rgba(255,255,255,.12),0 12px 50px -4px var(--gl),0 0 90px -10px var(--gl)}
+.pk-slot.shown::before{opacity:.0}
+.pk-tag{position:absolute;left:50%;top:100%;margin-top:16px;transform:translate(-50%,8px) scale(.85);opacity:0;transition:transform .45s cubic-bezier(.2,1.5,.4,1),opacity .3s;white-space:nowrap;pointer-events:none}
+.pk-tag.on{opacity:1;transform:translate(-50%,0) scale(1)}
+.pk-tag b{display:inline-block;padding:5px 14px;border-radius:14px;font-size:12px;font-weight:800;letter-spacing:.18em;color:#2a1a08;background:linear-gradient(120deg,#C9A45C,#FFF1C2 40%,#E2BE6F);box-shadow:0 0 22px rgba(255,210,110,.55)}
+.pk-tag span{display:inline-flex;align-items:center;gap:7px;padding:5px 13px;border-radius:14px;font-size:12.5px;font-weight:700;color:#d9d0ff;background:rgba(120,100,255,.16);box-shadow:inset 0 0 0 1px rgba(150,130,255,.35)}
+.pk-tag span::before{content:"";width:8px;height:8px;border-radius:50% 0 50% 50%;transform:rotate(-45deg);background:linear-gradient(135deg,#8b7cff,#2b1d6b)}
+
+/* le paquet */
+.pk-pack{position:absolute;left:50%;top:47%;width:var(--pw);height:calc(var(--pw) * 1.58);transform:translate(-50%,-50%);z-index:2;perspective:1000px;--tp:0;--td:1}
+.pk-pack::after{content:"";position:absolute;left:12%;right:12%;bottom:-7%;height:7%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.65),transparent);filter:blur(4px);z-index:-1}
+.pkp-glow{position:absolute;inset:-22%;border-radius:40%;background:radial-gradient(closest-side,var(--lk),transparent 72%);opacity:.18;filter:blur(18px);transition:opacity .6s,transform .6s;pointer-events:none}
+.pkp-in{position:absolute;inset:0;transform-style:preserve-3d;transform:translateY(var(--fl,0px)) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:scale .35s cubic-bezier(.2,1.4,.4,1)}
+.pk-pack.hold .pkp-in{scale:1.035}
+.pk-pack.hold .pkp-glow{opacity:.4}
+.pko.best-e .pk-pack.hold .pkp-glow{--lk:#c47dff;opacity:.65}
+.pko.best-l .pk-pack.hold .pkp-glow{--lk:#ffc83c;opacity:.95;transform:scale(1.12);animation:pkPulse .35s ease-in-out infinite alternate}
+.pko.best-m .pk-pack.hold .pkp-glow{background:conic-gradient(#ff5f6d,#ffc371,#f9f871,#6bffb0,#5fd4ff,#a78bff,#ff7ad9,#ff5f6d);opacity:.85;border-radius:50%;animation:pkSpin 1.4s linear infinite}
+.pko.best-l .pk-pack.hold .pkp-in,.pko.best-m .pk-pack.hold .pkp-in{animation:pkTrem .1s linear infinite;--tr:1.6px}
+.pko.best-e,.pko.best-l,.pko.best-m{--lk:var(--tc)}
+.pkp-body,.pkp-top{position:absolute;left:0;right:0;background:radial-gradient(rgba(255,255,255,.045) 1px,transparent 1.6px) 0 0/5px 5px,linear-gradient(160deg,#7c1c15,#98221a 32%,#5e100c 70%,#370806);-webkit-backface-visibility:hidden;backface-visibility:hidden}
+.pkp-body{top:13%;bottom:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -30px 40px rgba(0,0,0,.25)}
+.pkp-top{top:0;height:14%;transform-origin:calc(50% + var(--td) * 50%) 100%;transform:translateY(calc(var(--tp) * -6px)) rotate(calc(var(--tp) * var(--td) * 8deg));box-shadow:inset 0 -6px 10px rgba(0,0,0,.25);display:flex;align-items:flex-end;justify-content:center;padding-bottom:7%}
+.ty-or .pkp-body,.ty-or .pkp-top{background:linear-gradient(120deg,#7A5A25,#C9A45C 16%,#FFF3C8 28%,#D7B062 42%,#8A6A2F 58%,#F5DEA0 76%,#9A7834) 0 0/100% 100%}
+.pkp-sheen{position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.28) 50%,transparent 62%);background-size:260% 100%;background-position:var(--sh,50%) 0;mix-blend-mode:soft-light}
+.ty-or .pkp-sheen{background-image:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.75) 50%,transparent 62%);mix-blend-mode:overlay}
+.pkp-arrow{font-size:calc(var(--pw) * .034);font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,226,170,.5);animation:pkArr 2.4s ease-in-out infinite;white-space:nowrap}
+.ty-or .pkp-arrow{color:rgba(70,45,10,.55)}
+@keyframes pkArr{0%,100%{transform:translateX(-6px);opacity:.4}50%{transform:translateX(6px);opacity:1}}
+.pk-pack.tearing .pkp-arrow{opacity:0;animation:none}
+.pkp-face{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center}
+.pkp-orn{position:absolute;inset:4% 6.5% 6.5%;border:1.5px solid rgba(232,200,130,.55);border-radius:8px;box-shadow:inset 0 0 0 5px rgba(0,0,0,.1),inset 0 0 0 6.5px rgba(232,200,130,.22)}
+.pkp-orn::before,.pkp-orn::after{content:"";position:absolute;left:50%;width:12px;height:12px;margin-left:-6px;transform:rotate(45deg);background:linear-gradient(135deg,#F6E3A6,#B08A43);box-shadow:0 0 6px rgba(255,220,150,.5)}
+.pkp-orn::before{top:-7px}
+.pkp-orn::after{bottom:-7px}
+.ty-or .pkp-orn{border-color:rgba(90,60,15,.55);box-shadow:inset 0 0 0 5px rgba(255,255,255,.12),inset 0 0 0 6.5px rgba(90,60,15,.3)}
+.ty-or .pkp-orn::before,.ty-or .pkp-orn::after{background:linear-gradient(135deg,#9c1c17,#5a0b08)}
+.pkp-crest{width:46%;margin-top:15%;position:relative;container-type:inline-size;filter:drop-shadow(0 8px 14px rgba(0,0,0,.45))}
+.pkp-crest .pkb-in{position:static;display:block}
+.pkp-crest .pkb-orn,.pkp-crest .pkb-t{display:none}
+.pkp-crest .pkb-seal{width:100%;filter:none}
+.pkp-name{margin-top:8%;font-family:var(--serif);font-weight:600;font-size:calc(var(--pw) * .108);letter-spacing:.34em;padding-left:.34em;background:var(--foil);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 1px 0 rgba(0,0,0,.4))}
+.ty-or .pkp-name{background:linear-gradient(#5a3d0e,#2a1a05);-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 1px 0 rgba(255,255,255,.4))}
+.pkp-sub{font-family:var(--serif);font-style:italic;font-size:calc(var(--pw) * .06);color:rgba(246,225,190,.78);margin-top:1%}
+.pkp-type{margin-top:auto;font-size:calc(var(--pw) * .043);font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:rgba(240,210,150,.9)}
+.pkp-n{margin:2% 0 11%;font-size:calc(var(--pw) * .042);color:rgba(246,225,190,.55)}
+.ty-or .pkp-sub,.ty-or .pkp-type,.ty-or .pkp-n{color:rgba(60,38,8,.82)}
+.pkp-line{position:absolute;top:13.3%;left:3%;right:3%;border-top:1.5px dashed rgba(240,210,150,.45);transform:translateZ(1px)}
+.ty-or .pkp-line{border-color:rgba(70,45,10,.45)}
+.pkp-leak{position:absolute;top:12.9%;left:0;right:0;height:3px;border-radius:2px;background:#fff;box-shadow:0 0 10px 3px var(--lk),0 0 34px 10px var(--lk);transform-origin:calc(50% - var(--td) * 50%) 50%;transform:translateZ(2px) scaleX(var(--tp));opacity:0;transition:opacity .2s}
+.pk-pack.tearing .pkp-leak{opacity:1}
+.pk-pack.ripped .pkp-line,.pk-pack.ripped .pkp-leak{opacity:0}
+
+/* bandeau, réserve, indications */
+.pko-banner{position:absolute;left:0;right:0;top:calc(var(--st) + 8.5vh);z-index:4;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 14px;opacity:0;transform:scale(.55);transition:opacity .25s,transform .55s cubic-bezier(.2,1.6,.4,1);pointer-events:none}
+.pko-banner.on{opacity:1;transform:none}
+.pko-banner b{font-family:var(--serif);font-weight:700;font-size:32px;letter-spacing:.2em;padding-left:.2em;text-transform:uppercase}
+.pko-banner i{width:38px;height:1.5px;background:currentColor;opacity:.55}
+.pko-banner em{flex-basis:100%;text-align:center;font-style:normal;font-size:12px;font-weight:800;letter-spacing:.32em;opacity:.9}
+.pko-banner.b-e{color:#dcb2ff;text-shadow:0 0 20px rgba(196,125,255,.9)}
+.pko-banner.b-l{color:#ffd76a;text-shadow:0 0 24px rgba(255,200,60,.85)}
+.pko-banner.b-l b{background:linear-gradient(120deg,#C9A45C,#FFF6D0 35%,#FFCF4A 55%,#F5DEA0 80%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:pkSheen 1.4s ease-in-out infinite alternate;text-shadow:none;filter:drop-shadow(0 0 14px rgba(255,200,60,.8))}
+.pko-banner.b-m{color:#fff}
+.pko-banner.b-m b{background:linear-gradient(90deg,#ff5f6d,#ffc371,#f9f871,#6bffb0,#5fd4ff,#a78bff,#ff7ad9,#ff5f6d);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:pkRain 2.4s linear infinite;filter:drop-shadow(0 0 16px rgba(255,255,255,.6))}
+.pko-hint{position:absolute;left:0;right:0;bottom:calc(var(--sb) + var(--tw) * 1.4 + 34px);z-index:4;text-align:center;font-family:var(--serif);font-style:italic;font-size:15.5px;color:rgba(246,238,221,.72);opacity:0;transition:opacity .4s;pointer-events:none}
+.pko-hint.on{opacity:1;animation:pkBreath 2.6s ease-in-out infinite}
+@keyframes pkBreath{50%{opacity:.45}}
+.pko-tray{position:absolute;left:0;right:0;bottom:calc(var(--sb) + 18px);z-index:3;display:flex;justify-content:center;gap:8px;transition:bottom .8s cubic-bezier(.2,.9,.25,1),opacity .5s}
+.pko.rv-l .pko-tray,.pko.rv-m .pko-tray{opacity:.2}
+.pk-tslot{width:var(--tw);height:calc(var(--tw) * 1.4);border-radius:calc(var(--tw) * .08);box-shadow:inset 0 0 0 1px rgba(255,236,200,.14);transition:transform .7s cubic-bezier(.2,.9,.25,1.1);transition-delay:calc(var(--i) * 50ms)}
+.pk-tslot.on{box-shadow:none;cursor:pointer}
+.pk-tslot.on .pkc{animation:pkLand .45s cubic-bezier(.2,1.6,.4,1)}
+@keyframes pkLand{0%{scale:1.2}100%{scale:1}}
+.pko-tray.fan{bottom:54%}
+.pko-tray.fan{gap:2px}
+.pko-tray.fan .pk-tslot{transform:translateY(calc(var(--a) * 8px)) rotate(calc((var(--i) - 2) * 7deg)) scale(1.2)}
+.pko-sum{position:absolute;left:0;right:0;top:52.5%;z-index:5;padding:0 26px;text-align:center;opacity:0;transform:translateY(24px);transition:opacity .5s .35s,transform .6s .35s cubic-bezier(.2,.9,.25,1);pointer-events:none}
+.pko-sum.on{opacity:1;transform:none;pointer-events:auto}
+.pks-k{font-size:11.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#E8C77E}
+.pko-sum h2{font-family:var(--serif);font-weight:600;font-size:27px;line-height:1.15;margin-top:6px}
+.pko-sum p{font-size:14px;color:rgba(246,238,221,.7);margin-top:6px;font-variant-numeric:tabular-nums}
+.pko-sum .pks-tip{font-size:12.5px;color:rgba(246,238,221,.45);margin-top:4px}
+.pks-btns{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:20px}
+.pks-btns button,.pkv-btns button{width:100%;max-width:300px;height:52px;border-radius:26px;font-weight:700;font-size:16px}
+.pko .btn-main,.pkv .btn-main{background:#F6EEDD;color:#1A1714}
+.pko .btn-plain,.pkv .btn-plain{background:rgba(255,255,255,.12);color:#F6EEDD}
+#pksMore{background:linear-gradient(120deg,#C9A45C,#FFF1C2 35%,#D7B062 60%,#F5DEA0);background-size:220% 100%;animation:pkSheen 2.6s ease-in-out infinite alternate;color:#2a1a08;box-shadow:0 8px 26px rgba(230,180,80,.35)}
+.pko-x,.pkv-x{position:absolute;top:calc(var(--st) + 10px);width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:26px;line-height:1;font-weight:300;color:rgba(246,238,221,.8);background:rgba(255,255,255,.09);z-index:6}
+.pko-x{left:14px}
+.pkv-x{right:14px;position:fixed}
+.pko-skip{position:absolute;top:calc(var(--st) + 13px);right:14px;height:34px;padding:0 15px;border-radius:17px;font-size:13px;font-weight:700;letter-spacing:.02em;color:rgba(246,238,221,.85);background:rgba(255,255,255,.09);z-index:6}
+.pko-skip[hidden]{display:none}
+.pko.shake .pko-stage{animation:pkShake .5s cubic-bezier(.3,.1,.2,1)}
+@keyframes pkShake{10%{translate:-7px 4px}20%{translate:6px -6px}30%{translate:-5px -3px}40%{translate:5px 5px}55%{translate:-3px 2px}70%{translate:2px -2px}85%{translate:-1px 1px}100%{translate:0 0}}
+
+/* une carte en grand */
+.pkv{position:fixed;inset:0;z-index:112;display:flex;flex-direction:column;align-items:center;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:calc(var(--st) + 64px) 24px calc(var(--sb) + 34px);background:rgba(10,7,5,.9);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);color:#F6EEDD;opacity:0;visibility:hidden;transition:opacity .35s,visibility 0s .35s}
+.pkv.on{opacity:1;visibility:visible;transition:opacity .35s}
+.pkv-stage{flex:none;width:min(64vw,270px,42vh);aspect-ratio:5/7;perspective:1300px;touch-action:none}
+.pkv-info{margin-top:26px;max-width:360px;text-align:center}
+.pkv-k{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--gem)}
+.pkv-info h2{font-family:var(--serif);font-weight:600;font-size:27px;line-height:1.15;margin-top:8px}
+.pkv-a{font-family:var(--serif);font-style:italic;font-size:16px;color:rgba(246,238,221,.7);margin-top:4px}
+.pkv-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:12px}
+.pkv-chips span{padding:4px 11px;border-radius:12px;font-size:12.5px;font-weight:600;background:rgba(255,255,255,.1)}
+.pkv-p{font-family:var(--serif);font-size:16px;line-height:1.5;color:rgba(246,238,221,.86);margin-top:14px}
+.pkv-own{font-size:13px;color:rgba(246,238,221,.5);margin-top:12px}
+.pkv-btns{display:flex;justify-content:center;margin-top:18px}
+.pkv-btns button:disabled{opacity:.6}
+@media (prefers-reduced-motion:reduce){.pk-hero::before,.pko-bg::after,.pkm,.pkc-spark,.pk-cell::after,.pk-slot::before,.pk-slot .pkc,.pkp-in,.pkp-glow{animation:none!important}}
+.lu-pk .pkm{width:18px;height:28px;animation:none!important;border-radius:2px;display:inline-block}
 </style>
 </head>
 <body>
@@ -1434,7 +1688,7 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
 
   <section class="screen scroll" id="scr-set">
     <header class="top">
-      <div class="kicker">Signet · version 1.5</div>
+      <div class="kicker">Signet · version 1.6</div>
       <div class="title-row"><h1 class="list-title" data-t="set.title"></h1></div>
     </header>
     <div class="group">
@@ -1611,6 +1865,8 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
   <input type="file" id="ocrFile" accept="image/*" capture="environment" hidden>
   <input type="file" id="shelfFile" accept="image/*" capture="environment" hidden>
   <div class="lvl-up" id="lvlUp"></div>
+  <div class="pko" id="pko"><div class="pko-bg"></div><canvas id="pkFx"></canvas><div class="pko-stage" id="pkStage"></div><div class="pko-tray" id="pkTray"></div><div class="pko-banner" id="pkBanner"></div><div class="pko-hint" id="pkHint"></div><div class="pko-sum" id="pkSum"></div><button class="pko-x" id="pkClose" data-ta="pk.close">×</button><button class="pko-skip" id="pkSkip" data-t="pk.skip" hidden></button></div>
+  <div class="pkv" id="pkView"><button class="pkv-x" id="pkvX" data-ta="pk.close">×</button><div class="pkv-stage" id="pkvStage"></div><div class="pkv-info" id="pkvInfo"></div></div>
   <div class="pubv" id="pubView"></div>
   <div class="sheet-wrap" id="sheetWrap"><div class="sheet-bd" id="sheetBd"></div><div class="sheet" id="sheet"><div class="sheet-grab" id="sheetGrab"><i></i></div><div class="sheet-body scroll" id="sheetBody"></div></div></div>
   <canvas id="dust"></canvas>
@@ -1691,6 +1947,7 @@ fr: {
  'notes.place':'Lieu de l’histoire','notes.placePh':'Ville, région, pays…','notes.placeSearch':'Recherche du lieu…','notes.placeOk':'Épinglé sur votre globe : {p}','notes.placeNone':'Lieu introuvable. Essayez une ville ou un pays.',
  'ts.k':'Bienvenue dans Signet','ts.h0':'Qu’aimez-vous lire ?','ts.p0':'Comme pour vos films et vos séries : choisissez vos genres et quelques livres qui vous ont marqué. Le grimoire apprendra vos goûts, et d’une simple secousse vous révélera le livre qu’il vous faut.','ts.start':'Commencer','ts.back':'Retour','ts.later':'Plus tard','ts.h1':'Vos genres préférés','ts.p1':'Choisissez-en au moins trois. Plus vous en dites, plus le grimoire voit juste.','ts.pick':'Choisissez vos genres','ts.nextG1':'Continuer · 1 genre','ts.nextG':'Continuer · {n} genres','ts.h2':'Des livres que vous avez adorés','ts.p2':'Touchez le cœur de ceux qui vous ont marqué, ou cherchez-en d’autres.','ts.search':'Chercher un livre, un auteur…','ts.searching':'Le grimoire cherche…','ts.none':'Aucun livre trouvé.','ts.skip':'Passer cette étape','ts.nextB1':'Continuer · 1 coup de cœur','ts.nextB':'Continuer · {n} coups de cœur','ts.k3':'Le secret du grimoire','ts.h3':'Secouez, un secret s’ouvre','ts.p3':'Où que vous soyez dans Signet, secouez votre iPhone : le grimoire brise son sceau et vous révèle un livre choisi pour vous.','ts.motion':'Autoriser les mouvements','ts.motionOn':'Mouvements activés','ts.motionNo':'Refusé · à activer dans Réglages de Signet','ts.reveal':'Révéler mon premier secret','ts.reveal2':'Révéler un secret','ts.save':'Terminé','gs.k':'Le secret du grimoire','gs.whyAu':'Du même auteur que « {t} », que vous avez aimé.','gs.whyB':'Parce que vous avez aimé « {t} ».','gs.whyG':'Choisi pour vos genres préférés.','gs.whyNone':'Un trésor que le grimoire garde pour les curieux.','gs.add':'Ajouter à mes envies','gs.added':'Dans vos envies','gs.next':'Un autre secret','gs.no':'Pas pour moi','gs.none':'Le grimoire n’a plus de secret pour vous… pour l’instant.','gs.hint':'Secouez votre iPhone : le grimoire a un secret pour vous','or.sec':'Le secret du grimoire','set.taste':'Mes goûts de lecture','set.tasteSub':'Genres et coups de cœur qui guident le grimoire.','set.tasteNone':'À définir','set.tG1':'1 genre','set.tG':'{n} genres','set.tB1':'1 livre','set.tB':'{n} livres','rm.err':'La salle de lecture n’a pas pu s’ouvrir sur cet appareil.','rm.load':'On allume les chandelles…',
  'st.quest':'Quêtes','qt.k':'Quêtes du grimoire','qt.lvlS':'niveau','qt.lvl':'Niveau {n}','qt.lvlN':'niv. {n}','qt.lvlK':'Nouveau niveau','qt.xp':'{x} / {n} XP','qt.next':'Prochain objet : {o} (niveau {n})','qt.objs':'Objets de la salle','qt.seals':'Sceaux · {n} sur {m}','qt.got':'Sceau obtenu','qt.done':'Quête accomplie : {t}','qt.newObj':'Nouvel objet dans la salle','qt.seeRoom':'Voir dans la salle','qt.ok':'Continuer','qt.l1':'Apprenti lecteur','qt.l2':'Lecteur','qt.l3':'Bibliophile','qt.l4':'Rat de bibliothèque','qt.l5':'Érudit','qt.l6':'Gardien des pages','qt.l7':'Archiviste','qt.l8':'Maître du grimoire','qt.l9':'Sage d’Alexandrie','qt.l10':'Légende des lettres','qt.rw.globe':'Le globe terrestre','qt.rw.clock':'L’horloge comtoise','qt.rw.cat':'Le chat près du feu','qt.rw.scope':'La lunette astronomique','qt.rw.chair':'Le fauteuil et sa lampe','qt.rw.fireflies':'Les lucioles dorées','qt.rw.bust':'Le buste de marbre','qt.rw.rose':'La rosace','qt.rw.aurora':'L’aurore boréale','qt.tastes':'Les goûts du grimoire','qt.tastesD':'Dire au grimoire ce que vous aimez lire.','qt.first':'Premier sceau','qt.firstD':'Terminer un livre.','qt.five':'Lecteur assidu','qt.fiveD':'Terminer 5 livres.','qt.twenty':'Bibliophage','qt.twentyD':'Terminer 20 livres.','qt.pave':'Le pavé','qt.paveD':'Finir un livre de 600 pages ou plus.','qt.classic':'Voyage dans le temps','qt.classicD':'Lire un livre paru avant 1900.','qt.streak7':'Sept jours','qt.streak7D':'Lire 7 jours d’affilée.','qt.streak30':'Un mois de pages','qt.streak30D':'Lire 30 jours d’affilée.','qt.pages':'Mille pages','qt.pagesD':'Lire 1 000 pages.','qt.marathon':'Marathon','qt.marathonD':'Lire 300 pages en une semaine.','qt.genres':'Éclectique','qt.genresD':'Lire 5 genres différents.','qt.critic':'Critique','qt.criticD':'Noter 10 livres.','qt.quotes':'Collectionneur de phrases','qt.quotesD':'Garder 5 citations.','qt.night':'Lecteur nocturne','qt.nightD':'Une séance de lecture après 22 h.','qt.secret':'Gardien du secret','qt.secretD':'Ajouter un secret du grimoire à vos envies.','qt.seance':'L’heure dorée','qt.seanceD':'Faire 3 séances d’ambiance.','qt.world':'Globe-trotter','qt.worldD':'Des histoires dans 5 pays.','qt.friend':'Compagnons de lecture','qt.friendD':'Ajouter un ami au club.','qt.library':'Bibliothécaire','qt.libraryD':'50 livres dans votre bibliothèque.','qt.goal':'Objectif tenu','qt.goalD':'Atteindre votre objectif de l’année.','rm.up':'Galerie','rm.down':'Descendre','rm.city':'Édimbourg arrive…','rm.edi':'Édimbourg','rm.sky.live':'En direct','rm.sky.aube':'Aube','rm.sky.jour':'Jour','rm.sky.soir':'Crépuscule','rm.sky.nuit':'Nuit','rm.wx.live':'En direct','rm.wx.clear':'Clair','rm.wx.cloud':'Nuageux','rm.wx.rain':'Pluie','rm.wx.snow':'Neige','rm.wx.fog':'Brume','rm.skyT':'Le ciel d’Édimbourg','rm.skyP':'En direct, le ciel suit l’heure et la météo réelles d’Édimbourg. Vous pouvez aussi choisir.','rm.skyL':'Moment','rm.wxL':'Météo','rm.osm':'Bâtiments réels : © OpenStreetMap contributors, © OpenMapTiles. Météo : Open-Meteo.','rm.bookK':'Votre livre','rm.open':'Ouvrir','rm.face':'Exposer de face','rm.shelf':'Ranger sur l’étagère','rm.faced':'Exposé de face','rm.shelved':'Rangé sur l’étagère','nt.k':'Rappels','nt.mTitle':'Signet','nt.mCur':'« {t} » vous attend : plus que {n} pages.','nt.mCur0':'« {t} » vous attend, page marquée.','nt.mStreak':'Votre série de {n} jours continue ce soir ?','nt.m1':'Dix pages avant de dormir ? Le grimoire veille.','nt.m2':'Un chapitre ce soir, et la bougie s’allume.','nt.title':'Rappels de lecture','nt.txt':'Un petit mot à l’heure choisie, seulement les jours où vous n’avez pas encore lu.','nt.when':'À quelle heure ?','nt.h':'{h} h','nt.enable':'Activer les rappels','nt.update':'Enregistrer','nt.disable':'Désactiver','nt.done':'Rappel chaque jour à {h} h','nt.offDone':'Rappels désactivés','nt.at':'à {h} h','nt.off':'Désactivés','nt.noSrv':'Serveur Signet indisponible','nt.unsup':'Cet appareil ne reçoit pas les notifications web','nt.denied':'Notifications refusées : autorisez-les dans Réglages › Notifications › Signet','nt.fail':'Impossible d’activer les rappels pour l’instant','nt.homeT':'D’abord, l’écran d’accueil','nt.homeTxt':'Sur iPhone, les rappels ne marchent que si Signet est ouvert depuis son icône.','nt.s1':'Dans Safari, touchez Partager','nt.s2':'Choisissez « Sur l’écran d’accueil »','nt.s3':'Ouvrez Signet depuis l’icône, puis revenez ici','set.notif':'Rappels de lecture','set.notifSub':'Un mot du grimoire si vous n’avez pas encore lu.','pb.title':'Ma bibliothèque publique','pb.off':'Un lien pour montrer vos étagères à vos amis','pb.on':'Visible par ceux qui ont le lien','pb.make':'Créer le lien','pb.share':'Partager','pb.update':'Mettre à jour','pb.stop':'Rendre privée','pb.txt':'Vos amis voient vos lectures en cours, vos coups de cœur, votre étagère et vos citations, sans avoir besoin de Signet. Votre clé et vos notes restent chez vous.','pb.done':'Bibliothèque publique à jour','pb.stopped':'Bibliothèque redevenue privée','pb.shareTxt':'Découvrez la bibliothèque de {n} sur Signet','pb.loading':'On ouvre la bibliothèque…','pb.none':'Cette bibliothèque n’est pas (ou plus) publique.','pb.open':'Ouvrir Signet','pb.k':'Bibliothèque','pb.of':'Les livres de {n}','pb.year':'livres en {y} · objectif {g}','pb.streak':'jours d’affilée','pb.pages':'pages cette année','pb.cur':'En ce moment','pb.fav':'Coups de cœur','pb.shelf':'L’étagère · {n} livres','pb.quotes':'Citations','pb.env':'Envies · {n}','pb.foot':'Envie de ranger vos livres aussi joliment ?','pb.mine':'Ouvrir ma bibliothèque Signet','sf.k':'Scan d’étagère','sf.title':'Lecture des dos de livres','sf.load':'Préparation de la lecture…','sf.read':'Lecture des titres… {n} %','sf.search':'Recherche des livres… {n} %','sf.beta':'Expérimental : photographiez bien en face, avec de la lumière, 5 à 10 livres à la fois.','sf.nothing':'Aucun titre reconnu','sf.tips':'Rapprochez-vous (5 à 10 livres par photo), évitez les reflets et gardez les dos bien droits.','sf.err':'La lecture a échoué. Réessayez avec une autre photo.','sf.found':'{n} livres reconnus','sf.found1':'1 livre reconnu','sf.pick':'Cochez ceux à ajouter, puis choisissez la liste.','sf.owned':'Déjà dans votre bibliothèque','sf.add':'Ajouter ({n})','sf.adding':'Ajout…','sf.added':'{n} livres ajoutés','sf.added1':'1 livre ajouté','scan.shelf':'Photo d’une étagère',
+ 'pk.k':'Packs du grimoire','pk.n1':'1 pack à ouvrir','pk.n':'{n} packs à ouvrir','pk.none':'Aucun pack à ouvrir pour l’instant','pk.inkN':'{n} éclats d’encre','pk.open':'Ouvrir','pk.daily':'Pack du jour','pk.dailyWait':'Pack du jour dans {h} h','pk.how':'Un pack offert chaque jour, un par livre terminé, un par sceau de quête et un pack doré à chaque niveau. Les doublons se changent en éclats d’encre.','pk.col':'Collection','pk.mine':'Mes lectures','pk.disc':'{n} livres découverts sur {m}','pk.all':'Toutes','pk.miss':'Manquantes','pk.moreN':'Afficher {n} de plus','pk.t.c':'Commune','pk.t.r':'Rare','pk.t.e':'Épique','pk.t.l':'Légendaire','pk.t.m':'Mythique','pk.type.std':'Pack de lecture','pk.type.or':'Pack doré','pk.sub':'cinq livres à découvrir','pk.fiveS':'5 cartes · une rare au moins','pk.fiveO':'5 cartes · une épique au moins','pk.tearHere':'déchirer ici','pk.hTear':'Glissez le doigt le long du haut pour déchirer','pk.hReveal':'Touchez la carte pour la retourner','pk.hNext':'Touchez pour la suivante','pk.hEnd':'Touchez pour voir votre butin','pk.new':'NOUVELLE','pk.dup':'Doublon · +{n} encre','pk.foil':'Brillante','pk.bc':'{n} av. J.-C.','pk.skip':'Tout révéler','pk.close':'Fermer','pk.sumK':'Pack ouvert','pk.sumNew1':'1 nouveau livre découvert','pk.sumNew':'{n} nouveaux livres découverts','pk.sumNone':'Que des doublons, cette fois','pk.sumInk':'+{n} éclats d’encre','pk.sumTip':'Touchez une carte pour la voir en grand','pk.again':'Ouvrir le suivant ({n})','pk.seeCol':'Voir ma collection','pk.lockT':'Livre encore inconnu','pk.lockP':'Trouvez-le dans un pack, ou faites-le apparaître avec vos éclats d’encre. Chaque doublon s’y change.','pk.craft':'Révéler pour {n} éclats','pk.own1':'Vous avez cette carte','pk.ownN':'Vous avez cette carte en {n} exemplaires','pk.inLib':'Déjà dans votre bibliothèque','pk.got':'Nouveau pack · {w}','pk.gotN':'{n} nouveaux packs · {w}','pk.gotOr':'Pack doré · {w}','pk.why.daily':'cadeau du jour','pk.why.book':'livre terminé','pk.why.quest':'sceau de quête','pk.why.level':'nouveau niveau','pk.welcome':'Nouveau : les packs du grimoire. 4 packs vous attendent dans Cartes.','pk.luGift':'+1 pack doré',
  'or.btn':'Oracle','or.title':'L’oracle','or.hint':'Touchez le grimoire ou secouez le téléphone','or.hintTap':'Touchez le grimoire pour qu’il choisisse','or.k':'Le grimoire a choisi','or.again':'Consulter à nouveau','or.empty':'Le grimoire n’a rien à vous proposer. Ajoutez des livres à vos envies.',
  'st.story':'Voir mon année',
  'sy.k':'Mon année {y}','sy.introT':'Votre année en lectures','sy.introP':'Le grimoire de {y} s’ouvre…','sy.countP':'Cette année, vous avez terminé','sy.book1':'livre','sy.books':'livres','sy.pagesP':'Vous avez tourné','sy.pagesU':'pages','sy.hours':'soit {h} h de lecture','sy.monthP':'Votre plus beau mois','sy.streak':'Meilleure série : {n} jours d’affilée','sy.authorP':'L’auteur de votre année','sy.ab1':'1 livre lu','sy.ab':'{n} livres lus','sy.favP':'Votre coup de cœur','sy.colP':'Votre collection','sy.endP':'Votre année, prête à partager','sy.again':'Revoir',
@@ -1789,6 +2046,7 @@ en: {
  'notes.place':'Where the story takes place','notes.placePh':'City, region, country…','notes.placeSearch':'Looking up the place…','notes.placeOk':'Pinned on your globe: {p}','notes.placeNone':'Place not found. Try a city or a country.',
  'ts.k':'Welcome to Signet','ts.h0':'What do you love to read?','ts.p0':'Just like with films and series: pick your genres and a few books that stayed with you. The grimoire learns your taste, and with a simple shake reveals the book you need.','ts.start':'Get started','ts.back':'Back','ts.later':'Later','ts.h1':'Your favourite genres','ts.p1':'Pick at least three. The more you share, the sharper the grimoire gets.','ts.pick':'Pick your genres','ts.nextG1':'Continue · 1 genre','ts.nextG':'Continue · {n} genres','ts.h2':'Books you loved','ts.p2':'Tap the heart on the ones that stayed with you, or search for others.','ts.search':'Search a book, an author…','ts.searching':'The grimoire is searching…','ts.none':'No book found.','ts.skip':'Skip this step','ts.nextB1':'Continue · 1 favourite','ts.nextB':'Continue · {n} favourites','ts.k3':'The grimoire’s secret','ts.h3':'Shake, and a secret opens','ts.p3':'Anywhere in Signet, shake your iPhone: the grimoire breaks its seal and reveals a book chosen for you.','ts.motion':'Allow motion','ts.motionOn':'Motion enabled','ts.motionNo':'Denied · enable it in Signet settings','ts.reveal':'Reveal my first secret','ts.reveal2':'Reveal a secret','ts.save':'Done','gs.k':'The grimoire’s secret','gs.whyAu':'By the author of “{t}”, which you loved.','gs.whyB':'Because you loved “{t}”.','gs.whyG':'Chosen for your favourite genres.','gs.whyNone':'A treasure the grimoire keeps for the curious.','gs.add':'Add to Want to read','gs.added':'In Want to read','gs.next':'Another secret','gs.no':'Not for me','gs.none':'The grimoire has no secrets left for you… for now.','gs.hint':'Shake your iPhone: the grimoire has a secret for you','or.sec':'The grimoire’s secret','set.taste':'My reading tastes','set.tasteSub':'Genres and favourites that guide the grimoire.','set.tasteNone':'Not set','set.tG1':'1 genre','set.tG':'{n} genres','set.tB1':'1 book','set.tB':'{n} books','rm.err':'The reading room couldn’t open on this device.','rm.load':'Lighting the candles…',
  'st.quest':'Quests','qt.k':'Grimoire quests','qt.lvlS':'level','qt.lvl':'Level {n}','qt.lvlN':'lvl {n}','qt.lvlK':'New level','qt.xp':'{x} / {n} XP','qt.next':'Next object: {o} (level {n})','qt.objs':'Objects in the room','qt.seals':'Seals · {n} of {m}','qt.got':'Seal earned','qt.done':'Quest complete: {t}','qt.newObj':'New object in the room','qt.seeRoom':'See it in the room','qt.ok':'Continue','qt.l1':'Apprentice reader','qt.l2':'Reader','qt.l3':'Bibliophile','qt.l4':'Bookworm','qt.l5':'Scholar','qt.l6':'Keeper of pages','qt.l7':'Archivist','qt.l8':'Grimoire master','qt.l9':'Sage of Alexandria','qt.l10':'Legend of letters','qt.rw.globe':'The globe','qt.rw.clock':'The grandfather clock','qt.rw.cat':'The cat by the fire','qt.rw.scope':'The telescope','qt.rw.chair':'The armchair and lamp','qt.rw.fireflies':'Golden fireflies','qt.rw.bust':'The marble bust','qt.rw.rose':'The rose window','qt.rw.aurora':'The northern lights','qt.tastes':'The grimoire’s tastes','qt.tastesD':'Tell the grimoire what you love to read.','qt.first':'First seal','qt.firstD':'Finish a book.','qt.five':'Devoted reader','qt.fiveD':'Finish 5 books.','qt.twenty':'Book devourer','qt.twentyD':'Finish 20 books.','qt.pave':'The doorstopper','qt.paveD':'Finish a book of 600 pages or more.','qt.classic':'Time travel','qt.classicD':'Read a book published before 1900.','qt.streak7':'Seven days','qt.streak7D':'Read 7 days in a row.','qt.streak30':'A month of pages','qt.streak30D':'Read 30 days in a row.','qt.pages':'A thousand pages','qt.pagesD':'Read 1,000 pages.','qt.marathon':'Marathon','qt.marathonD':'Read 300 pages in one week.','qt.genres':'Eclectic','qt.genresD':'Read 5 different genres.','qt.critic':'Critic','qt.criticD':'Rate 10 books.','qt.quotes':'Phrase collector','qt.quotesD':'Save 5 quotes.','qt.night':'Night owl','qt.nightD':'A reading session after 10 pm.','qt.secret':'Secret keeper','qt.secretD':'Add a grimoire secret to your wishlist.','qt.seance':'Golden hour','qt.seanceD':'Do 3 ambient reading sessions.','qt.world':'Globetrotter','qt.worldD':'Stories set in 5 countries.','qt.friend':'Reading companions','qt.friendD':'Add a friend to the club.','qt.library':'Librarian','qt.libraryD':'50 books in your library.','qt.goal':'Goal reached','qt.goalD':'Reach your yearly goal.','rm.up':'Gallery','rm.down':'Go down','rm.city':'Edinburgh is coming…','rm.edi':'Edinburgh','rm.sky.live':'Live','rm.sky.aube':'Dawn','rm.sky.jour':'Day','rm.sky.soir':'Dusk','rm.sky.nuit':'Night','rm.wx.live':'Live','rm.wx.clear':'Clear','rm.wx.cloud':'Cloudy','rm.wx.rain':'Rain','rm.wx.snow':'Snow','rm.wx.fog':'Mist','rm.skyT':'Edinburgh’s sky','rm.skyP':'Live, the sky follows Edinburgh’s real time and weather. You can also choose.','rm.skyL':'Time','rm.wxL':'Weather','rm.osm':'Real buildings: © OpenStreetMap contributors, © OpenMapTiles. Weather: Open-Meteo.','rm.bookK':'Your book','rm.open':'Open','rm.face':'Display face out','rm.shelf':'Put on the shelf','rm.faced':'Now on display','rm.shelved':'Shelved','nt.k':'Reminders','nt.mTitle':'Signet','nt.mCur':'“{t}” is waiting: just {n} pages left.','nt.mCur0':'“{t}” is waiting, bookmark in place.','nt.mStreak':'Keep your {n}-day streak going tonight?','nt.m1':'Ten pages before bed? The grimoire is watching.','nt.m2':'One chapter tonight, and the candle lights up.','nt.title':'Reading reminders','nt.txt':'A short note at the time you choose, only on days you haven’t read yet.','nt.when':'What time?','nt.h':'{h}:00','nt.enable':'Turn on reminders','nt.update':'Save','nt.disable':'Turn off','nt.done':'Daily reminder at {h}:00','nt.offDone':'Reminders off','nt.at':'at {h}:00','nt.off':'Off','nt.noSrv':'Signet server unavailable','nt.unsup':'This device can’t receive web notifications','nt.denied':'Notifications denied: allow them in Settings › Notifications › Signet','nt.fail':'Couldn’t turn on reminders right now','nt.homeT':'First, the Home Screen','nt.homeTxt':'On iPhone, reminders only work when Signet is opened from its icon.','nt.s1':'In Safari, tap Share','nt.s2':'Choose “Add to Home Screen”','nt.s3':'Open Signet from the icon, then come back here','set.notif':'Reading reminders','set.notifSub':'A note from the grimoire if you haven’t read yet.','pb.title':'My public library','pb.off':'A link to show your shelves to friends','pb.on':'Visible to anyone with the link','pb.make':'Create link','pb.share':'Share','pb.update':'Update','pb.stop':'Make private','pb.txt':'Friends see what you are reading, your favourites, your shelf and your quotes, without needing Signet. Your key and your notes stay with you.','pb.done':'Public library updated','pb.stopped':'Your library is private again','pb.shareTxt':'Take a look at {n}’s library on Signet','pb.loading':'Opening the library…','pb.none':'This library isn’t public (anymore).','pb.open':'Open Signet','pb.k':'Library','pb.of':'{n}’s books','pb.year':'books in {y} · goal {g}','pb.streak':'day streak','pb.pages':'pages this year','pb.cur':'Reading now','pb.fav':'Favourites','pb.shelf':'The shelf · {n} books','pb.quotes':'Quotes','pb.env':'Want to read · {n}','pb.foot':'Want your books to look this good?','pb.mine':'Open my Signet library','sf.k':'Shelf scan','sf.title':'Reading the spines','sf.load':'Getting ready…','sf.read':'Reading titles… {n}%','sf.search':'Looking up books… {n}%','sf.beta':'Experimental: shoot straight on, in good light, 5 to 10 books at a time.','sf.nothing':'No title recognised','sf.tips':'Get closer (5 to 10 books per photo), avoid reflections and keep the spines straight.','sf.err':'Reading failed. Try again with another photo.','sf.found':'{n} books recognised','sf.found1':'1 book recognised','sf.pick':'Tick the ones to add, then choose the list.','sf.owned':'Already in your library','sf.add':'Add ({n})','sf.adding':'Adding…','sf.added':'{n} books added','sf.added1':'1 book added','scan.shelf':'Photo of a shelf',
+ 'pk.k':'Grimoire packs','pk.n1':'1 pack to open','pk.n':'{n} packs to open','pk.none':'No packs to open right now','pk.inkN':'{n} ink drops','pk.open':'Open','pk.daily':'Daily pack','pk.dailyWait':'Daily pack in {h} h','pk.how':'One free pack a day, one per finished book, one per quest seal and a golden pack at every level. Duplicates turn into ink drops.','pk.col':'Collection','pk.mine':'My reads','pk.disc':'{n} of {m} books discovered','pk.all':'All','pk.miss':'Missing','pk.moreN':'Show {n} more','pk.t.c':'Common','pk.t.r':'Rare','pk.t.e':'Epic','pk.t.l':'Legendary','pk.t.m':'Mythic','pk.type.std':'Reading pack','pk.type.or':'Golden pack','pk.sub':'five books to discover','pk.fiveS':'5 cards · at least one rare','pk.fiveO':'5 cards · at least one epic','pk.tearHere':'tear here','pk.hTear':'Slide your finger along the top to tear','pk.hReveal':'Tap the card to flip it','pk.hNext':'Tap for the next one','pk.hEnd':'Tap to see your haul','pk.new':'NEW','pk.dup':'Duplicate · +{n} ink','pk.foil':'Foil','pk.bc':'{n} BC','pk.skip':'Reveal all','pk.close':'Close','pk.sumK':'Pack opened','pk.sumNew1':'1 new book discovered','pk.sumNew':'{n} new books discovered','pk.sumNone':'All duplicates this time','pk.sumInk':'+{n} ink drops','pk.sumTip':'Tap a card to see it up close','pk.again':'Open the next one ({n})','pk.seeCol':'See my collection','pk.lockT':'Book not found yet','pk.lockP':'Find it in a pack, or summon it with your ink drops. Every duplicate turns into ink.','pk.craft':'Reveal for {n} drops','pk.own1':'You own this card','pk.ownN':'You own {n} copies of this card','pk.inLib':'Already in your library','pk.got':'New pack · {w}','pk.gotN':'{n} new packs · {w}','pk.gotOr':'Golden pack · {w}','pk.why.daily':'daily gift','pk.why.book':'book finished','pk.why.quest':'quest seal','pk.why.level':'new level','pk.welcome':'New: grimoire packs. 4 packs are waiting for you in Cards.','pk.luGift':'+1 golden pack',
  'or.btn':'Oracle','or.title':'The oracle','or.hint':'Tap the grimoire or shake your phone','or.hintTap':'Tap the grimoire and let it choose','or.k':'The grimoire has chosen','or.again':'Ask again','or.empty':'The grimoire has nothing to offer. Add books to your wishlist.',
  'st.story':'See my year',
  'sy.k':'My {y}','sy.introT':'Your year in books','sy.introP':'The grimoire of {y} opens…','sy.countP':'This year, you finished','sy.book1':'book','sy.books':'books','sy.pagesP':'You turned','sy.pagesU':'pages','sy.hours':'that’s {h} h of reading','sy.monthP':'Your best month','sy.streak':'Best streak: {n} days in a row','sy.authorP':'Your author of the year','sy.ab1':'1 book read','sy.ab':'{n} books read','sy.favP':'Your favorite','sy.colP':'Your collection','sy.endP':'Your year, ready to share','sy.again':'Watch again',
@@ -4563,8 +4821,8 @@ function cardHTML(b, big){
       <div class="hc-bot"><span class="hc-stars">${starTxt(b.r)}</span><span class="hc-rar">${t('rar.' + rar)}</span><span class="hc-no">N° ${cardNo(b)}</span></div>
       <i class="hc-holo"></i><i class="hc-spark"></i><i class="hc-glare"></i></div>${back}</div>`;
 }
-function buildCards(){
-  const pane = $('#libCards'), L = readSorted().reverse(), locked = listBooks('cours');
+function buildMyCards(pane){
+  const L = readSorted().reverse(), locked = listBooks('cours');
   const cnt = {com:0, rare:0, epi:0, leg:0}; L.forEach(b => cnt[rarity(b)]++);
   pane.innerHTML = `<div class="cards-head"><b>${t(L.length === 1 ? 'cd.n1' : 'cd.n', {n:L.length})}</b><div class="rar-row">${RARS.slice().reverse().map(r => `<span class="rar-pill r-${r}"><i class="hc-gem"></i>${cnt[r]}</span>`).join('')}</div></div>
     <div class="cards-grid${S.gyro ? ' gyro' : ''}" id="cardsGrid">${L.map(b => cardHTML(b)).join('')}${locked.map(b => `<div class="hcard locked" data-lock="${b.id}"><div class="hc-face hc-front"><div class="hc-art"><img src="${cardURL(b)}" alt=""></div><div class="lk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg><b>${esc(b.t)}</b><span>${t('cd.lock', {p:Math.round((b.page / (b.p || 1)) * 100)})}</span></div></div></div>`).join('')}</div>
@@ -4654,6 +4912,7 @@ function cardImage(b){
 function onBookFinished(b){
   cardURLs.delete(b.id);
   setTimeout(() => toast(t('cd.new', {r:t('rar.' + rarity(b))}), {icon:'rib', action:t('cd.see'), ms:5200, onAction:() => openCardView(b, null, true)}), 1700);
+  pkGive('std', 1, 'book', {wait:7400});
 }
 
 /* Vue d'Édimbourg au crépuscule, peinte dans un canevas :
@@ -6035,6 +6294,318 @@ La Panthère des neiges|Sylvain Tesson|2019|voyage,philo|À l'affût sur les hau
 Le Vieil Homme et la mer|Ernest Hemingway|1952|voyage,classique,aventure|Un vieux pêcheur cubain affronte un espadon géant.|The Old Man and the Sea
 Wild|Cheryl Strayed|2012|voyage,bio|1 700 kilomètres à pied pour se reconstruire.|`;
 const CAT = CAT_RAW.split('\n').map((l, i) => { const [t, a, y, g, p, e] = l.split('|'); return {k:'c' + i, t, a, y:+y, g:g.split(','), p, e:e || ''}; });
+/* ═════════════ Le grand catalogue : 300 livres de plus, pour les packs ═════════════ */
+const CAT_RAW2 = `Le Dahlia noir|James Ellroy|1987|polar|Los Angeles, 1947 : un meurtre atroce obsède deux flics.|The Black Dahlia
+Le Grand Sommeil|Raymond Chandler|1939|polar,classique|Philip Marlowe plonge dans la corruption de Los Angeles.|The Big Sleep
+Le Faucon maltais|Dashiell Hammett|1930|polar,classique|Sam Spade et une statuette que tout le monde convoite.|The Maltese Falcon
+Le Meurtre de Roger Ackroyd|Agatha Christie|1926|polar,classique|Le coup de théâtre le plus célèbre d'Hercule Poirot.|The Murder of Roger Ackroyd
+Mort sur le Nil|Agatha Christie|1937|polar,classique|Une croisière sur le Nil, un meurtre, Poirot à bord.|Death on the Nile
+L'Assassin habite au 21|Stanislas-André Steeman|1939|polar,classique|Un tueur caché parmi les pensionnaires d'une maison de famille.|The Murderer Lives at 21
+Le Chien jaune|Georges Simenon|1931|polar,classique|Maigret enquête dans un Concarneau terrorisé.|The Yellow Dog
+Le Mystère de la chambre jaune|Gaston Leroux|1907|polar,classique|Un crime impossible dans une chambre close.|The Mystery of the Yellow Room
+Arsène Lupin, gentleman-cambrioleur|Maurice Leblanc|1907|polar,aventure,classique|Le cambrioleur le plus élégant de France.|Arsène Lupin, Gentleman Burglar
+Une étude en rouge|Arthur Conan Doyle|1887|polar,classique|La première rencontre de Sherlock Holmes et du docteur Watson.|A Study in Scarlet
+Le Talentueux Mr Ripley|Patricia Highsmith|1955|polar,classique|Tom Ripley prend la place d'un riche héritier.|The Talented Mr Ripley
+Le facteur sonne toujours deux fois|James M. Cain|1934|polar,classique|Une passion, un mari gênant, un crime parfait ?|The Postman Always Rings Twice
+L'Île des chasseurs d'oiseaux|Peter May|2009|polar|Un meurtre ramène un policier sur son île des Hébrides.|The Blackhouse
+Le Chuchoteur|Donato Carrisi|2009|polar|Six bras enterrés, une enquêtrice et un tueur insaisissable.|The Whisperer
+Pars vite et reviens tard|Fred Vargas|2001|polar|Des 4 inversés apparaissent sur les portes de Paris.|Have Mercy on Us All
+Sur ma peau|Gillian Flynn|2006|polar|Une journaliste revient enquêter dans sa ville natale.|Sharp Objects
+Big Little Lies|Liane Moriarty|2014|polar,contemporain|Un drame lors d'une soirée d'école en Australie.|
+Le Couple d'à côté|Shari Lapena|2016|polar|Un bébé disparaît pendant un dîner chez les voisins.|The Couple Next Door
+La Femme à la fenêtre|A. J. Finn|2018|polar|Recluse, Anna croit avoir vu un meurtre en face de chez elle.|The Woman in the Window
+L'Affaire Alaska Sanders|Joël Dicker|2022|polar|Marcus Goldman rouvre une vieille affaire avec Gahalowood.|The Alaska Sanders Affair
+Nymphéas noirs|Michel Bussi|2011|polar|Un meurtre à Giverny, dans le village de Claude Monet.|Black Water Lilies
+Mystic River|Dennis Lehane|2001|polar|Trois amis d'enfance réunis par un meurtre.|
+La Roue du temps – L'Œil du monde|Robert Jordan|1990|fantasy,aventure|Un jeune berger fuit son village, poursuivi par les Ténèbres.|The Eye of the World
+Mortimer|Terry Pratchett|1987|fantasy,feelgood|La Mort prend un apprenti, et plus rien ne tourne rond.|Mort
+American Gods|Neil Gaiman|2001|fantasy,contemporain|Les anciens dieux contre les nouveaux, sur les routes d'Amérique.|
+Neverwhere|Neil Gaiman|1996|fantasy|Un Londres d'en dessous, peuplé d'êtres oubliés.|
+Coraline|Neil Gaiman|2002|fantasy,horreur,ya|Derrière une porte, une autre mère aux yeux de boutons.|
+Jonathan Strange et Mr Norrell|Susanna Clarke|2004|fantasy,historique|Deux magiciens font renaître la magie anglaise.|Jonathan Strange & Mr Norrell
+Piranesi|Susanna Clarke|2020|fantasy|Un homme vit seul dans une maison aux salles infinies.|
+Le Sorcier de Terremer|Ursula K. Le Guin|1968|fantasy,classique|L'apprentissage du jeune mage Ged.|A Wizard of Earthsea
+L'Histoire sans fin|Michael Ende|1979|fantasy,ya,classique|Bastien entre dans le livre qu'il est en train de lire.|The Neverending Story
+Le Pion blanc des présages|David Eddings|1982|fantasy,aventure|Un garçon de ferme au cœur d'une prophétie millénaire.|Pawn of Prophecy
+Eragon|Christopher Paolini|2002|fantasy,ya|Un jeune fermier trouve un œuf de dragon.|
+La Horde du Contrevent|Alain Damasio|2004|fantasy,sf,aventure|Une horde remonte le vent jusqu'à sa source.|The Windward Horde
+Les Mensonges de Locke Lamora|Scott Lynch|2006|fantasy,aventure|Des voleurs virtuoses dans une Venise imaginaire.|The Lies of Locke Lamora
+La Voie des rois|Brandon Sanderson|2010|fantasy|Tempêtes, guerres et serments sur le monde de Roshar.|The Way of Kings
+Elantris|Brandon Sanderson|2005|fantasy|Une cité divine déchue et ses habitants maudits.|
+Le Prieuré de l'Oranger|Samantha Shannon|2019|fantasy|Des reines, des dragons et une menace ancienne.|The Priory of the Orange Tree
+La Cinquième Saison|N. K. Jemisin|2015|fantasy,sf|Un continent secoué par des cataclysmes sans fin.|The Fifth Season
+La Première Leçon du sorcier|Terry Goodkind|1994|fantasy,aventure|Un guide forestier devient le Sourcier.|Wizard's First Rule
+Les Dames du lac|Marion Zimmer Bradley|1983|fantasy,historique|La légende arthurienne racontée par ses femmes.|The Mists of Avalon
+Le Pistolero|Stephen King|1982|fantasy,horreur|L'homme en noir fuyait à travers le désert, et le pistolero le suivait.|The Gunslinger
+Le Château de Hurle|Diana Wynne Jones|1986|fantasy,ya|Changée en vieille femme, Sophie entre au service d'un sorcier.|Howl's Moving Castle
+Gagner la guerre|Jean-Philippe Jaworski|2009|fantasy|Un assassin cynique dans une république d'intrigues.|
+Les Androïdes rêvent-ils de moutons électriques ?|Philip K. Dick|1968|sf,classique|Un chasseur d'androïdes doute de sa propre humanité.|Do Androids Dream of Electric Sheep?
+Neuromancien|William Gibson|1984|sf|Le roman qui a inventé le cyberespace.|Neuromancer
+La Main gauche de la nuit|Ursula K. Le Guin|1969|sf,classique|Sur une planète glacée, des êtres au genre changeant.|The Left Hand of Darkness
+Les Dépossédés|Ursula K. Le Guin|1974|sf,philo|Un physicien entre deux mondes et deux utopies.|The Dispossessed
+Solaris|Stanisław Lem|1961|sf,classique|Un océan vivant sonde l'esprit des humains.|
+Chroniques martiennes|Ray Bradbury|1950|sf,classique|La conquête de Mars, comme un poème mélancolique.|The Martian Chronicles
+La Guerre des mondes|H. G. Wells|1898|sf,classique|Les Martiens débarquent en Angleterre.|The War of the Worlds
+La Machine à explorer le temps|H. G. Wells|1895|sf,classique|Un voyageur découvre l'humanité en l'an 802 701.|The Time Machine
+De la Terre à la Lune|Jules Verne|1865|sf,aventure,classique|Un canon géant pour envoyer des hommes sur la Lune.|From the Earth to the Moon
+Les Robots|Isaac Asimov|1950|sf,classique|Les Trois Lois de la robotique mises à l'épreuve.|I, Robot
+La Stratégie Ender|Orson Scott Card|1985|sf,ya|Un enfant surdoué formé pour sauver l'humanité.|Ender's Game
+Étoiles, garde-à-vous !|Robert A. Heinlein|1959|sf|Un jeune soldat dans une guerre interstellaire.|Starship Troopers
+Le Maître du Haut Château|Philip K. Dick|1962|sf|Et si l'Axe avait gagné la guerre ?|The Man in the High Castle
+Ubik|Philip K. Dick|1969|sf|La réalité se délite, et seul Ubik la retient.|
+Rendez-vous avec Rama|Arthur C. Clarke|1973|sf|Un vaisseau colossal traverse le système solaire.|Rendezvous with Rama
+2001 : l'Odyssée de l'espace|Arthur C. Clarke|1968|sf,classique|Un monolithe, une intelligence artificielle, un voyage vers Jupiter.|2001: A Space Odyssey
+Station Eleven|Emily St. John Mandel|2014|sf,contemporain|Après la pandémie, une troupe joue Shakespeare de ville en ville.|
+Klara et le Soleil|Kazuo Ishiguro|2021|sf,contemporain|Une amie artificielle observe la famille qui l'a choisie.|Klara and the Sun
+Auprès de moi toujours|Kazuo Ishiguro|2005|sf,contemporain|Des pensionnaires découvrent ce à quoi ils sont destinés.|Never Let Me Go
+La Servante écarlate|Margaret Atwood|1985|sf,classique|Dans la république de Gilead, les femmes sont asservies.|The Handmaid's Tale
+Mars la rouge|Kim Stanley Robinson|1992|sf|La colonisation de Mars, sur des décennies.|Red Mars
+Ready Player One|Ernest Cline|2011|sf,ya|Une chasse au trésor dans un monde virtuel.|
+La Forêt sombre|Liu Cixin|2008|sf|L'univers comme une forêt peuplée de chasseurs.|The Dark Forest
+Abattoir 5|Kurt Vonnegut|1969|sf,classique|Billy Pilgrim se décroche du temps.|Slaughterhouse-Five
+Raison et Sentiments|Jane Austen|1811|romance,classique|Deux sœurs, la raison et le cœur.|Sense and Sensibility
+Emma|Jane Austen|1815|romance,classique|Une marieuse qui ne voit pas son propre cœur.|
+Persuasion|Jane Austen|1817|romance,classique|Huit ans après, un amour que l'on croyait perdu.|
+Nord et Sud|Elizabeth Gaskell|1855|romance,classique|Une fille du Sud dans une ville industrielle du Nord.|North and South
+L'Amour aux temps du choléra|Gabriel García Márquez|1985|romance,classique|Un amour qui attend plus d'un demi-siècle.|Love in the Time of Cholera
+Le Patient anglais|Michael Ondaatje|1992|romance,historique|Dans une villa toscane, un brûlé se souvient.|The English Patient
+Fascination|Stephenie Meyer|2005|romance,ya,fantasy|Bella tombe amoureuse d'un vampire.|Twilight
+Le Duc et moi|Julia Quinn|2000|romance,historique|Une saison londonienne et une fausse idylle.|The Duke and I
+L'Amant|Marguerite Duras|1984|romance,classique|Une jeune Française et son amant chinois, en Indochine.|The Lover
+Les Liaisons dangereuses|Choderlos de Laclos|1782|romance,classique|Merteuil et Valmont jouent avec les cœurs.|Dangerous Liaisons
+La Princesse de Clèves|Madame de La Fayette|1678|romance,classique|Une passion secrète à la cour d'Henri II.|The Princess of Cleves
+Jamais plus|Colleen Hoover|2016|romance,contemporain|Lily et les cycles qu'il faut avoir le courage de briser.|It Ends with Us
+Le Mec de la tombe d'à côté|Katarina Mazetti|1998|romance,feelgood|Une bibliothécaire et un fermier qui n'ont rien en commun.|Benny and Shrimp
+Love Story|Erich Segal|1970|romance|Oliver et Jenny, un amour face au destin.|
+Et après…|Guillaume Musso|2004|romance,fantasy|Un avocat reçoit un étrange avertissement.|Afterwards
+Et si c'était vrai…|Marc Levy|2000|romance,fantasy|Un architecte rencontre l'esprit d'une femme dans le coma.|If Only It Were True
+N'oublie jamais|Nicholas Sparks|1996|romance|Un amour d'été raconté au fil d'un carnet.|The Notebook
+Red, White & Royal Blue|Casey McQuiston|2019|romance,feelgood|Le fils de la présidente et un prince anglais.|
+Don Quichotte|Miguel de Cervantes|1605|classique,aventure|Un chevalier errant part en guerre contre les moulins à vent.|Don Quixote
+L'Odyssée|Homère|-700|classique,aventure,poesie|Le long retour d'Ulysse vers Ithaque.|The Odyssey
+L'Iliade|Homère|-750|classique,historique,poesie|La colère d'Achille sous les murs de Troie.|The Iliad
+La Divine Comédie|Dante Alighieri|1320|classique,poesie,philo|De l'Enfer au Paradis, guidé par Virgile.|The Divine Comedy
+Guerre et Paix|Léon Tolstoï|1869|classique,historique|La Russie face à Napoléon, à travers cinq familles.|War and Peace
+Les Frères Karamazov|Fiodor Dostoïevski|1880|classique,philo|Un parricide, quatre frères et la question de Dieu.|The Brothers Karamazov
+L'Idiot|Fiodor Dostoïevski|1869|classique|Un prince d'une bonté désarmante dans un monde cynique.|The Idiot
+Du côté de chez Swann|Marcel Proust|1913|classique|La madeleine, Combray, et le temps qui revient.|Swann's Way
+Moby Dick|Herman Melville|1851|classique,aventure|Le capitaine Achab traque la baleine blanche.|Moby-Dick
+Ulysse|James Joyce|1922|classique|Une journée de juin à Dublin, une odyssée moderne.|Ulysses
+Le Procès|Franz Kafka|1925|classique,philo|Joseph K. est arrêté sans savoir pourquoi.|The Trial
+La Métamorphose|Franz Kafka|1915|classique,horreur|Gregor Samsa se réveille transformé en insecte.|The Metamorphosis
+Le Maître et Marguerite|Mikhaïl Boulgakov|1967|classique,fantasy|Le diable en visite dans le Moscou soviétique.|The Master and Margarita
+Ne tirez pas sur l'oiseau moqueur|Harper Lee|1960|classique|Un procès en Alabama, vu par une petite fille.|To Kill a Mockingbird
+L'Attrape-cœurs|J. D. Salinger|1951|classique,ya|Trois jours d'errance de Holden Caulfield à New York.|The Catcher in the Rye
+Les Raisins de la colère|John Steinbeck|1939|classique,historique|Une famille fuit la misère vers la Californie.|The Grapes of Wrath
+À l'est d'Éden|John Steinbeck|1952|classique|Deux familles, des frères, le bien et le mal.|East of Eden
+Le Bruit et la Fureur|William Faulkner|1929|classique|Le déclin d'une famille du Sud, en quatre voix.|The Sound and the Fury
+Mrs Dalloway|Virginia Woolf|1925|classique|Une journée de Clarissa, qui prépare une réception.|
+Les Grandes Espérances|Charles Dickens|1861|classique|Pip, un orphelin, et un bienfaiteur mystérieux.|Great Expectations
+Oliver Twist|Charles Dickens|1838|classique|Un orphelin dans les bas-fonds de Londres.|
+Un chant de Noël|Charles Dickens|1843|classique,fantasy,feelgood|Scrooge reçoit la visite de trois fantômes.|A Christmas Carol
+Le Père Goriot|Honoré de Balzac|1835|classique|Un père qui donne tout à ses filles.|Father Goriot
+Eugénie Grandet|Honoré de Balzac|1833|classique|Une héritière sous le joug d'un père avare.|
+Notre-Dame de Paris|Victor Hugo|1831|classique,historique|Esmeralda, Quasimodo et la cathédrale.|The Hunchback of Notre-Dame
+L'Assommoir|Émile Zola|1877|classique|Gervaise, la blanchisseuse, et la descente dans l'alcool.|
+Au Bonheur des Dames|Émile Zola|1883|classique|La naissance des grands magasins parisiens.|The Ladies' Paradise
+Thérèse Raquin|Émile Zola|1867|classique,polar|Un crime, puis le remords qui ronge.|
+Le Grand Meaulnes|Alain-Fournier|1913|classique,romance|Un domaine perdu et un amour d'adolescence.|
+La Peste|Albert Camus|1947|classique,philo|La ville d'Oran face à l'épidémie.|The Plague
+Voyage au bout de la nuit|Louis-Ferdinand Céline|1932|classique|Bardamu, de la guerre à l'Afrique et à Détroit.|Journey to the End of the Night
+Les Âmes mortes|Nicolas Gogol|1842|classique|Un escroc rachète des serfs morts.|Dead Souls
+Pères et Fils|Ivan Tourgueniev|1862|classique|Un jeune nihiliste face à l'ancienne génération.|Fathers and Sons
+Tess d'Urberville|Thomas Hardy|1891|classique,romance|Une jeune paysanne broyée par la morale victorienne.|Tess of the d'Urbervilles
+Middlemarch|George Eliot|1871|classique|Une petite ville anglaise et ses idéalistes.|
+Alice au pays des merveilles|Lewis Carroll|1865|classique,fantasy,ya|Dans le terrier du lapin blanc.|Alice's Adventures in Wonderland
+Les Mille et Une Nuits|Anonyme|900|classique,fantasy|Shéhérazade raconte pour rester en vie.|One Thousand and One Nights
+Faust|Johann Wolfgang von Goethe|1808|classique,poesie,philo|Un savant vend son âme à Méphistophélès.|
+Les Souffrances du jeune Werther|Johann Wolfgang von Goethe|1774|classique,romance|L'amour impossible d'un jeune romantique.|The Sorrows of Young Werther
+Le Guépard|Giuseppe Tomasi di Lampedusa|1958|classique,historique|Il faut que tout change pour que rien ne change.|The Leopard
+La Vie devant soi|Romain Gary|1975|contemporain,classique|Momo et Madame Rosa, à Belleville.|The Life Before Us
+Les Choses humaines|Karine Tuil|2019|contemporain|Une accusation fait vaciller une famille en vue.|The Choice
+Vernon Subutex|Virginie Despentes|2015|contemporain|Un ancien disquaire à la rue traverse Paris.|
+Les Années|Annie Ernaux|2008|contemporain,bio|Soixante ans de mémoire collective et intime.|The Years
+La Place|Annie Ernaux|1983|contemporain,bio|Le portrait d'un père et d'une classe sociale.|A Man's Place
+Leurs enfants après eux|Nicolas Mathieu|2018|contemporain|Adolescences dans une vallée lorraine désindustrialisée.|And Their Children After Them
+Changer l'eau des fleurs|Valérie Perrin|2018|contemporain,feelgood|Violette, garde-cimetière, et ses secrets.|Fresh Water for Flowers
+Les Gratitudes|Delphine de Vigan|2019|contemporain|Une vieille dame perd ses mots, pas sa reconnaissance.|
+Rien ne s'oppose à la nuit|Delphine de Vigan|2011|contemporain,bio|Une fille enquête sur la vie de sa mère.|Nothing Holds Back the Night
+Americanah|Chimamanda Ngozi Adichie|2013|contemporain,romance|Ifemelu, du Nigeria aux États-Unis.|
+Le Maître des illusions|Donna Tartt|1992|contemporain,polar|Des étudiants en grec ancien et un meurtre.|The Secret History
+Le Chardonneret|Donna Tartt|2013|contemporain|Un tableau volé accompagne la vie d'un orphelin.|The Goldfinch
+La Délicatesse|David Foenkinos|2009|contemporain,romance|Nathalie réapprend à aimer.|Delicacy
+Reviens-moi|Ian McEwan|2001|contemporain,historique|Une fillette commet une faute irréparable.|Atonement
+Les Vestiges du jour|Kazuo Ishiguro|1989|contemporain,classique|Un majordome repense à une vie de service.|The Remains of the Day
+L'Ordre du jour|Éric Vuillard|2017|contemporain,historique|Les coulisses de l'Anschluss.|The Order of the Day
+La Carte et le Territoire|Michel Houellebecq|2010|contemporain|Un artiste, son œuvre, et un crime inattendu.|The Map and the Territory
+Trois femmes puissantes|Marie NDiaye|2009|contemporain|Trois femmes entre la France et le Sénégal.|Three Strong Women
+L'Art de perdre|Alice Zeniter|2017|contemporain,historique|Trois générations, de l'Algérie à la France.|The Art of Losing
+1Q84|Haruki Murakami|2009|contemporain,fantasy|Deux lunes dans le ciel de Tokyo.|
+La Ballade de l'impossible|Haruki Murakami|1987|contemporain,romance|Un étudiant entre deux femmes, à Tokyo.|Norwegian Wood
+Suite française|Irène Némirovsky|2004|historique,classique|La débâcle de 1940, écrite sur le vif.|
+Le Pays des autres|Leïla Slimani|2020|historique|Une Alsacienne et un Marocain, après la guerre.|The Country of Others
+L'Ombre du vent|Carlos Ruiz Zafón|2001|historique,polar|Un livre maudit dans la Barcelone d'après-guerre.|The Shadow of the Wind
+Shōgun|James Clavell|1975|historique,aventure|Un pilote anglais dans le Japon féodal.|
+La Jeune Fille à la perle|Tracy Chevalier|1999|historique|Une servante chez le peintre Vermeer.|Girl with a Pearl Earring
+La Liste de Schindler|Thomas Keneally|1982|historique,bio|Un industriel sauve plus de mille Juifs.|Schindler's List
+Le Rapport de Brodeck|Philippe Claudel|2007|historique|Un village, un étranger et une faute collective.|Brodeck
+La Chute des géants|Ken Follett|2010|historique|Cinq familles dans la tourmente de 1914.|Fall of Giants
+La Reine Margot|Alexandre Dumas|1845|historique,romance,classique|Le massacre de la Saint-Barthélemy et des amours royales.|Queen Margot
+Ivanhoé|Walter Scott|1819|historique,aventure,classique|Un chevalier saxon au temps de Richard Cœur de Lion.|Ivanhoe
+Le Dernier des Mohicans|James Fenimore Cooper|1826|historique,aventure,classique|Une traque dans les forêts de la guerre franco-indienne.|The Last of the Mohicans
+Quo vadis ?|Henryk Sienkiewicz|1896|historique,classique|Les premiers chrétiens dans la Rome de Néron.|Quo Vadis
+Salammbô|Gustave Flaubert|1862|historique,classique|Carthage, des mercenaires et un voile sacré.|
+Pachinko|Min Jin Lee|2017|historique|Quatre générations d'une famille coréenne au Japon.|
+Le Clan de l'ours des cavernes|Jean M. Auel|1980|historique,aventure|Une enfant Cro-Magnon élevée par des Néandertaliens.|The Clan of the Cave Bear
+Les oiseaux se cachent pour mourir|Colleen McCullough|1977|historique,romance|Une saga familiale dans le bush australien.|The Thorn Birds
+L'Œuvre au noir|Marguerite Yourcenar|1968|historique,classique,philo|Zénon, médecin et alchimiste de la Renaissance.|The Abyss
+Carrie|Stephen King|1974|horreur|Une lycéenne humiliée aux pouvoirs terribles.|
+Simetierre|Stephen King|1983|horreur|Un cimetière ancien où les morts ne restent pas morts.|Pet Sematary
+Misery|Stephen King|1987|horreur,polar|Un écrivain séquestré par sa fan numéro un.|
+Le Fléau|Stephen King|1978|horreur,sf|Après l'épidémie, le bien contre le mal.|The Stand
+L'Exorciste|William Peter Blatty|1971|horreur|Une fillette possédée et deux prêtres.|The Exorcist
+Entretien avec un vampire|Anne Rice|1976|horreur,fantasy|Louis raconte deux siècles de vie de vampire.|Interview with the Vampire
+L'Appel de Cthulhu|H. P. Lovecraft|1928|horreur,classique|Un culte et un dieu endormi sous les flots.|The Call of Cthulhu
+Les Montagnes hallucinées|H. P. Lovecraft|1936|horreur,sf|Une expédition découvre une cité antédiluvienne.|At the Mountains of Madness
+Le Fantôme de l'Opéra|Gaston Leroux|1910|horreur,classique,romance|Un génie défiguré hante l'Opéra de Paris.|The Phantom of the Opera
+Rebecca|Daphne du Maurier|1938|horreur,romance,classique|Manderley et l'ombre de la première épouse.|
+Je suis une légende|Richard Matheson|1954|horreur,sf|Le dernier homme sur Terre, cerné par les vampires.|I Am Legend
+Bird Box|Josh Malerman|2014|horreur|Surtout, ne pas ouvrir les yeux.|
+La Maison des feuilles|Mark Z. Danielewski|2000|horreur|Une maison plus grande à l'intérieur qu'à l'extérieur.|House of Leaves
+Histoires extraordinaires|Edgar Allan Poe|1856|horreur,classique,polar|Le chat noir, le cœur révélateur, la maison Usher.|Tales of Mystery and Imagination
+Carmilla|Sheridan Le Fanu|1872|horreur,classique|Une mystérieuse invitée dans un château de Styrie.|
+Annihilation|Jeff VanderMeer|2014|horreur,sf|Quatre femmes s'enfoncent dans la Zone X.|
+Le Restaurant de l'amour retrouvé|Ito Ogawa|2008|feelgood|Une jeune femme cuisine pour réparer les cœurs.|The Restaurant of Love Regained
+Tant que le café est encore chaud|Toshikazu Kawaguchi|2015|feelgood,fantasy|Un café de Tokyo où l'on peut voyager dans le temps.|Before the Coffee Gets Cold
+La Librairie de l'île|Gabrielle Zevin|2014|feelgood|Un libraire grincheux, un bébé et une île.|The Storied Life of A. J. Fikry
+La Tête en friche|Marie-Sabine Roger|2008|feelgood|Germain, presque illettré, et une vieille dame qui lit.|
+L'Extraordinaire Voyage du fakir qui était resté coincé dans une armoire Ikea|Romain Puértolas|2013|feelgood,aventure|Un fakir traverse l'Europe enfermé dans une armoire.|The Extraordinary Journey of the Fakir Who Got Trapped in an Ikea Wardrobe
+Les Délices de Tokyo|Durian Sukegawa|2013|feelgood|Une vieille dame et la recette parfaite des dorayaki.|Sweet Bean Paste
+La Fille de papier|Guillaume Musso|2010|feelgood,romance,fantasy|L'héroïne d'un roman tombe dans la vie de son auteur.|The Girl on Paper
+Le Bureau des jardins et des étangs|Didier Decoin|2017|feelgood,historique|Une veuve porte des carpes jusqu'à la cour impériale.|The Office of Gardens and Ponds
+Le Vieux qui lisait des romans d'amour|Luis Sepúlveda|1992|feelgood,aventure|Un vieil homme d'Amazonie, ses romans et un jaguar.|The Old Man Who Read Love Stories
+Histoire d'une mouette et du chat qui lui apprit à voler|Luis Sepúlveda|1996|feelgood,ya|Un chat fait une promesse à une mouette.|The Story of a Seagull and the Cat Who Taught Her to Fly
+Les Lettres de mon moulin|Alphonse Daudet|1869|feelgood,classique|La Provence, et la chèvre de monsieur Seguin.|Letters from My Windmill
+Le Petit Nicolas|René Goscinny|1959|feelgood,classique,ya|Les bêtises d'un petit garçon et de sa bande.|Little Nicholas
+Le Mystère Henri Pick|David Foenkinos|2016|feelgood,polar|Un chef-d'œuvre trouvé dans une bibliothèque des livres refusés.|The Mystery of Henri Pick
+Le Livre de la jungle|Rudyard Kipling|1894|aventure,classique,ya|Mowgli, élevé par les loups.|The Jungle Book
+Croc-Blanc|Jack London|1906|aventure,classique|Un chien-loup entre la nature sauvage et les hommes.|White Fang
+Michel Strogoff|Jules Verne|1876|aventure,classique|Un courrier du tsar traverse la Sibérie.|
+L'Île mystérieuse|Jules Verne|1875|aventure,sf,classique|Des naufragés recréent une civilisation.|The Mysterious Island
+Voyage au centre de la Terre|Jules Verne|1864|aventure,sf,classique|Une descente au cœur d'un volcan islandais.|Journey to the Center of the Earth
+Les Aventures de Tom Sawyer|Mark Twain|1876|aventure,classique,ya|Une enfance espiègle sur les rives du Mississippi.|The Adventures of Tom Sawyer
+Les Aventures de Huckleberry Finn|Mark Twain|1884|aventure,classique|Huck et Jim descendent le Mississippi.|Adventures of Huckleberry Finn
+Le Capitaine Fracasse|Théophile Gautier|1863|aventure,historique,classique|Un baron ruiné rejoint une troupe de comédiens.|Captain Fracasse
+Les Voyages de Gulliver|Jonathan Swift|1726|aventure,classique,fantasy|Lilliput, Brobdingnag et autres contrées étranges.|Gulliver's Travels
+Le Monde perdu|Arthur Conan Doyle|1912|aventure,sf|Un plateau d'Amazonie peuplé de dinosaures.|The Lost World
+Les Mines du roi Salomon|H. Rider Haggard|1885|aventure,classique|Une expédition vers un trésor légendaire.|King Solomon's Mines
+Le Prisonnier de Zenda|Anthony Hope|1894|aventure,classique|Un sosie doit remplacer un roi enlevé.|The Prisoner of Zenda
+Jurassic Park|Michael Crichton|1990|aventure,sf|Des dinosaures ressuscités, un parc, un désastre.|
+Papillon|Henri Charrière|1969|aventure,bio|Les évasions d'un bagnard de Guyane.|
+L'Expédition du Kon-Tiki|Thor Heyerdahl|1948|aventure,voyage,bio|Traverser le Pacifique sur un radeau de balsa.|The Kon-Tiki Expedition
+Harry Potter et la Chambre des secrets|J. K. Rowling|1998|ya,fantasy|Une chambre secrète s'ouvre à Poudlard.|Harry Potter and the Chamber of Secrets
+Harry Potter et le Prisonnier d'Azkaban|J. K. Rowling|1999|ya,fantasy|Un prisonnier évadé est à la recherche de Harry.|Harry Potter and the Prisoner of Azkaban
+Harry Potter et la Coupe de feu|J. K. Rowling|2000|ya,fantasy|Le Tournoi des Trois Sorciers.|Harry Potter and the Goblet of Fire
+Harry Potter et les Reliques de la Mort|J. K. Rowling|2007|ya,fantasy|La dernière bataille contre Voldemort.|Harry Potter and the Deathly Hallows
+La Quête d'Ewilan|Pierre Bottero|2003|ya,fantasy|Camille passe dans un monde où dessiner rend réel.|
+Le Passeur|Lois Lowry|1993|ya,sf|Dans une société parfaite, Jonas reçoit les souvenirs du monde.|The Giver
+Charlie et la Chocolaterie|Roald Dahl|1964|ya,fantasy,feelgood|Cinq tickets d'or pour l'usine de Willy Wonka.|Charlie and the Chocolate Factory
+Matilda|Roald Dahl|1988|ya,feelgood|Une petite fille géniale contre une directrice terrible.|
+Le Bon Gros Géant|Roald Dahl|1982|ya,fantasy|Un géant qui souffle des rêves aux enfants.|The BFG
+Artemis Fowl|Eoin Colfer|2001|ya,fantasy,aventure|Un génie de douze ans kidnappe une fée.|
+Tout commence mal|Lemony Snicket|1999|ya,aventure|Trois orphelins et un comte machiavélique.|The Bad Beginning
+La Sélection|Kiera Cass|2012|ya,romance|Trente-cinq jeunes filles pour un prince.|The Selection
+Heartstopper|Alice Oseman|2019|ya,romance,bd|Charlie et Nick : une amitié qui devient plus.|
+Le Secret de la Licorne|Hergé|1943|bd,aventure|Tintin et Haddock sur la piste d'un trésor.|The Secret of the Unicorn
+Objectif Lune|Hergé|1953|bd,sf,aventure|Tintin en route vers la Lune.|Destination Moon
+Astérix et Cléopâtre|René Goscinny|1965|bd,feelgood|Un palais à bâtir en trois mois pour César.|Asterix and Cleopatra
+Gaston|André Franquin|1960|bd,feelgood|Le roi de la gaffe sème la pagaille au journal de Spirou.|
+La Marque jaune|Edgar P. Jacobs|1956|bd,polar|Un mystérieux génie du crime terrorise Londres.|The Yellow "M"
+Calvin et Hobbes|Bill Watterson|1987|bd,feelgood|Un petit garçon et son tigre en peluche.|Calvin and Hobbes
+Akira|Katsuhiro Ōtomo|1982|bd,sf|Néo-Tokyo, des motards et des pouvoirs psychiques.|
+Dragon Ball|Akira Toriyama|1984|bd,aventure|Son Goku part à la recherche des sept boules de cristal.|
+Naruto|Masashi Kishimoto|1999|bd,aventure|Un ninja rejeté rêve de devenir Hokage.|
+Death Note|Tsugumi Ōba|2003|bd,polar|Un carnet qui tue celui dont on écrit le nom.|
+Fullmetal Alchemist|Hiromu Arakawa|2001|bd,fantasy,aventure|Deux frères alchimistes en quête de la pierre philosophale.|
+Nausicaä de la vallée du vent|Hayao Miyazaki|1982|bd,sf|Une princesse dans un monde rongé par une forêt toxique.|Nausicaä of the Valley of the Wind
+Le Château des étoiles|Alex Alice|2014|bd,aventure,sf|En 1869, un voyage vers l'éther.|The Castle in the Stars
+Les Vieux Fourneaux|Wilfrid Lupano|2014|bd,feelgood|Trois septuagénaires toujours en colère.|The Old Geezers
+L'Incal|Alejandro Jodorowsky|1981|bd,sf|John Difool et un cristal convoité par tout l'univers.|The Incal
+V pour Vendetta|Alan Moore|1988|bd,sf|Un justicier masqué contre un régime totalitaire.|V for Vendetta
+Sandman|Neil Gaiman|1989|bd,fantasy|Le maître des rêves reprend son royaume.|The Sandman
+Demon Slayer|Koyoharu Gotōge|2016|bd,fantasy,aventure|Tanjirō veut rendre son humanité à sa sœur.|
+Le Pianiste|Władysław Szpilman|1946|bio,historique|Survivre dans le ghetto de Varsovie.|The Pianist
+Le Scaphandre et le Papillon|Jean-Dominique Bauby|1997|bio|Un livre dicté d'un battement de paupière.|The Diving Bell and the Butterfly
+Paris est une fête|Ernest Hemingway|1964|bio,voyage,classique|Le Paris des années 1920, pauvre et heureux.|A Moveable Feast
+Moi, Malala|Malala Yousafzai|2013|bio|Le combat d'une jeune fille pour aller à l'école.|I Am Malala
+Steve Jobs|Walter Isaacson|2011|bio|Le génie exigeant qui a fait Apple.|
+Un long chemin vers la liberté|Nelson Mandela|1994|bio,historique|De la prison à la présidence de l'Afrique du Sud.|Long Walk to Freedom
+Les Mots|Jean-Paul Sartre|1964|bio,classique|L'enfance d'un écrivain, entre les livres et le grand-père.|Words
+Enfance|Nathalie Sarraute|1983|bio,classique|Des souvenirs par fragments, entre deux pays.|Childhood
+Mémoires d'une jeune fille rangée|Simone de Beauvoir|1958|bio,classique|L'émancipation d'une jeune bourgeoise.|Memoirs of a Dutiful Daughter
+Le Charme discret de l'intestin|Giulia Enders|2014|essai|Le ventre, cet organe mal aimé et génial.|Gut
+Une brève histoire du temps|Stephen Hawking|1988|essai|Du big bang aux trous noirs.|A Brief History of Time
+Le Gène égoïste|Richard Dawkins|1976|essai|L'évolution vue depuis les gènes.|The Selfish Gene
+Printemps silencieux|Rachel Carson|1962|essai,classique|Le livre qui a lancé l'écologie moderne.|Silent Spring
+Freakonomics|Steven D. Levitt|2005|essai|L'économie cachée des choses étranges du quotidien.|
+Le Cygne noir|Nassim Nicholas Taleb|2007|essai|La puissance de l'imprévisible.|The Black Swan
+De la démocratie en Amérique|Alexis de Tocqueville|1835|essai,classique|Un Français observe la jeune démocratie américaine.|Democracy in America
+Le Prince|Nicolas Machiavel|1532|essai,philo,classique|Comment conquérir et garder le pouvoir.|The Prince
+L'Art de la guerre|Sun Tzu|-500|essai,philo,classique|L'art de vaincre sans combattre.|The Art of War
+Cosmos|Carl Sagan|1980|essai|Un voyage personnel à travers l'univers.|
+L'Origine des espèces|Charles Darwin|1859|essai,classique|La sélection naturelle expliquée.|On the Origin of Species
+Factfulness|Hans Rosling|2018|essai|Le monde va mieux que vous ne le pensez.|
+Le Capital au XXIe siècle|Thomas Piketty|2013|essai|Les inégalités de patrimoine sur trois siècles.|Capital in the Twenty-First Century
+Tristes Tropiques|Claude Lévi-Strauss|1955|essai,voyage,classique|Un ethnologue au Brésil, et le sens du voyage.|
+Le Banquet|Platon|-380|philo,classique|Que faut-il entendre par l'amour ?|The Symposium
+La République|Platon|-375|philo,classique|La cité juste et l'allégorie de la caverne.|The Republic
+Discours de la méthode|René Descartes|1637|philo,classique|Je pense, donc je suis.|Discourse on the Method
+Les Essais|Michel de Montaigne|1580|philo,classique|Montaigne se peint lui-même, et le monde avec lui.|Essays
+Pensées|Blaise Pascal|1670|philo,classique|Le pari, le roseau pensant, le cœur et ses raisons.|
+L'existentialisme est un humanisme|Jean-Paul Sartre|1946|philo|L'existence précède l'essence.|Existentialism Is a Humanism
+Lettre à Ménécée|Épicure|-300|philo,classique|Le bonheur par la sagesse et l'absence de troubles.|Letter to Menoeceus
+Du contrat social|Jean-Jacques Rousseau|1762|philo,classique|L'homme est né libre, et partout il est dans les fers.|The Social Contract
+L'Éthique|Baruch Spinoza|1677|philo,classique|Dieu, la nature et la joie de comprendre.|Ethics
+Tao-tö-king|Lao-tseu|-400|philo,poesie,classique|La voie et sa vertu, en quatre-vingt-un courts chapitres.|Tao Te Ching
+De la brièveté de la vie|Sénèque|49|philo,devperso,classique|La vie n'est pas courte : nous la gaspillons.|On the Shortness of Life
+Fables|Jean de La Fontaine|1668|poesie,classique|Le corbeau, le renard, la cigale et la fourmi.|
+Phèdre|Jean Racine|1677|poesie,classique,romance|Une passion coupable qui mène à la tragédie.|Phaedra
+Le Cid|Pierre Corneille|1637|poesie,classique|L'honneur contre l'amour.|The Cid
+Tartuffe|Molière|1664|poesie,classique,feelgood|Un faux dévot s'installe chez Orgon.|
+Le Misanthrope|Molière|1666|poesie,classique|Alceste ne supporte plus l'hypocrisie du monde.|The Misanthrope
+Macbeth|William Shakespeare|1623|poesie,classique,horreur|L'ambition, trois sorcières et du sang.|
+Le Songe d'une nuit d'été|William Shakespeare|1600|poesie,classique,fantasy|Des amoureux égarés dans une forêt enchantée.|A Midsummer Night's Dream
+En attendant Godot|Samuel Beckett|1952|poesie,classique,philo|Deux vagabonds attendent quelqu'un qui ne vient pas.|Waiting for Godot
+Feuilles d'herbe|Walt Whitman|1855|poesie,classique|Le chant de l'Amérique et de soi-même.|Leaves of Grass
+Le Spleen de Paris|Charles Baudelaire|1869|poesie,classique|Des petits poèmes en prose de la ville moderne.|Paris Spleen
+Une saison en enfer|Arthur Rimbaud|1873|poesie,classique|Le cri d'un poète de dix-neuf ans.|A Season in Hell
+Antigone|Jean Anouilh|1944|poesie,classique|Une jeune fille dit non au roi.|
+Rhinocéros|Eugène Ionesco|1959|poesie,classique,philo|Toute une ville se transforme en rhinocéros.|Rhinoceros
+Gitanjali|Rabindranath Tagore|1910|poesie,philo|Les offrandes lyriques d'un poète indien.|
+Les 7 Habitudes de ceux qui réalisent tout ce qu'ils entreprennent|Stephen R. Covey|1989|devperso|Sept principes pour une vie efficace.|The 7 Habits of Highly Effective People
+Père riche, père pauvre|Robert Kiyosaki|1997|devperso|Deux pères, deux visions de l'argent.|Rich Dad Poor Dad
+Miracle Morning|Hal Elrod|2012|devperso|Se lever plus tôt pour changer sa vie.|The Miracle Morning
+La Semaine de 4 heures|Tim Ferriss|2007|devperso|Travailler moins, vivre plus.|The 4-Hour Workweek
+Deep Work|Cal Newport|2016|devperso|Retrouver la concentration profonde.|
+Osez réussir !|Carol S. Dweck|2006|devperso,essai|L'état d'esprit de développement.|Mindset
+La Force des discrets|Susan Cain|2012|devperso,essai|Le pouvoir des introvertis dans un monde trop bavard.|Quiet
+Découvrir un sens à sa vie|Viktor Frankl|1946|devperso,philo,bio|Un psychiatre rescapé des camps parle du sens.|Man's Search for Meaning
+Les Langages de l'amour|Gary Chapman|1992|devperso|Comprendre comment chacun exprime son amour.|The Five Love Languages
+Voyage avec un âne dans les Cévennes|Robert Louis Stevenson|1879|voyage,classique|Douze jours de marche avec l'ânesse Modestine.|Travels with a Donkey in the Cévennes
+Sur les chemins noirs|Sylvain Tesson|2016|voyage|Traverser la France à pied par les chemins oubliés.|Paths of Shadow
+En Patagonie|Bruce Chatwin|1977|voyage|Au bout du monde, sur les traces d'un lointain cousin.|In Patagonia
+Immortelle randonnée|Jean-Christophe Rufin|2013|voyage,bio|Huit cents kilomètres sur le chemin du Nord.|The Santiago Pilgrimage
+Mange, prie, aime|Elizabeth Gilbert|2006|voyage,bio,devperso|Italie, Inde, Indonésie : se retrouver.|Eat, Pray, Love
+Voyage d'une Parisienne à Lhassa|Alexandra David-Néel|1927|voyage,bio,classique|La première Européenne à entrer dans Lhassa.|My Journey to Lhasa
+Sept ans au Tibet|Heinrich Harrer|1952|voyage,bio|Un alpiniste évadé trouve refuge au Tibet.|Seven Years in Tibet
+Le Pays où l'on n'arrive jamais|André Dhôtel|1955|voyage,ya,classique|Une fugue vers un pays mystérieux.|
+Les Clochards célestes|Jack Kerouac|1958|voyage,philo|Montagnes, zen et poésie sur la côte Ouest.|The Dharma Bums`;
+CAT.push(...CAT_RAW2.split('\n').map((l, i) => { const [t, a, y, g, p, e] = l.split('|'); return {k:'d' + i, t, a, y:+y, g:g.split(','), p, e:e || ''}; }));
+
+// rareté de chaque livre : les monuments sont mythiques ou légendaires, les grands classiques épiques
+const PK_MYTH = ['Le Petit Prince', 'Le Seigneur des anneaux', "Harry Potter à l'école des sorciers", 'Les Misérables', '1984', 'Don Quichotte', "L'Odyssée", 'Cent ans de solitude', 'Guerre et Paix', 'Du côté de chez Swann', 'Le Comte de Monte-Cristo', 'La Divine Comédie'];
+const PK_LEG = ['Dune', 'Fondation', 'Crime et Châtiment', 'Madame Bovary', "L'Étranger", 'Le Hobbit', 'Le Nom de la rose', 'Les Trois Mousquetaires', 'Frankenstein', 'Dracula', 'Jane Eyre', 'Orgueil et préjugés', 'Les Hauts de Hurlevent', 'Anna Karénine', 'Gatsby le Magnifique', 'Le Meilleur des mondes', 'Fahrenheit 451', 'Vingt mille lieues sous les mers', 'Le Trône de fer', "Le Journal d'Anne Frank", 'Les Fleurs du mal', 'Hamlet', 'Cyrano de Bergerac', 'Candide', 'Germinal', 'Maus', "L'Iliade", 'Les Frères Karamazov', 'Moby Dick', 'Ulysse', 'Le Maître et Marguerite', 'Alice au pays des merveilles', 'Les Mille et Une Nuits', 'Faust', "Ne tirez pas sur l'oiseau moqueur", 'Le Procès', 'La Métamorphose', 'Notre-Dame de Paris', "L'Art de la guerre", 'La République', 'Fables', 'Roméo et Juliette', 'Harry Potter et les Reliques de la Mort', 'One Piece', 'Le Problème à trois corps', 'Sapiens', "Si c'est un homme"];
+const PK_EPIC = ['Le Parfum', 'Les Piliers de la terre', 'Le Nom du vent', "L'Assassin royal", 'Fils-des-Brumes', 'Hypérion', 'La Nuit des temps', 'La Planète des singes', 'Belle du Seigneur', 'Le Rouge et le Noir', 'Bel-Ami', 'Des souris et des hommes', 'Le Portrait de Dorian Gray', "L'Écume des jours", "L'Amie prodigieuse", 'Kafka sur le rivage', "Mémoires d'Hadrien", 'Autant en emporte le vent', 'Ça', 'Shining', "L'Île au trésor", 'Le Tour du monde en quatre-vingts jours', 'Robinson Crusoé', "L'Alchimiste", 'Hunger Games', 'Les Royaumes du Nord', 'Astérix le Gaulois', 'Le Lotus bleu', 'Persepolis', 'Watchmen', 'Le Deuxième Sexe', 'Le Mythe de Sisyphe', 'Siddhartha', 'Ainsi parlait Zarathoustra', 'Les Contemplations', 'Alcools', 'Paroles', 'Sur la route', 'Walden', 'Le Vieil Homme et la mer', 'Le Chien des Baskerville', 'Ils étaient dix', "Le Crime de l'Orient-Express", 'Mort sur le Nil', 'Le Meurtre de Roger Ackroyd', 'Une étude en rouge', 'Arsène Lupin, gentleman-cambrioleur', 'Le Mystère de la chambre jaune', 'Les Androïdes rêvent-ils de moutons électriques ?', 'Neuromancien', 'La Servante écarlate', "2001 : l'Odyssée de l'espace", 'La Guerre des mondes', 'La Machine à explorer le temps', 'Abattoir 5', 'Le Livre de la jungle', 'Les Aventures de Tom Sawyer', "Le Fantôme de l'Opéra", 'Rebecca', "L'Appel de Cthulhu", 'Histoires extraordinaires', 'Carrie', 'La Peste', 'Voyage au bout de la nuit', 'Les Grandes Espérances', 'Un chant de Noël', 'Le Père Goriot', "L'Amant", 'Les Liaisons dangereuses', 'La Princesse de Clèves', 'Le Grand Meaulnes', 'Le Guépard', 'Les Raisins de la colère', "L'Attrape-cœurs", 'Mrs Dalloway', 'Tartuffe', 'Macbeth', 'Phèdre', 'Le Cid', 'En attendant Godot', 'Akira', 'Dragon Ball', 'Death Note', 'Harry Potter et la Coupe de feu', 'Le Prince', "L'Origine des espèces", 'Les Essais', 'Discours de la méthode', 'La Vie devant soi', "L'Ombre du vent", 'Le Monde de Narnia', 'Charlie et la Chocolaterie', "L'Histoire sans fin", 'American Gods', 'Voyage au centre de la Terre', 'Les Voyages de Gulliver', 'Le Petit Nicolas'];
 // les livres proposés à l'accueil, pour dire ce que l'on a aimé
 const STARTERS = ['Harry Potter à l\'école des sorciers', 'Le Petit Prince', 'Dune', '1984', 'Orgueil et préjugés', 'Le Seigneur des anneaux', 'Les Misérables', 'L\'Alchimiste', 'La Vérité sur l\'affaire Harry Quebert',
   'Millénium 1 – Les hommes qui n\'aimaient pas les femmes', 'L\'Étranger', 'Hunger Games', 'Le Comte de Monte-Cristo', 'Sapiens', 'Ça', 'Le Trône de fer', 'L\'Élégance du hérisson', 'Ils étaient dix', 'Les Piliers de la terre',
@@ -6220,7 +6791,7 @@ $('#tsLater').addEventListener('click', () => { closeTaste((!!S.taste || TS.from
 
 /* ───── le secret du grimoire ───── */
 const SEC = {on:false, busy:false, c:null, raf:0, P:[], t0:0, phase:0, timers:[], cover:null};
-function canSecret(){ return !SEC.on && !TS.on && !PV.on && !$('#lvlUp').classList.contains('on') && !D.open && !Sc.open && !SH.open && !SE.on && !OCR.on && !CV.open && !ST.on && Splash.opened !== false && !document.getElementById('splash'); }
+function canSecret(){ return !SEC.on && !TS.on && !PV.on && !PK.on && !PKV.on && !$('#lvlUp').classList.contains('on') && !D.open && !Sc.open && !SH.open && !SE.on && !OCR.on && !CV.open && !ST.on && Splash.opened !== false && !document.getElementById('splash'); }
 function scRunes(){
   let s = ''; for (let i = 0; i < 40; i++) { const a = i / 40 * 360; let p = ''; let sd = i * 7 + 3; const r = () => (sd = (sd * 16807) % 2147483647) / 2147483647;
     for (let k = 0; k < 3; k++) p += `M${(r() * 8 - 4).toFixed(1)} ${(r() * 10 - 5).toFixed(1)}L${(r() * 8 - 4).toFixed(1)} ${(r() * 10 - 5).toFixed(1)}`;
@@ -6365,6 +6936,7 @@ function questCheck(){
   qSaving = true; save(); qSaving = false;
   if (first) return;   // première ouverture : on range ce qui était déjà acquis, sans fête
   fresh.slice(0, 2).forEach((q, i) => setTimeout(() => { toast(t('qt.done', {t:t('qt.' + q.id)}) + ' · +' + q.xp, {icon:'rib'}); Sound.stamp(); Haptics.tick(true); }, i * 2600));
+  if (fresh.length) pkGive('std', fresh.length, 'quest', {wait:up ? 10500 : Math.min(2, fresh.length) * 2600 + 400});
   if (up) setTimeout(() => levelUp(up), fresh.length ? 1600 : 0);
   if (state.tab === 'stats' && Club.view === 'quest') buildQuests();
   RM.sig = ''; if (RM.built) roomRewards();
@@ -6373,8 +6945,8 @@ var qSaving = false;
 function levelUp(n){
   const rw = REWARDS[n], o = $('#lvlUp');
   o.innerHTML = `<div class="lu-seal">${sealSVG({ini:String(n), em:'couronne', col:'or'}, 'lu' + n)}</div><div class="lu-k">${t('qt.lvlK')}</div><div class="lu-n">${t('qt.lvl', {n})}</div><div class="lu-t">${lvlTitle(n)}</div>
-    ${rw ? `<div class="lu-rw"><b>${t('qt.newObj')}</b>${t('qt.rw.' + rw)}</div>` : ''}<button class="lu-go" id="luGo">${t(rw ? 'qt.seeRoom' : 'qt.ok')}</button>`;
-  o.classList.add('on'); Sound.chime(); Haptics.pattern([0, 80, 160, 80, 300]); goldBurst(innerWidth / 2, VH() * .4, 120);
+    ${rw ? `<div class="lu-rw"><b>${t('qt.newObj')}</b>${t('qt.rw.' + rw)}</div>` : ''}<div class="lu-pk"><i class="pkm ty-or"></i>${t('pk.luGift')}</div><button class="lu-go" id="luGo">${t(rw ? 'qt.seeRoom' : 'qt.ok')}</button>`;
+  o.classList.add('on'); pkGive('or', 1, 'level', {quiet:true}); Sound.chime(); Haptics.pattern([0, 80, 160, 80, 300]); goldBurst(innerWidth / 2, VH() * .4, 120);
   o.querySelector('#luGo').addEventListener('click', () => { o.classList.remove('on'); if (rw) { setTab('lib'); showLibView('room'); } });
   setTimeout(() => o.classList.remove('on'), 9000);
 }
@@ -6665,6 +7237,422 @@ function shelfResults(){
     lbl();
   }});
 }
+
+/* ═════════════ Les packs du grimoire : collectionner des centaines de livres ═════════════
+   Cinq raretés (commun, rare, épique, légendaire, mythique), cartes brillantes, doublons changés en éclats d'encre.
+   Les packs se gagnent en lisant : un par jour, un par livre fini, un par sceau de quête, un pack doré par niveau. */
+const PK_T = ['c', 'r', 'e', 'l', 'm'];
+const PK_COL = {c:'#efe6d6', r:'#69b4ff', e:'#c27bff', l:'#ffcd45', m:'#ffffff'};
+const PK_INK = {c:5, r:12, e:30, l:90, m:300}, PK_CRAFT = {c:60, r:150, e:400, l:1200, m:4000};
+const PK_TIER = new Map();
+(() => { const m = new Set(PK_MYTH.map(catKey)), l = new Set(PK_LEG.map(catKey)), e = new Set(PK_EPIC.map(catKey));
+  CAT.forEach(c => { const k = catKey(c.t); PK_TIER.set(c.k, m.has(k) ? 'm' : l.has(k) ? 'l' : e.has(k) ? 'e' : (hashInt(c.t) % 100) < 38 ? 'r' : 'c'); }); })();
+const pkTier = c => PK_TIER.get(c.k) || 'c';
+const PK_BY = {}; PK_T.forEach(x => { PK_BY[x] = CAT.filter(c => pkTier(c) === x); });
+const PK_KEY = new Map(CAT.map(c => [c.k, c]));
+const pkNo = c => String(CAT.indexOf(c) + 1).padStart(3, '0');
+const pkYear = c => c.y > 0 ? String(c.y) : c.y < 0 ? t('pk.bc', {n:-c.y}) : '';
+function pkS(){ if (!S.pk) { S.pk = {n:{std:3, or:1}, day:'', tot:0, pity:0, ink:0, c:{}, at:Date.now(), v:'col'}; save(); } return S.pk; }
+const pkCount = () => { const P = pkS(); return (P.n.std || 0) + (P.n.or || 0); };
+const pkDailyReady = () => pkS().day !== todayIso();
+function pkUntil(){ const n = new Date(), m = new Date(n); m.setHours(24, 0, 0, 0); const h = Math.ceil((m - n) / 36e5); return h; }
+function pkBadge(){ const n = pkCount() + (pkDailyReady() ? 1 : 0); document.querySelectorAll('.tab[data-tab="lib"], #libViews button[data-v="cards"]').forEach(b => b.classList.toggle('pk-dot', n > 0)); }
+function pkGive(type, n, why, o){
+  o = o || {}; const P = pkS(); P.n[type] = (P.n[type] || 0) + n; save(); pkBadge();
+  if (state.tab === 'lib' && S.libView === 'cards' && !PK.on) buildCards();
+  if (!o.quiet) setTimeout(() => { if (!PK.on) toast(t(type === 'or' ? 'pk.gotOr' : n > 1 ? 'pk.gotN' : 'pk.got', {n, w:t('pk.why.' + why)}), {icon:'rib', action:t('pk.open'), ms:5600, onAction:() => pkOpen(type)}); }, o.wait ?? 700);
+}
+
+/* ───── tirage ───── */
+const PK_ODDS = {
+  std:[[63, 26, 8.7, 2, .3], [63, 26, 8.7, 2, .3], [63, 26, 8.7, 2, .3], [63, 26, 8.7, 2, .3], [0, 70, 23, 5.8, 1.2]],
+  or:[[44, 36, 15, 4.3, .7], [44, 36, 15, 4.3, .7], [44, 36, 15, 4.3, .7], [0, 60, 30, 8.5, 1.5], [0, 0, 77, 20, 3]]};
+function pkRoll(type){
+  const P = pkS(), odds = PK_ODDS[type] || PK_ODDS.std, out = [], used = new Set();
+  let top = []; try { const {g} = tasteVec(); top = Object.entries(g).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]).slice(0, 4).map(x => x[0]); } catch(_){}
+  odds.forEach((o, i) => {
+    let r = Math.random() * o.reduce((a, b) => a + b, 0), ti = 0; while (ti < 4 && r > o[ti]) { r -= o[ti]; ti++; }
+    let tier = PK_T[ti];
+    if (PK.force && PK.force[i]) tier = PK.force[i];
+    else if (i === odds.length - 1 && P.pity >= 14 && tier !== 'l' && tier !== 'm') tier = Math.random() < .12 ? 'm' : 'l';   // la chance finit toujours par tourner
+    const pool = PK_BY[tier].filter(c => !used.has(c.k));
+    const w = pool.map(c => (P.c[c.k] ? 1 : 2.4) * (1 + c.g.filter(x => top.includes(x)).length * .9));
+    let s = Math.random() * w.reduce((a, b) => a + b, 0), j = 0; while (j < pool.length - 1 && s > w[j]) { s -= w[j]; j++; }
+    const c = pool[j]; used.add(c.k); out.push({c, tier, foil:tier === 'm' || Math.random() < .07});
+  });
+  out.sort((a, b) => PK_T.indexOf(a.tier) - PK_T.indexOf(b.tier) || a.foil - b.foil);
+  let ink = 0;
+  out.forEach(x => { const own = P.c[x.c.k]; x.isNew = !own;
+    if (own) { x.ink = PK_INK[x.tier] * (x.foil ? 2 : 1); ink += x.ink; P.c[x.c.k] = [own[0] + 1, own[1] || (x.foil ? 1 : 0)]; }
+    else P.c[x.c.k] = [1, x.foil ? 1 : 0]; });
+  P.ink += ink; P.tot = (P.tot || 0) + 1; P.pity = out.some(x => x.tier === 'l' || x.tier === 'm') ? 0 : (P.pity || 0) + 1;
+  P.n[type] = Math.max(0, (P.n[type] || 0) - 1); save(); pkBadge();
+  return {cards:out, ink};
+}
+
+/* ───── cartes ───── */
+const PKIMG = new Map();
+function pkArt(c){ if (!PKIMG.has(c.k)) PKIMG.set(c.k, catCover(c, 240).toDataURL('image/jpeg', .84)); return PKIMG.get(c.k); }
+function pkReal(c, root){ catReal(c).then(r => { if (!r || !r.url) return; const im = new Image(); im.onload = () => root.querySelectorAll(`img[data-k="${c.k}"]`).forEach(x => { x.src = r.url; }); im.src = r.url; }); }
+let pkUid = 0;
+const PK_BACK = () => { const id = 'pkbG' + (++pkUid); return `<div class="pkb-in"><div class="pkb-orn"></div><div class="pkb-seal"><svg viewBox="0 0 100 100"><defs><radialGradient id="${id}" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#e2574b"/><stop offset=".55" stop-color="#9c1c17"/><stop offset="1" stop-color="#5a0b08"/></radialGradient></defs><path d="M50 4c8 0 10 6 17 8s13-1 17 5 0 12 3 18 9 9 8 16-8 9-10 16 2 13-4 18-12 1-18 4-9 9-16 9-10-6-17-8-13 1-17-5 0-12-3-18-9-9-8-16 8-9 10-16-2-13 4-18 12-1 18-4 9-9 16-9z" fill="url(#${id})"/><circle cx="50" cy="50" r="27" fill="none" stroke="rgba(255,220,170,.35)" stroke-width="1.5"/><text x="50" y="62" text-anchor="middle" font-family="Georgia,serif" font-size="36" font-style="italic" fill="#f6dfb0">S</text></svg></div><div class="pkb-t">SIGNET</div></div>`; };
+function pkCardHTML(c, tier, foil, back){
+  return `<div class="pkc t-${tier}${foil ? ' foil' : ''}" data-k="${c.k}">
+    <div class="pkc-f"><div class="pkc-in">
+      <div class="pkc-top"><span class="pkc-name">${esc(catTitle(c))}</span><i class="pkc-gem"></i></div>
+      <div class="pkc-art"><img src="${pkArt(c)}" data-k="${c.k}" alt="" draggable="false"></div>
+      <div class="pkc-info"><span>${esc(c.a)}</span><span>${pkYear(c)}</span></div>
+      <div class="pkc-bot"><span>${esc(gName(c.g[0]))}</span><span class="pkc-rar">${foil ? '✦ ' : ''}${t('pk.t.' + tier)}</span><span>N° ${pkNo(c)}</span></div></div>
+      <i class="pkc-holo"></i><i class="pkc-spark"></i><i class="pkc-glare"></i></div>
+    ${back ? `<div class="pkc-b">${PK_BACK()}</div>` : ''}</div>`;
+}
+
+/* ───── la page « Cartes » : packs, collection, et mes lectures ───── */
+function pkMiniPack(type, n){ return `<button class="pkm ty-${type}${n ? '' : ' empty'}" data-type="${type}"><i></i><b>${n}</b><span>${t('pk.type.' + type)}</span></button>`; }
+function buildCards(){
+  const pane = $('#libCards'), P = pkS(), v = P.v || 'col', own = Object.keys(P.c).length, n = pkCount(), daily = pkDailyReady();
+  pane.innerHTML = `<div class="pk-hero">
+      <div class="pkh-packs">${pkMiniPack('std', P.n.std || 0)}${pkMiniPack('or', P.n.or || 0)}</div>
+      <div class="pkh-tx"><div class="pkh-k">${t('pk.k')}</div><b>${n ? t(n === 1 ? 'pk.n1' : 'pk.n', {n}) : t('pk.none')}</b><span class="pkh-ink"><i></i>${t('pk.inkN', {n:(P.ink || 0).toLocaleString(LOC())})}</span></div>
+      <div class="pkh-btns">${n ? `<button class="pkh-open" id="pkGo">${t('pk.open')}</button>` : ''}<button class="pkh-daily${daily ? '' : ' wait'}" id="pkDaily">${daily ? t('pk.daily') : t('pk.dailyWait', {h:pkUntil()})}</button></div>
+      <p class="pkh-how">${t('pk.how')}</p></div>
+    <div class="pk-seg"><button data-v="col" class="${v === 'col' ? 'on' : ''}">${t('pk.col')} <em>${own} / ${CAT.length}</em></button><button data-v="mine" class="${v === 'mine' ? 'on' : ''}">${t('pk.mine')}</button></div>
+    <div id="pkBody"></div>`;
+  pane.querySelectorAll('.pkm').forEach(b => b.addEventListener('click', () => { if (+b.querySelector('b').textContent) pkOpen(b.dataset.type); else { Haptics.tick(); toast(t('pk.none')); } }));
+  const go = pane.querySelector('#pkGo'); if (go) go.addEventListener('click', () => pkOpen());
+  pane.querySelector('#pkDaily').addEventListener('click', e => { if (!pkDailyReady()) { Haptics.tick(); toast(t('pk.dailyWait', {h:pkUntil()})); return; } pkS().day = todayIso(); pkGive('std', 1, 'daily', {quiet:true}); Sound.chime(); Haptics.tick(true); const r = e.currentTarget.getBoundingClientRect(); goldBurst(r.left + r.width / 2, r.top + r.height / 2, 60); setTimeout(() => pkOpen('std'), 380); });
+  pane.querySelectorAll('.pk-seg button').forEach(b => b.addEventListener('click', () => { if (P.v === b.dataset.v) return; P.v = b.dataset.v; save(); Haptics.tick(); buildCards(); }));
+  const body = pane.querySelector('#pkBody');
+  if (v === 'mine') buildMyCards(body); else pkAlbum(body);
+  pkBadge();
+}
+const PKA = {f:'all', io:null, lim:120};
+function pkAlbum(box){
+  const P = pkS(), f = PKA.f, ord = {m:0, l:1, e:2, r:3, c:4};
+  const list = CAT.filter(c => f === 'all' || (f === 'miss' ? !P.c[c.k] : pkTier(c) === f))
+    .sort((a, b) => (!!P.c[b.k] - !!P.c[a.k]) || ord[pkTier(a)] - ord[pkTier(b)] || catTitle(a).localeCompare(catTitle(b), LOC()));
+  const cnt = t0 => `${PK_BY[t0].filter(c => P.c[c.k]).length}/${PK_BY[t0].length}`;
+  const own = Object.keys(P.c).length;
+  box.innerHTML = `<div class="pk-prog"><div><b>${t('pk.disc', {n:own, m:CAT.length})}</b><span>${Math.round(own / CAT.length * 100)} %</span></div><i style="--p:${(own / CAT.length).toFixed(4)}"></i></div>
+    <div class="pk-chips"><button data-f="all" class="${f === 'all' ? 'on' : ''}">${t('pk.all')}</button>${['m', 'l', 'e', 'r', 'c'].map(x => `<button data-f="${x}" class="t-${x}${f === x ? ' on' : ''}"><i class="pkg-gem"></i>${t('pk.t.' + x)} <em>${cnt(x)}</em></button>`).join('')}<button data-f="miss" class="${f === 'miss' ? 'on' : ''}">${t('pk.miss')}</button></div>
+    <div class="pk-grid">${list.slice(0, PKA.lim).map(c => { const o = P.c[c.k], tier = pkTier(c);
+      return o ? `<button class="pk-cell t-${tier}${o[1] ? ' foil' : ''}" data-k="${c.k}"><div class="pkg-art" data-k="${c.k}"></div><span>${esc(catTitle(c))}</span>${o[0] > 1 ? `<em>×${o[0]}</em>` : ''}<i class="pkg-gem"></i></button>`
+        : `<button class="pk-cell locked t-${tier}" data-k="${c.k}"><div class="pkg-q">?</div><span>N° ${pkNo(c)}</span><i class="pkg-gem"></i></button>`; }).join('')}</div>
+    ${list.length > PKA.lim ? `<button class="pk-more" id="pkMore">${t('pk.moreN', {n:list.length - PKA.lim})}</button>` : ''}`;
+  const mo = box.querySelector('#pkMore'); if (mo) mo.addEventListener('click', () => { PKA.lim += 240; pkAlbum(box); });
+  box.querySelectorAll('.pk-chips button').forEach(b => b.addEventListener('click', () => { PKA.f = b.dataset.f; PKA.lim = 120; Haptics.tick(); pkAlbum(box); }));
+  box.querySelectorAll('.pk-cell').forEach(b => b.addEventListener('click', () => pkShow(PK_KEY.get(b.dataset.k), b)));
+  if (PKA.io) PKA.io.disconnect();
+  const paint = el => { const c = PK_KEY.get(el.dataset.k); if (c && !el.style.backgroundImage) el.style.backgroundImage = `url(${pkArt(c)})`; };
+  if ('IntersectionObserver' in window) { PKA.io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { paint(e.target); PKA.io.unobserve(e.target); } }), {rootMargin:'400px'}); box.querySelectorAll('.pkg-art').forEach(el => PKA.io.observe(el)); }
+  else box.querySelectorAll('.pkg-art').forEach(paint);
+}
+
+/* ───── une carte en grand ───── */
+const PKV = {on:false, c:null, el:null, raf:0, rx:0, ry:0, drag:null};
+function pkShow(c, from){
+  if (!c) return; const P = pkS(), own = P.c[c.k], tier = pkTier(c);
+  if (!own) {
+    const cost = PK_CRAFT[tier], can = (P.ink || 0) >= cost;
+    openSheet(`<div class="sh-kicker">${t('pk.t.' + tier)} · N° ${pkNo(c)}</div><div class="sh-title">${t('pk.lockT')}</div><p class="sh-text">${t('pk.lockP')}</p>
+      <div class="pk-craft"><i></i>${t('pk.inkN', {n:(P.ink || 0).toLocaleString(LOC())})}</div>
+      <div class="sh-actions"><button class="btn-main" id="pkCraft"${can ? '' : ' disabled'}>${t('pk.craft', {n:cost.toLocaleString(LOC())})}</button></div>`, {bind:b => b.querySelector('#pkCraft').addEventListener('click', () => {
+        if ((P.ink || 0) < cost) return; P.ink -= cost; P.c[c.k] = [1, 0]; save(); closeSheet(); Haptics.pattern([0, 60, 120]); Sound.chime();
+        setTimeout(() => { pkShow(c); if (state.tab === 'lib' && S.libView === 'cards') buildCards(); }, 320); })});
+    return;
+  }
+  PKV.on = true; PKV.c = c; PKV.rx = PKV.ry = 0; ambStop();
+  const v = $('#pkView'), owned = books.some(b => catKey(b.t) === catKey(c.t) || catKey(b.t) === catKey(c.e));
+  $('#pkvStage').innerHTML = pkCardHTML(c, tier, !!own[1]); PKV.el = $('#pkvStage .pkc'); pkReal(c, $('#pkvStage'));
+  $('#pkvInfo').innerHTML = `<div class="pkv-k t-${tier}"><i class="pkg-gem"></i>${t('pk.t.' + tier)}${own[1] ? ' · ✦ ' + t('pk.foil') : ''} · N° ${pkNo(c)}</div>
+    <h2>${esc(catTitle(c))}</h2><div class="pkv-a">${esc(c.a)}${pkYear(c) ? ' · ' + pkYear(c) : ''}</div>
+    <div class="pkv-chips">${c.g.map(g => `<span>${esc(gName(g))}</span>`).join('')}</div>
+    ${LANG === 'fr' && c.p ? `<p class="pkv-p">${esc(c.p)}</p>` : ''}
+    <div class="pkv-own">${t(own[0] > 1 ? 'pk.ownN' : 'pk.own1', {n:own[0]})}</div>
+    <div class="pkv-btns"><button class="btn-main" id="pkvAdd"${owned ? ' disabled' : ''}>${owned ? '✓ ' + t('pk.inLib') : t('gs.add')}</button></div>`;
+  v.classList.add('on'); Haptics.tick(true); Sound.flap();
+  if (from && !reduce()) { const r = from.getBoundingClientRect(), r2 = PKV.el.getBoundingClientRect(); PKV.el.parentElement.animate([{transform:`translate(${r.left + r.width / 2 - r2.left - r2.width / 2}px,${r.top + r.height / 2 - r2.top - r2.height / 2}px) scale(${r.width / r2.width})`, opacity:.4}, {transform:'none', opacity:1}], {duration:520, easing:'cubic-bezier(.2,.9,.25,1.05)'}); }
+  $('#pkvAdd').addEventListener('click', e => pkWish(c, e.currentTarget));
+  cancelAnimationFrame(PKV.raf); PKV.raf = requestAnimationFrame(pkvLoop);
+}
+function pkvLoop(now){
+  if (!PKV.on) return; PKV.raf = requestAnimationFrame(pkvLoop);
+  if (!PKV.drag) { let gx = 0, gy = 0; if (Gyro.on) { gx = Gyro.tx; gy = Gyro.ty; } else { gx = Math.cos(now / 1400) * .35; gy = Math.sin(now / 1100) * .3; }
+    PKV.rx += ((-gy * 14) - PKV.rx) * .1; PKV.ry += ((gx * 16) - PKV.ry) * .1; }
+  pkTilt(PKV.el, PKV.rx, PKV.ry);
+}
+function pkTilt(el, rx, ry){ if (!el) return; el.style.setProperty('--rx', rx.toFixed(2) + 'deg'); el.style.setProperty('--ry', ry.toFixed(2) + 'deg'); el.style.setProperty('--mx', (50 + ry * 2.4).toFixed(1) + '%'); el.style.setProperty('--my', (50 - rx * 2.4).toFixed(1) + '%'); el.style.setProperty('--ho2', Math.min(1, Math.hypot(rx, ry) / 14).toFixed(3)); }
+function pkvClose(){ if (!PKV.on) return; PKV.on = false; cancelAnimationFrame(PKV.raf); $('#pkView').classList.remove('on'); Haptics.tick(); if (!PK.on) setTimeout(() => { if (state.tab === 'read' && !PK.on) ambStart(); }, 300); }
+$('#pkvX').addEventListener('click', pkvClose);
+$('#pkView').addEventListener('click', e => { if (e.target.id === 'pkView') pkvClose(); });
+$('#pkvStage').addEventListener('pointerdown', e => { if (!PKV.el) return; PKV.drag = {id:e.pointerId, r:PKV.el.getBoundingClientRect()}; try { e.currentTarget.setPointerCapture(e.pointerId); } catch(_){} });
+$('#pkvStage').addEventListener('pointermove', e => { const d = PKV.drag; if (!d || d.id !== e.pointerId) return; const px = clamp((e.clientX - d.r.left) / d.r.width, -.2, 1.2), py = clamp((e.clientY - d.r.top) / d.r.height, -.2, 1.2); PKV.ry = (px - .5) * 34; PKV.rx = -(py - .5) * 30; });
+['pointerup', 'pointercancel'].forEach(ev => $('#pkvStage').addEventListener(ev, () => { PKV.drag = null; }));
+async function pkWish(c, btn){
+  if (!btn || btn.disabled) return; btn.disabled = true; btn.textContent = t('sf.adding'); Haptics.tick(true);
+  let r = null; try { r = await Promise.race([catReal(c), sleep(3500).then(() => null)]); } catch(_){}
+  const info = {img:r ? r.img : null, isbn:r && r.isbn || null, desc:(r && r.desc) || (LANG === 'fr' ? c.p : '')}; if (info.img) info.pal = palette(info.img);
+  const b = createBook(info, catTitle(c), c.a, (r && r.p) || 0, 'envies'); b.y = c.y > 0 ? c.y : ''; if (!info.img) { const pal = hashPalette(c.t); b.c0 = pal[0]; b.c1 = pal[1]; }
+  books = [b].concat(books); save(); updateGoal(); RM.sig = ''; btn.textContent = '✓ ' + t('gs.added'); Sound.chime(); Haptics.pattern([0, 70, 140]);
+  const rr = btn.getBoundingClientRect(); goldBurst(rr.left + rr.width / 2, rr.top, 50);
+  if (state.tab === 'read' && state.list === 'envies') buildCarousel();
+}
+
+/* ───── effets : particules, ondes de choc, rayons, éclairs, flash ───── */
+const PFX = {cv:null, x:null, P:[], R:[], B:[], rays:[], flash:0, flashC:'255,255,255', W:0, H:0, dpr:1, last:0, raf:0, dim:0, dimT:0};
+const pkRgb = h => { const n = parseInt(h.slice(1), 16); return `${n >> 16},${(n >> 8) & 255},${n & 255}`; };
+function pfxSize(){ const cv = PFX.cv, d = Math.min(devicePixelRatio || 1, 2), W = innerWidth, H = VH(); PFX.dpr = d; PFX.W = W; PFX.H = H; cv.width = Math.round(W * d); cv.height = Math.round(H * d); }
+function pfxBurst(x, y, n, col, o){ o = o || {}; for (let i = 0; i < n; i++) { const a = Math.random() * 6.283, s = (o.s0 || 2) + Math.random() * (o.s1 || 9);
+  PFX.P.push({x, y, vx:Math.cos(a) * s, vy:Math.sin(a) * s * (o.flat || 1) - (o.up || 0), life:0, max:(o.l0 || 40) + Math.random() * (o.l1 || 50), r:(o.r0 || 1.2) + Math.random() * (o.r1 || 2.6), col, hue:col === 'rain' ? Math.random() * 360 : null, g:o.g ?? .06, drag:o.drag || .975, tw:Math.random() * 6}); } }
+function pfxRing(x, y, col, o){ o = o || {}; PFX.R.push({x, y, r:o.r || 20, vr:o.vr || 14, life:0, max:o.max || 34, w:o.w || 6, col}); }
+function pfxRays(x, y, col, dur, o){ o = o || {}; PFX.rays.push({x, y, col, t0:performance.now(), dur, n:o.n || 18, len:o.len || Math.max(PFX.W, PFX.H) * .9, rot:Math.random() * 6, spin:o.spin || .25, a:o.a || .55, grow:o.grow ?? 1}); }
+function pfxBolts(rect, col, dur){ PFX.B.push({rect, col, t0:performance.now(), dur, segs:[], next:0}); }
+function pfxFlash(a, col){ PFX.flash = Math.max(PFX.flash, a); PFX.flashC = col ? pkRgb(col) : '255,255,255'; }
+// une petite lueur pré-dessinée par couleur : bien plus léger qu'un dégradé par particule
+const PSPR = new Map();
+function pkSprite(key){
+  let c = PSPR.get(key); if (c) return c;
+  c = document.createElement('canvas'); c.width = c.height = 48; const x = c.getContext('2d'), g = x.createRadialGradient(24, 24, 0, 24, 24, 24);
+  const f = key[0] === 'h' ? a => `hsla(${+key.slice(1) * 30},100%,72%,${a})` : a => `rgba(${pkRgb(key)},${a})`;
+  g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(.18, f(1)); g.addColorStop(.45, f(.35)); g.addColorStop(1, f(0));
+  x.fillStyle = g; x.fillRect(0, 0, 48, 48); PSPR.set(key, c); return c;
+}
+function pfxFrame(now){
+  if (!PK.on) return; PFX.raf = requestAnimationFrame(pfxFrame);
+  const x = PFX.x, d = PFX.dpr, W = PFX.W, H = PFX.H; x.setTransform(d, 0, 0, d, 0, 0); x.clearRect(0, 0, W, H);
+  if (PFX.dim > 0) { x.fillStyle = `rgba(0,0,0,${PFX.dim})`; x.fillRect(0, 0, W, H); }
+  x.globalCompositeOperation = 'lighter';
+  PFX.rays = PFX.rays.filter(r => { const k = Math.max(0, (now - r.t0) / r.dur); if (k >= 1) return false;
+    const a = r.a * Math.sin(Math.min(1, k * 1.15) * Math.PI) ** .6, len = r.len * (r.grow ? .35 + .65 * Math.min(1, k * 2.2) : 1);
+    x.save(); x.translate(r.x, r.y); x.rotate(r.rot + (now - r.t0) / 1000 * r.spin);
+    for (let i = 0; i < r.n; i++) { x.rotate(6.283 / r.n); const g = x.createLinearGradient(0, 0, len, 0), c = r.col === 'rain' ? `hsla(${(i * 360 / r.n + now / 12) % 360},100%,70%,` : `rgba(${pkRgb(r.col)},`;
+      g.addColorStop(0, c + a + ')'); g.addColorStop(1, c + '0)'); x.fillStyle = g; x.beginPath(); x.moveTo(0, 0); x.lineTo(len, -len * .045); x.lineTo(len, len * .045); x.closePath(); x.fill(); }
+    x.restore(); return true; });
+  PFX.R = PFX.R.filter(r => { r.life++; r.r += r.vr; r.vr *= .94; const a = 1 - r.life / r.max; if (a <= 0) return false;
+    x.lineWidth = r.w * a + .5; x.strokeStyle = r.col === 'rain' ? `hsla(${(r.life * 9) % 360},100%,70%,${a})` : `rgba(${pkRgb(r.col)},${a})`; x.beginPath(); x.arc(r.x, r.y, r.r, 0, 6.283); x.stroke(); return true; });
+  PFX.B = PFX.B.filter(b => { const k = Math.max(0, (now - b.t0) / b.dur); if (k >= 1) return false;
+    if (now > b.next) { b.next = now + 70 + Math.random() * 60; b.segs = []; const R = b.rect, cx = R.left + R.width / 2, cy = R.top + R.height / 2;
+      for (let n = 0; n < 3; n++) { const a = Math.random() * 6.283, r0 = Math.max(R.width, R.height) * .55, r1 = r0 + 40 + Math.random() * 70; let px = cx + Math.cos(a) * r0 * .8, py = cy + Math.sin(a) * r0, pts = [[px, py]];
+        for (let s = 1; s <= 7; s++) { const rr = r0 + (r1 - r0) * s / 7, aa = a + (Math.random() - .5) * .35; pts.push([cx + Math.cos(aa) * rr, cy + Math.sin(aa) * rr]); } b.segs.push(pts); } }
+    x.strokeStyle = `rgba(${pkRgb(b.col)},${.85 * (1 - k * .4)})`; x.lineWidth = 2; x.shadowColor = b.col; x.shadowBlur = 14;
+    b.segs.forEach(pts => { x.beginPath(); pts.forEach((p, i) => i ? x.lineTo(p[0], p[1]) : x.moveTo(p[0], p[1])); x.stroke(); }); x.shadowBlur = 0; return true; });
+  PFX.P = PFX.P.filter(p => { p.life++; if (p.life > p.max) return false; p.vx *= p.drag; p.vy = p.vy * p.drag + p.g; p.x += p.vx; p.y += p.vy;
+    const a = Math.min(1, (1 - p.life / p.max) * 1.4) * (.7 + .3 * Math.sin(p.tw + p.life * .3)), r = p.r * 3.4;
+    x.globalAlpha = Math.max(0, a); x.drawImage(pkSprite(p.hue != null ? 'h' + (Math.round(((p.hue + p.life * 3) % 360) / 30) % 12) : p.col), p.x - r, p.y - r, r * 2, r * 2); return true; });
+  x.globalAlpha = 1;
+  if (PFX.flash > .01) { x.fillStyle = `rgba(${PFX.flashC},${PFX.flash})`; x.fillRect(0, 0, W, H); PFX.flash *= .9; }
+  x.globalCompositeOperation = 'source-over';
+}
+
+/* ───── un petit synthé pour l'ouverture ───── */
+const PKS = (() => {
+  let ac = null;
+  const ok = () => { if (!S.sound) return null; try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); if (ac.state === 'suspended') ac.resume(); } catch(_) { return null; } return ac; };
+  const env = (g, t0, a, d, v) => { g.gain.setValueAtTime(.0001, t0); g.gain.exponentialRampToValueAtTime(v, t0 + a); g.gain.exponentialRampToValueAtTime(.0001, t0 + a + d); };
+  const tone = (f, t0, d, v, type) => { const c = ok(); if (!c) return; const o = c.createOscillator(), g = c.createGain(); o.type = type || 'sine'; o.frequency.value = f; env(g, t0, .012, d, v); o.connect(g).connect(c.destination); o.start(t0); o.stop(t0 + d + .1); };
+  const noise = (t0, d, v, f0, f1, q) => { const c = ok(); if (!c) return; const n = Math.ceil(c.sampleRate * d), b = c.createBuffer(1, n, c.sampleRate), a = b.getChannelData(0); for (let i = 0; i < n; i++) a[i] = Math.random() * 2 - 1;
+    const s = c.createBufferSource(); s.buffer = b; const bp = c.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = q || 1; bp.frequency.setValueAtTime(f0, t0); bp.frequency.exponentialRampToValueAtTime(f1, t0 + d); const g = c.createGain(); env(g, t0, .015, d, v); s.connect(bp).connect(g).connect(c.destination); s.start(t0); s.stop(t0 + d + .05); };
+  return {
+    unlock(){ ok(); },
+    tear(p){ const c = ok(); if (c) noise(c.currentTime, .07, .22, 2200 + p * 4200, 1600, 1.6); },
+    rip(){ const c = ok(); if (c) noise(c.currentTime, .32, .4, 5000, 900, 1.2); },
+    whoosh(){ const c = ok(); if (c) noise(c.currentTime, .7, .3, 250, 3200, .7); },
+    boom(){ const c = ok(); if (!c) return; const t0 = c.currentTime, o = c.createOscillator(), g = c.createGain(); o.frequency.setValueAtTime(130, t0); o.frequency.exponentialRampToValueAtTime(36, t0 + .8); env(g, t0, .01, .9, .55); o.connect(g).connect(c.destination); o.start(t0); o.stop(t0 + 1); },
+    rise(d){ const c = ok(); if (!c) return; const t0 = c.currentTime, o = c.createOscillator(), g = c.createGain(), lp = c.createBiquadFilter(); o.type = 'sawtooth'; o.frequency.setValueAtTime(70, t0); o.frequency.exponentialRampToValueAtTime(380, t0 + d); lp.type = 'lowpass'; lp.frequency.value = 1100;
+      g.gain.setValueAtTime(.0001, t0); g.gain.exponentialRampToValueAtTime(.07, t0 + d * .85); g.gain.exponentialRampToValueAtTime(.0001, t0 + d + .05); o.connect(lp).connect(g).connect(c.destination); o.start(t0); o.stop(t0 + d + .1); noise(t0, d, .05, 400, 6000, .6); },
+    reveal(tier){ const c = ok(); if (!c) return; const t0 = c.currentTime + .01, N = {c:[784], r:[659, 988], e:[523, 784, 1047], l:[523, 659, 784, 1047, 1319], m:[440, 554, 659, 880, 1109, 1319, 1760]}[tier];
+      N.forEach((f, i) => { tone(f, t0 + i * .075, tier === 'c' ? .35 : 1.1, tier === 'c' ? .1 : .14, 'triangle'); tone(f * 2.005, t0 + i * .075, .8, .035, 'sine'); });
+      if (tier === 'l' || tier === 'm') { noise(t0, 1.6, .1, 5000, 11000, .5); tone(N[0] / 2, t0, 1.8, .12, 'sine'); } }
+  };
+})();
+
+/* ───── l'ouverture d'un pack ───── */
+const PK = {on:false, type:'std', res:null, i:0, step:'', busy:false, tear:0, dir:1, drag:null, best:'c', els:[], tilt:{rx:0, ry:0}, raf:0, timers:[]};
+const pkWait = ms => new Promise(r => PK.timers.push(setTimeout(r, reduce() ? Math.min(ms, 60) : ms)));
+const pkCrimp = (top, n, depth) => { const p = []; for (let i = 0; i <= n; i++) { const xx = i / n * 100; p.push(`${xx.toFixed(2)}% ${top ? (i % 2 ? depth : 0) : 100 - (i % 2 ? depth : 0)}%`); } return p; };
+const pkTorn = () => { const p = ['0% 100%']; let y = 3; for (let i = 0; i <= 26; i++) { y = Math.max(0, Math.min(5, y + (Math.random() - .5) * 3.4)); p.push(`${(i / 26 * 100).toFixed(2)}% ${y.toFixed(2)}%`); } p.push('100% 100%'); return `polygon(${p.join(',')})`; };
+function pkOpen(type){
+  const P = pkS(); if (PK.on) return;
+  if (!type) type = (P.n.std || 0) > 0 ? 'std' : 'or';
+  if (!((P.n[type] || 0) > 0)) { type = type === 'or' ? 'std' : 'or'; if (!((P.n[type] || 0) > 0)) { toast(t('pk.none')); return; } }
+  if (PKV.on) pkvClose();
+  PKS.unlock();
+  PK.on = true; PK.type = type; PK.res = pkRoll(type); PK.i = 0; PK.tear = 0; PK.step = 'pack'; PK.busy = false; PK.skip = false; PK.cur = null; PK.drag = null; PK.timers.forEach(clearTimeout); PK.timers = [];
+  const cards = PK.res.cards; PK.best = cards[cards.length - 1].tier;
+  cards.forEach(x => catReal(x.c));
+  const o = $('#pko'); o.className = 'pko on ty-' + type + ' best-' + PK.best; o.style.setProperty('--tc', PK_COL[PK.best]);
+  const crimpT = `polygon(${pkCrimp(true, 22, 22).join(',')},100% 100%,0% 100%)`, crimpB = `polygon(0% 0%,100% 0%,${pkCrimp(false, 22, 3.2).reverse().join(',')})`;
+  $('#pkStage').innerHTML = `<div class="pk-stack" id="pkStack">${cards.map((x, i) => `<div class="pk-slot" data-i="${i}" style="--i:${i};z-index:${10 - i}"><div class="pk-flip">${pkCardHTML(x.c, x.tier, x.foil, i + 1)}</div><div class="pk-tag"></div></div>`).join('')}</div>
+    <div class="pk-pack" id="pkPack"><div class="pkp-glow"></div><div class="pkp-in">
+      <div class="pkp-body" style="clip-path:${crimpB}"><div class="pkp-face">
+        <div class="pkp-orn"></div><div class="pkp-crest">${PK_BACK()}</div>
+        <div class="pkp-name">SIGNET</div><div class="pkp-sub">${t('pk.sub')}</div><div class="pkp-type">${t('pk.type.' + type)}</div><div class="pkp-n">${t(type === 'or' ? 'pk.fiveO' : 'pk.fiveS')}</div>
+      </div><i class="pkp-sheen"></i></div>
+      <div class="pkp-top" style="clip-path:${crimpT}"><i class="pkp-sheen"></i><span class="pkp-arrow">${t('pk.tearHere')}</span></div>
+      <div class="pkp-line"></div><div class="pkp-leak"></div>
+    </div></div>`;
+  $('#pkTray').innerHTML = cards.map((x, i) => `<div class="pk-tslot" data-i="${i}" style="--i:${i};--a:${Math.abs(i - 2)}"></div>`).join('');
+  $('#pkSum').className = 'pko-sum'; $('#pkSum').innerHTML = '';
+  $('#pkBanner').className = 'pko-banner'; $('#pkSkip').hidden = true;
+  pkHint(t('pk.hTear'));
+  PK.els = [...document.querySelectorAll('#pkStack .pk-slot')];
+  PK.els.forEach((el, i) => cards[i] && pkReal(cards[i].c, el));
+  PFX.cv = $('#pkFx'); PFX.x = PFX.cv.getContext('2d'); pfxSize(); PFX.P = []; PFX.R = []; PFX.B = []; PFX.rays = []; PFX.flash = 0; PFX.dim = 0;
+  cancelAnimationFrame(PFX.raf); PFX.raf = requestAnimationFrame(pfxFrame);
+  cancelAnimationFrame(PK.raf); PK.raf = requestAnimationFrame(pkLoop);
+  ambStop(); Haptics.tick(true); PKS.whoosh();
+  const pk = $('#pkPack'); if (!reduce()) pk.animate([{transform:'translate(-50%,-50%) translateY(60vh) rotate(-8deg) scale(.7)', opacity:0}, {transform:'translate(-50%,-50%) translateY(-14px) rotate(1deg) scale(1.02)', opacity:1, offset:.7}, {transform:'translate(-50%,-50%)', opacity:1}], {duration:900, easing:'cubic-bezier(.2,.9,.25,1)'});
+  if (state.tab === 'lib' && S.libView === 'cards') buildCards();
+}
+function pkHint(s){ const h = $('#pkHint'); h.textContent = s || ''; h.classList.toggle('on', !!s); }
+// le paquet flotte et suit l'inclinaison
+function pkLoop(now){
+  if (!PK.on) return; PK.raf = requestAnimationFrame(pkLoop);
+  if (PK.step === 'pack') {
+    const pk = $('#pkPack'); if (!pk) return; let gx = Math.sin(now / 1300) * .25, gy = Math.cos(now / 1700) * .2; if (Gyro.on) { gx = Gyro.tx; gy = Gyro.ty; }
+    if (!PK.drag) { PK.tilt.rx += ((-gy * 12) - PK.tilt.rx) * .08; PK.tilt.ry += ((gx * 16) - PK.tilt.ry) * .08; }
+    pk.style.setProperty('--rx', PK.tilt.rx.toFixed(2) + 'deg'); pk.style.setProperty('--ry', PK.tilt.ry.toFixed(2) + 'deg'); pk.style.setProperty('--fl', (Math.sin(now / 900) * 6).toFixed(1) + 'px');
+    pk.style.setProperty('--sh', (50 + PK.tilt.ry * 3).toFixed(1) + '%');
+  } else if (PK.step === 'shown' && PK.cur) { const k = now / 1000; pkTilt(PK.cur, Math.sin(k * .9) * 5 + (Gyro.on ? -Gyro.ty * 12 : 0), Math.cos(k * .7) * 7 + (Gyro.on ? Gyro.tx * 14 : 0)); }
+}
+function pkSetTear(p){
+  const pk = $('#pkPack'); if (!pk) return; PK.tear = p;
+  pk.style.setProperty('--tp', p.toFixed(3)); pk.style.setProperty('--td', PK.dir);
+  pk.classList.toggle('tearing', p > 0);
+}
+// déchirer la bande du haut, au doigt (ou d'un toucher)
+$('#pkStage').addEventListener('pointerdown', e => {
+  if (!PK.on) return;
+  if (PK.step === 'pack') {
+    const pk = $('#pkPack'); if (!pk || PK.busy) return; const r = pk.getBoundingClientRect();
+    if (e.clientX < r.left - 30 || e.clientX > r.right + 30 || e.clientY < r.top - 60 || e.clientY > r.bottom + 30) return;
+    PK.drag = {id:e.pointerId, x0:e.clientX, y0:e.clientY, w:r.width, moved:false, last:0, r};
+    pk.classList.add('hold'); if (PK.best === 'l' || PK.best === 'm') { PFX.dim = .35; Haptics.pattern([0, 40, 260, 40]); } else Haptics.tick();
+    try { e.currentTarget.setPointerCapture(e.pointerId); } catch(_){}
+  } else if (PK.skip) return;
+  else if (PK.step === 'reveal' && !PK.busy) pkReveal();
+  else if (PK.step === 'shown' && !PK.busy) pkStow();
+});
+$('#pkStage').addEventListener('pointermove', e => {
+  const d = PK.drag; if (!d || d.id !== e.pointerId || PK.step !== 'pack') return;
+  const dx = e.clientX - d.x0; if (Math.abs(dx) > 8) d.moved = true; if (!d.moved) return;
+  PK.dir = dx >= 0 ? 1 : -1; const p = Math.min(1, Math.abs(dx) / (d.w * .95));
+  if (p > PK.tear) { pkSetTear(p); if (p - d.last > .08) { d.last = p; PKS.tear(p); Haptics.tick();
+    const lx = PK.dir > 0 ? d.r.left + d.r.width * p : d.r.right - d.r.width * p; pfxBurst(lx, d.r.top + d.r.height * .135, 6, PK_COL[PK.best] === '#ffffff' ? 'rain' : PK_COL[PK.best], {s0:1, s1:4, g:.12, l0:18, l1:22, r0:.8, r1:1.6}); } }
+  if (p >= .86) { PK.drag = null; pkRip(); }
+});
+const pkUp = e => {
+  const d = PK.drag; if (!d || d.id !== e.pointerId) return; PK.drag = null; const pk = $('#pkPack'); if (pk) pk.classList.remove('hold');
+  if (PK.step !== 'pack') return;
+  if (!d.moved) { pkAutoTear(); return; }
+  if (PK.tear >= .55) pkRip(); else { PFX.dim = 0; const p0 = PK.tear, t0 = performance.now(); const back = now => { const k = Math.min(1, (now - t0) / 260); pkSetTear(p0 * (1 - k)); if (k < 1) requestAnimationFrame(back); }; requestAnimationFrame(back); pkHint(t('pk.hTear')); }
+};
+$('#pkStage').addEventListener('pointerup', pkUp); $('#pkStage').addEventListener('pointercancel', pkUp);
+function pkAutoTear(){
+  if (PK.busy || PK.step !== 'pack') return; PK.busy = true; PK.dir = 1; const t0 = performance.now(), dur = 650, r = $('#pkPack').getBoundingClientRect(); let last = 0;
+  const run = now => { const k = Math.min(1, (now - t0) / dur), p = k * k * (3 - 2 * k); pkSetTear(p); if (p - last > .1) { last = p; PKS.tear(p); Haptics.tick(); pfxBurst(r.left + r.width * p, r.top + r.height * .135, 5, PK.best === 'm' ? 'rain' : PK_COL[PK.best], {s0:1, s1:4, g:.12, l0:18, l1:22, r0:.8, r1:1.6}); }
+    if (k < 1) requestAnimationFrame(run); else { PK.busy = false; pkRip(); } };
+  requestAnimationFrame(run);
+}
+async function pkRip(){
+  if (PK.step !== 'pack') return; PK.step = 'rip'; PK.busy = true; pkHint('');
+  const pk = $('#pkPack'), r = pk.getBoundingClientRect(), col = PK.best === 'm' ? 'rain' : PK_COL[PK.best], big = PK.best === 'l' || PK.best === 'm';
+  pkSetTear(1); pk.classList.add('ripped'); pk.querySelector('.pkp-body').style.clipPath = pkTorn();
+  PKS.rip(); Haptics.pattern([0, 50, 90, 50]);
+  const top = pk.querySelector('.pkp-top'); top.animate([{transform:'none', opacity:1}, {transform:`translate(${PK.dir * 70}px,-180px) rotate(${PK.dir * 38}deg)`, opacity:0}], {duration:760, easing:'cubic-bezier(.3,.6,.3,1)', fill:'forwards'});
+  const ox = r.left + r.width / 2, oy = r.top + r.height * .14;
+  pfxBurst(ox, oy, big ? 140 : 80, col, {s0:2, s1:big ? 12 : 8, up:2, g:.08, l0:40, l1:60}); pfxRays(ox, oy, col, big ? 2200 : 1400, {n:big ? 22 : 14, a:big ? .6 : .38, spin:.35});
+  pfxFlash(big ? .55 : .3, PK.best === 'm' ? '#ffffff' : PK_COL[PK.best]); PKS.whoosh(); if (big) PKS.boom();
+  await pkWait(260);
+  // les cartes sortent du paquet, le paquet tombe
+  const st = $('#pkStack'); st.classList.add('out');
+  pk.animate([{transform:'translate(-50%,-50%)', opacity:1}, {transform:'translate(-50%,-50%) translateY(75vh) rotate(6deg)', opacity:.0}], {duration:900, delay:350, easing:'cubic-bezier(.5,0,.75,0)', fill:'forwards'});
+  await pkWait(1250); pk.remove(); PFX.dim = 0;
+  PK.step = 'reveal'; PK.busy = false; $('#pkSkip').hidden = false; pkHint(t('pk.hReveal'));
+  pkPulseTop();
+}
+function pkPulseTop(){ PK.els.forEach((el, i) => el.classList.toggle('top', i === PK.i)); }
+// révéler la carte du dessus, avec la mise en scène de sa rareté
+async function pkReveal(fast){
+  const i = PK.i, x = PK.res.cards[i], el = PK.els[i]; if (!x || !el) return;
+  PK.busy = true; pkHint(''); const tier = x.tier, flip = el.querySelector('.pk-flip'), card = el.querySelector('.pkc');
+  const col = tier === 'm' ? 'rain' : PK_COL[tier], pre = fast ? 0 : {c:0, r:260, e:700, l:1250, m:1800}[tier], dur = fast ? 300 : {c:420, r:520, e:640, l:820, m:1050}[tier];
+  el.classList.add('lift', 'pre-' + tier); $('#pko').classList.add('rv-' + tier);
+  const rect = () => card.getBoundingClientRect();
+  if (pre) {
+    if (tier === 'r') { pfxRing(rect().left + rect().width / 2, rect().top + rect().height / 2, PK_COL.r, {r:rect().width * .8, vr:-6, max:28, w:3}); }
+    if (tier === 'e') { pfxBolts(rect(), PK_COL.e, pre); Haptics.pattern([0, 30, 200, 30, 200, 30]); PKS.rise(pre / 1000); }
+    if (tier === 'l' || tier === 'm') { PFX.dim = tier === 'm' ? .82 : .5; const R = rect(); pfxRays(R.left + R.width / 2, R.top + R.height / 2, col, pre + 1600, {n:tier === 'm' ? 28 : 20, a:tier === 'm' ? .5 : .45, spin:tier === 'm' ? .6 : .3});
+      Haptics.pattern([0, 40, 330, 40, 260, 40, 190, 40, 120, 40]); PKS.rise(pre / 1000);
+      for (let k = 0; k < (tier === 'm' ? 4 : 2); k++) PK.timers.push(setTimeout(() => { const R2 = rect(); pfxRing(R2.left + R2.width / 2, R2.top + R2.height / 2, col, {r:R2.width * 1.2, vr:-9, max:30, w:4}); }, k * pre / 4)); }
+    await pkWait(pre);
+  }
+  // le retournement
+  if (!reduce()) flip.animate([{transform:'rotateY(180deg)'}, {transform:'rotateY(90deg) scale(1.08)', offset:.5}, {transform:'rotateY(0deg)'}], {duration:dur, easing:'cubic-bezier(.3,.7,.3,1)', fill:'forwards'});
+  else flip.style.transform = 'rotateY(0deg)';
+  await pkWait(dur * .48);
+  const R = rect(), cx = R.left + R.width / 2, cy = R.top + R.height / 2;
+  PKS.reveal(tier);
+  if (tier === 'c') pfxBurst(cx, cy, 18, PK_COL.c, {s0:1, s1:4, g:.03, l0:20, l1:30});
+  if (tier === 'r') { pfxRing(cx, cy, PK_COL.r, {r:R.width * .4, vr:16, max:34, w:5}); pfxBurst(cx, cy, 50, PK_COL.r, {s0:2, s1:7}); Haptics.tick(true); }
+  if (tier === 'e') { pfxRing(cx, cy, PK_COL.e, {r:R.width * .4, vr:20, max:40, w:7}); pfxRing(cx, cy, '#ffffff', {r:R.width * .3, vr:14, max:26, w:3}); pfxBurst(cx, cy, 90, PK_COL.e, {s0:2, s1:10}); pfxFlash(.22, PK_COL.e); Haptics.pattern([0, 60, 90, 60]); }
+  if (tier === 'l' || tier === 'm') { pfxFlash(.75, '#ffffff'); pfxRing(cx, cy, col, {r:R.width * .4, vr:26, max:46, w:10}); pfxRing(cx, cy, '#ffffff', {r:R.width * .2, vr:18, max:34, w:4}); pfxBurst(cx, cy, tier === 'm' ? 240 : 170, col, {s0:3, s1:14, g:.07, l0:50, l1:80, r0:1.4, r1:3});
+    PKS.boom(); Haptics.pattern([0, 90, 70, 90, 70, 200]); $('#pko').classList.add('shake'); PK.timers.push(setTimeout(() => $('#pko').classList.remove('shake'), 600)); }
+  await pkWait(dur * .52 + 40);
+  PFX.dim = tier === 'm' ? .55 : tier === 'l' ? .3 : 0;
+  // étiquettes : nouvelle carte, ou doublon changé en encre
+  const tag = el.querySelector('.pk-tag'); tag.innerHTML = x.isNew ? `<b>${t('pk.new')}</b>` : `<span>${t('pk.dup', {n:x.ink})}</span>`; tag.classList.add('on');
+  if (tier === 'e' || tier === 'l' || tier === 'm') { const bn = $('#pkBanner'); bn.innerHTML = `<i></i><b>${t('pk.t.' + tier)}</b><i></i>${x.foil ? `<em>✦ ${t('pk.foil')}</em>` : ''}`; bn.className = 'pko-banner on b-' + tier; }
+  PK.cur = card; PK.step = 'shown'; PK.busy = false; el.classList.remove('pre-' + tier); el.classList.add('shown');
+  pkHint(fast ? '' : t(i < PK.res.cards.length - 1 ? 'pk.hNext' : 'pk.hEnd'));
+}
+// la carte révélée part dans la réserve, en bas
+async function pkStow(fast){
+  const i = PK.i, el = PK.els[i]; if (!el) return; PK.busy = true; PK.step = 'stow'; pkHint(''); pkTilt(PK.cur, 0, 0);
+  $('#pkBanner').className = 'pko-banner'; $('#pko').classList.remove('rv-c', 'rv-r', 'rv-e', 'rv-l', 'rv-m'); PFX.dim = 0;
+  const slot = document.querySelector(`#pkTray .pk-tslot[data-i="${i}"]`), from = getComputedStyle(el).transform, st = $('#pkStage').getBoundingClientRect(), b = slot.getBoundingClientRect();
+  const bx = st.left + el.offsetLeft + el.offsetWidth / 2, by = st.top + el.offsetTop + el.offsetHeight / 2, s = b.width / el.offsetWidth;
+  el.classList.remove('top', 'lift', 'shown'); el.querySelector('.pk-tag').classList.remove('on'); el.style.zIndex = 30;
+  const anim = el.animate([{transform:from === 'none' ? 'none' : from}, {transform:`translate(${b.left + b.width / 2 - bx}px,${b.top + b.height / 2 - by}px) scale(${s})`}], {duration:fast ? 220 : 480, easing:'cubic-bezier(.4,.1,.2,1)', fill:'forwards'});
+  Sound.flap(); await new Promise(r => { anim.onfinish = r; PK.timers.push(setTimeout(r, 700)); });
+  el.style.visibility = 'hidden'; slot.innerHTML = pkCardHTML(PK.res.cards[i].c, PK.res.cards[i].tier, PK.res.cards[i].foil); slot.classList.add('on'); pkReal(PK.res.cards[i].c, slot);
+  slot.addEventListener('click', () => { if (PK.step === 'sum') pkShow(PK.res.cards[i].c, slot); });
+  PK.i++; PK.cur = null; PK.busy = false;
+  if (PK.i < PK.res.cards.length) { PK.step = 'reveal'; pkPulseTop(); if (!fast) pkHint(t('pk.hReveal')); } else pkSummary();
+}
+async function pkSkipAll(){
+  if (PK.busy || PK.skip || (PK.step !== 'reveal' && PK.step !== 'shown')) return; $('#pkSkip').hidden = true; PK.skip = true;
+  if (PK.step === 'shown') await pkStow(true);
+  while (PK.on && PK.i < PK.res.cards.length) { await pkReveal(true); await pkWait(220); await pkStow(true); }
+  PK.skip = false;
+}
+$('#pkSkip').addEventListener('click', e => { e.stopPropagation(); pkSkipAll(); });
+function pkSummary(){
+  PK.step = 'sum'; $('#pkSkip').hidden = true; pkHint('');
+  const P = pkS(), C = PK.res.cards, nw = C.filter(x => x.isNew).length, more = pkCount(), own = Object.keys(P.c).length;
+  $('#pkTray').classList.add('fan');
+  const sm = $('#pkSum'); sm.innerHTML = `<div class="pks-k">${t('pk.sumK')}</div><h2>${t(nw ? (nw === 1 ? 'pk.sumNew1' : 'pk.sumNew') : 'pk.sumNone', {n:nw})}</h2>
+    <p>${PK.res.ink ? t('pk.sumInk', {n:PK.res.ink}) + ' · ' : ''}${t('pk.disc', {n:own, m:CAT.length})}</p><p class="pks-tip">${t('pk.sumTip')}</p>
+    <div class="pks-btns">${more ? `<button class="btn-main" id="pksMore">${t('pk.again', {n:more})}</button>` : ''}<button class="${more ? 'btn-plain' : 'btn-main'}" id="pksCol">${t('pk.seeCol')}</button></div>`;
+  sm.className = 'pko-sum on';
+  const m = sm.querySelector('#pksMore'); if (m) m.addEventListener('click', () => { pkClose(true); setTimeout(() => pkOpen(), 60); });
+  sm.querySelector('#pksCol').addEventListener('click', () => { pkClose(); PKA.f = 'all'; pkS().v = 'col'; save(); if (state.tab !== 'lib') setTab('lib'); showLibView('cards'); });
+  Sound.chime();
+}
+function pkClose(quick){
+  if (!PK.on) return; PK.on = false; PK.timers.forEach(clearTimeout); PK.timers = []; cancelAnimationFrame(PK.raf); cancelAnimationFrame(PFX.raf);
+  const o = $('#pko'); o.classList.remove('on'); PFX.dim = 0;
+  setTimeout(() => { if (!PK.on) { $('#pkStage').innerHTML = ''; $('#pkTray').innerHTML = ''; $('#pkTray').classList.remove('fan'); o.className = 'pko'; } }, quick ? 0 : 450);
+  if (!quick) setTimeout(() => { if (state.tab === 'read' && !PK.on) ambStart(); }, 400);
+  if (state.tab === 'lib' && S.libView === 'cards') buildCards(); pkBadge();
+}
+$('#pkClose').addEventListener('click', e => { e.stopPropagation(); pkClose(); });
+addEventListener('resize', () => { if (PK.on) pfxSize(); });
+function pkBoot(){
+  const fresh = !S.pk; pkS(); pkBadge(); setInterval(pkBadge, 60e3); document.addEventListener('visibilitychange', () => { if (!document.hidden) pkBadge(); });
+  if (fresh && (S.taste || S.tasteLater)) setTimeout(() => { if (!TS.on && !SEC.on && !PK.on && !PV.on) toast(t('pk.welcome'), {icon:'rib', action:t('pk.open'), ms:7000, onAction:() => pkOpen()}); }, 1800);
+}
+setTimeout(pkBoot, 1200);
 
 /* ═════════════ Saisons et bougie du soir ═════════════ */
 const AMB = {on:false, raf:0, P:[], last:0, kind:null, candle:false, cx:0, cy:0, tx:0, ty:0, touch:false, rest:null};
@@ -7806,7 +8794,7 @@ addEventListener('resize', () => { clearTimeout(rsT); rsT = setTimeout(() => { b
 document.addEventListener('gesturestart', e => e.preventDefault());
 document.addEventListener('touchmove', e => { if (!e.target.closest('.scroll')) e.preventDefault(); }, {passive:false});
 document.addEventListener('dblclick', e => e.preventDefault());
-window.__exlibris = {CITY, cityLoad, cityEnv, questState, questCheck, buildQuests, roomRewards, roomLevel, levelUp, pubView, pubSnap, notifSheet, shelfResults, SHF, PV, TS, SEC, openTaste, closeTaste, openSecret, closeSecret, secretNext, secretPick, secretWhy, tasteVec, catFind, CAT, GENRES, RM, ROOM, roomFrame, startRoom, stopRoom, paintEdinburgh, Car, D, Curl, G, state, Sc, EAN, extractISBN, openScanner, Splash, Gyro, Sound, LD, statsData, SUPA, Sync, syncNow, syncView, createAccount, linkAccount, tombstone, bookSig, mergeLib, newKey, canonKey, Club, clubLoad, showStatsView, SE, openSeance, closeSeance, OCR, openOCR, openReco, RECO, parseCSV, csvBooks, importCSVFile, findCovers, Lib, buildChips, openNotes, kickerTxt, RM, W3, ST, OR, AMB, CV, S, openStory, stGo, openFromCarousel, openOracle, consultOracle, showLibView, openCardView, onBookFinished, openSealEditor, openBookFrom, setTab, rarity, gazFind, onMotion, get books(){ return books; }, get logs(){ return logs; }};
+window.__exlibris = {PK, PKV, PFX, PK_BY, PK_T, pkS, pkTier, pkRoll, pkGive, pkOpen, pkClose, pkShow, pkvClose, pkReveal, pkStow, pkSkipAll, pkAutoTear, pkRip, pkAlbum, PKA, buildCards, buildMyCards, CITY, cityLoad, cityEnv, questState, questCheck, buildQuests, roomRewards, roomLevel, levelUp, pubView, pubSnap, notifSheet, shelfResults, SHF, PV, TS, SEC, openTaste, closeTaste, openSecret, closeSecret, secretNext, secretPick, secretWhy, tasteVec, catFind, CAT, GENRES, RM, ROOM, roomFrame, startRoom, stopRoom, paintEdinburgh, Car, D, Curl, G, state, Sc, EAN, extractISBN, openScanner, Splash, Gyro, Sound, LD, statsData, SUPA, Sync, syncNow, syncView, createAccount, linkAccount, tombstone, bookSig, mergeLib, newKey, canonKey, Club, clubLoad, showStatsView, SE, openSeance, closeSeance, OCR, openOCR, openReco, RECO, parseCSV, csvBooks, importCSVFile, findCovers, Lib, buildChips, openNotes, kickerTxt, RM, W3, ST, OR, AMB, CV, S, openStory, stGo, openFromCarousel, openOracle, consultOracle, showLibView, openCardView, onBookFinished, openSealEditor, openBookFrom, setTab, rarity, gazFind, onMotion, get books(){ return books; }, get logs(){ return logs; }};
 boot();
 })();
 </script>
