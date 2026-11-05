@@ -20,3 +20,13 @@ Application de suivi de lecture pour iPhone (livres lus, en cours, envies), en u
 - L'oracle : secouez le téléphone, le grimoire choisit votre prochaine lecture
 - Ex-libris : sceau de cire personnel (initiales, emblème, couleur de cire)
 - Saisons (neige, pétales, lucioles, feuilles) et bougie du soir qui suit le doigt
+- Fonctionne hors ligne : l'app s'ouvre instantanément depuis le téléphone et se met à jour en arrière-plan
+- Compte Signet (clé secrète) : sauvegarde en ligne et synchronisation entre appareils, couvertures comprises
+- Club de lecture : code ami, lectures des amis, défis communs avec classement (dans Bilan → Club)
+- Import Goodreads / Babelio (export CSV), recherche automatique des couvertures
+- Citation en photo : on photographie une page et on surligne la phrase au doigt
+- Séance d'ambiance : minuteur plein écran, pluie, cheminée, café ou forêt, lumière qui se réchauffe le soir
+- Le grimoire te conseille : suggestions de livres d'après vos coups de cœur
+- Rangement : sagas et tomes, étiquettes, livres prêtés, filtres sur l'étagère
+
+Le serveur de synchronisation (Supabase) se crée avec le script `supabase/signet.sql`.
