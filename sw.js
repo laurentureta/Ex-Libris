@@ -1,6 +1,6 @@
 /* Signet : fonctionnement hors ligne.
    L'app s'ouvre tout de suite depuis le cache, puis se met à jour en arrière-plan. */
-const SHELL = 'signet-shell-v6', CDN = 'signet-cdn-v1', IMG = 'signet-img-v1', META = 'signet-meta';
+const SHELL = 'signet-shell-v7', CDN = 'signet-cdn-v1', IMG = 'signet-img-v1', META = 'signet-meta', PHOTO = 'signet-photo-v1';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png', './three-r170.module.min.js', './edinburgh3d.json'];
 
 self.addEventListener('install', e => {
@@ -8,7 +8,7 @@ self.addEventListener('install', e => {
 });
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys()
-    .then(ks => Promise.all(ks.filter(k => k.startsWith('signet-') && ![SHELL, CDN, IMG, META].includes(k)).map(k => caches.delete(k))))
+    .then(ks => Promise.all(ks.filter(k => k.startsWith('signet-') && ![SHELL, CDN, IMG, META, PHOTO].includes(k)).map(k => caches.delete(k))))
     .then(() => self.clients.claim()));
 });
 
@@ -65,6 +65,7 @@ self.addEventListener('fetch', e => {
   if (u.origin === location.origin && /(\.module\.min\.js|edinburgh3d\.json)$/.test(u.pathname)) { e.respondWith(cacheFirst(SHELL, r, 0, false).catch(() => fetch(r))); return; }
   if (u.origin === location.origin) { e.respondWith(caches.match(r, {ignoreSearch:true}).then(h => h || fetch(r))); return; }
   if (u.hostname === 'cdn.jsdelivr.net' || u.hostname === 'unpkg.com') { e.respondWith(cacheFirst(CDN, r, 0, true)); return; }
+  if (u.hostname === 'upload.wikimedia.org') { e.respondWith(cacheFirst(PHOTO, r, 8).catch(() => fetch(r))); return; }
   if (u.hostname === 'covers.openlibrary.org' || u.hostname === 'books.google.com' || u.hostname.endsWith('.googleusercontent.com')) {
     e.respondWith(cacheFirst(IMG, r, 400).catch(() => fetch(r)));
   }

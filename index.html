@@ -1598,6 +1598,43 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
 .pkv-btns button:disabled{opacity:.6}
 @media (prefers-reduced-motion:reduce){.pk-hero::before,.pko-bg::after,.pkm,.pkc-spark,.pk-cell::after,.pk-slot::before,.pk-slot .pkc,.pkp-in,.pkp-glow{animation:none!important}}
 .lu-pk .pkm{width:18px;height:28px;animation:none!important;border-radius:2px;display:inline-block}
+
+/* ── v1.7 : l'ouverture en 3D, les fiches et les liens d'achat ── */
+#pk3d{position:absolute;inset:0;width:100%;height:100%;display:none;z-index:2;touch-action:none}
+.pko.g3 #pk3d{display:block}
+.pko.g3 .pko-bg,.pko.g3 #pkFx,.pko.g3 .pko-stage,.pko.g3 .pko-tray{display:none}
+.pko.g3 .pko-hint{bottom:calc(var(--sb) + 22vh)}
+.pko.loading::after{content:"";position:absolute;left:50%;top:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;border:2.5px solid rgba(246,238,221,.18);border-top-color:#E8C77E;animation:pkSpin .8s linear infinite;z-index:7}
+.pko.loading{background:#060403}
+.pko-flash{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;mix-blend-mode:screen}
+.pk3-tag{position:absolute;left:0;top:0;z-index:4;display:flex;align-items:center;gap:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .35s}
+.pk3-tag.on{opacity:1;pointer-events:auto}
+.pk3-tag b{display:inline-block;padding:6px 14px;border-radius:15px;font-size:12px;font-weight:800;letter-spacing:.18em;color:#2a1a08;background:linear-gradient(120deg,#C9A45C,#FFF1C2 40%,#E2BE6F);box-shadow:0 0 22px rgba(255,210,110,.55)}
+.pk3-tag span{display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:15px;font-size:12.5px;font-weight:700;color:#d9d0ff;background:rgba(120,100,255,.16);box-shadow:inset 0 0 0 1px rgba(150,130,255,.35)}
+.pk3-tag button{height:30px;padding:0 13px;border-radius:15px;font-size:12.5px;font-weight:700;color:#F6EEDD;background:rgba(255,255,255,.12);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.pkv-buy{margin-top:20px;text-align:left}
+.pkv-buy h3,.pkv-more h3{font-size:11.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#E8C77E;margin-bottom:10px}
+.pk-buy{display:flex;align-items:center;justify-content:center;gap:10px;height:46px;padding:0 16px;border-radius:23px;font-weight:700;font-size:15px;color:#F6EEDD;background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);text-decoration:none;-webkit-tap-highlight-color:transparent}
+.pk-buy.main{height:54px;border-radius:27px;font-size:16.5px;color:#1A1714;background:linear-gradient(180deg,#FFD58A,#F3A847);box-shadow:0 8px 24px rgba(243,168,71,.3),inset 0 1px 0 rgba(255,255,255,.5)}
+.pk-buy em{font-style:normal;opacity:.6;font-weight:600}
+.pk-buy:active{transform:scale(.97)}
+.pk-buy-row{display:flex;gap:8px;margin-top:8px}
+.pk-buy-row .pk-buy{flex:1;font-size:14px;padding:0 10px}
+.pk-b-amazon{width:20px;height:20px;border-radius:5px;background:#131921;position:relative;flex:none}
+.pk-b-amazon::after{content:"";position:absolute;left:4px;right:4px;bottom:5px;height:5px;border:2px solid #FF9900;border-top:0;border-radius:0 0 10px 10px}
+.pkv-more{margin-top:22px;text-align:left}
+.pkv-d{font-family:var(--serif);font-size:15.5px;line-height:1.55;color:rgba(246,238,221,.82);white-space:pre-line;display:-webkit-box;-webkit-line-clamp:7;-webkit-box-orient:vertical;overflow:hidden}
+.pkv-d.open{-webkit-line-clamp:unset;display:block}
+.pkv-rd{margin-top:6px;font-size:14px;font-weight:700;color:#E8C77E}
+.pkv-facts{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.pkv-facts span{padding:4px 10px;border-radius:11px;font-size:12px;font-weight:600;color:rgba(246,238,221,.7);background:rgba(255,255,255,.07);font-variant-numeric:tabular-nums}
+.pkv-load{display:flex;justify-content:center;gap:6px;padding:10px}
+.pkv-load i{width:6px;height:6px;border-radius:50%;background:rgba(246,238,221,.4);animation:pkBreath 1s ease-in-out infinite}
+.pkv-load i:nth-child(2){animation-delay:.15s}
+.pkv-load i:nth-child(3){animation-delay:.3s}
+.pkv-btns .btn-plain{width:100%;max-width:300px;height:48px;border-radius:24px;font-weight:700;font-size:15px}
+.pkg-art.real{background-position:center 30%}
+.pkv:not(.on){pointer-events:none}
 </style>
 </head>
 <body>
@@ -1688,7 +1725,7 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
 
   <section class="screen scroll" id="scr-set">
     <header class="top">
-      <div class="kicker">Signet · version 1.6</div>
+      <div class="kicker">Signet · version 1.7</div>
       <div class="title-row"><h1 class="list-title" data-t="set.title"></h1></div>
     </header>
     <div class="group">
@@ -1865,7 +1902,7 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
   <input type="file" id="ocrFile" accept="image/*" capture="environment" hidden>
   <input type="file" id="shelfFile" accept="image/*" capture="environment" hidden>
   <div class="lvl-up" id="lvlUp"></div>
-  <div class="pko" id="pko"><div class="pko-bg"></div><canvas id="pkFx"></canvas><div class="pko-stage" id="pkStage"></div><div class="pko-tray" id="pkTray"></div><div class="pko-banner" id="pkBanner"></div><div class="pko-hint" id="pkHint"></div><div class="pko-sum" id="pkSum"></div><button class="pko-x" id="pkClose" data-ta="pk.close">×</button><button class="pko-skip" id="pkSkip" data-t="pk.skip" hidden></button></div>
+  <div class="pko" id="pko"><div class="pko-bg"></div><canvas id="pkFx"></canvas><div class="pko-stage" id="pkStage"></div><div class="pko-tray" id="pkTray"></div><div class="pko-banner" id="pkBanner"></div><div class="pko-hint" id="pkHint"></div><div class="pko-sum" id="pkSum"></div><button class="pko-x" id="pkClose" data-ta="pk.close">×</button><button class="pko-skip" id="pkSkip" data-t="pk.skip" hidden></button><canvas id="pk3d"></canvas><div class="pko-flash" id="pkFlash"></div><div class="pk3-tag" id="pk3Tag"></div></div>
   <div class="pkv" id="pkView"><button class="pkv-x" id="pkvX" data-ta="pk.close">×</button><div class="pkv-stage" id="pkvStage"></div><div class="pkv-info" id="pkvInfo"></div></div>
   <div class="pubv" id="pubView"></div>
   <div class="sheet-wrap" id="sheetWrap"><div class="sheet-bd" id="sheetBd"></div><div class="sheet" id="sheet"><div class="sheet-grab" id="sheetGrab"><i></i></div><div class="sheet-body scroll" id="sheetBody"></div></div></div>
@@ -1946,8 +1983,8 @@ fr: {
  'w.stat':'<b>{n}</b> {l} · {b} {k}','w.place':'lieu','w.places':'lieux','w.book':'livre','w.books':'livres','w.none':'Vos lectures n’ont pas encore de lieu','w.miss':'{n} livres sans lieu : ajoutez-le dans le carnet','w.miss1':'1 livre sans lieu : ajoutez-le dans le carnet','w.here':'L’histoire se passe ici',
  'notes.place':'Lieu de l’histoire','notes.placePh':'Ville, région, pays…','notes.placeSearch':'Recherche du lieu…','notes.placeOk':'Épinglé sur votre globe : {p}','notes.placeNone':'Lieu introuvable. Essayez une ville ou un pays.',
  'ts.k':'Bienvenue dans Signet','ts.h0':'Qu’aimez-vous lire ?','ts.p0':'Comme pour vos films et vos séries : choisissez vos genres et quelques livres qui vous ont marqué. Le grimoire apprendra vos goûts, et d’une simple secousse vous révélera le livre qu’il vous faut.','ts.start':'Commencer','ts.back':'Retour','ts.later':'Plus tard','ts.h1':'Vos genres préférés','ts.p1':'Choisissez-en au moins trois. Plus vous en dites, plus le grimoire voit juste.','ts.pick':'Choisissez vos genres','ts.nextG1':'Continuer · 1 genre','ts.nextG':'Continuer · {n} genres','ts.h2':'Des livres que vous avez adorés','ts.p2':'Touchez le cœur de ceux qui vous ont marqué, ou cherchez-en d’autres.','ts.search':'Chercher un livre, un auteur…','ts.searching':'Le grimoire cherche…','ts.none':'Aucun livre trouvé.','ts.skip':'Passer cette étape','ts.nextB1':'Continuer · 1 coup de cœur','ts.nextB':'Continuer · {n} coups de cœur','ts.k3':'Le secret du grimoire','ts.h3':'Secouez, un secret s’ouvre','ts.p3':'Où que vous soyez dans Signet, secouez votre iPhone : le grimoire brise son sceau et vous révèle un livre choisi pour vous.','ts.motion':'Autoriser les mouvements','ts.motionOn':'Mouvements activés','ts.motionNo':'Refusé · à activer dans Réglages de Signet','ts.reveal':'Révéler mon premier secret','ts.reveal2':'Révéler un secret','ts.save':'Terminé','gs.k':'Le secret du grimoire','gs.whyAu':'Du même auteur que « {t} », que vous avez aimé.','gs.whyB':'Parce que vous avez aimé « {t} ».','gs.whyG':'Choisi pour vos genres préférés.','gs.whyNone':'Un trésor que le grimoire garde pour les curieux.','gs.add':'Ajouter à mes envies','gs.added':'Dans vos envies','gs.next':'Un autre secret','gs.no':'Pas pour moi','gs.none':'Le grimoire n’a plus de secret pour vous… pour l’instant.','gs.hint':'Secouez votre iPhone : le grimoire a un secret pour vous','or.sec':'Le secret du grimoire','set.taste':'Mes goûts de lecture','set.tasteSub':'Genres et coups de cœur qui guident le grimoire.','set.tasteNone':'À définir','set.tG1':'1 genre','set.tG':'{n} genres','set.tB1':'1 livre','set.tB':'{n} livres','rm.err':'La salle de lecture n’a pas pu s’ouvrir sur cet appareil.','rm.load':'On allume les chandelles…',
- 'st.quest':'Quêtes','qt.k':'Quêtes du grimoire','qt.lvlS':'niveau','qt.lvl':'Niveau {n}','qt.lvlN':'niv. {n}','qt.lvlK':'Nouveau niveau','qt.xp':'{x} / {n} XP','qt.next':'Prochain objet : {o} (niveau {n})','qt.objs':'Objets de la salle','qt.seals':'Sceaux · {n} sur {m}','qt.got':'Sceau obtenu','qt.done':'Quête accomplie : {t}','qt.newObj':'Nouvel objet dans la salle','qt.seeRoom':'Voir dans la salle','qt.ok':'Continuer','qt.l1':'Apprenti lecteur','qt.l2':'Lecteur','qt.l3':'Bibliophile','qt.l4':'Rat de bibliothèque','qt.l5':'Érudit','qt.l6':'Gardien des pages','qt.l7':'Archiviste','qt.l8':'Maître du grimoire','qt.l9':'Sage d’Alexandrie','qt.l10':'Légende des lettres','qt.rw.globe':'Le globe terrestre','qt.rw.clock':'L’horloge comtoise','qt.rw.cat':'Le chat près du feu','qt.rw.scope':'La lunette astronomique','qt.rw.chair':'Le fauteuil et sa lampe','qt.rw.fireflies':'Les lucioles dorées','qt.rw.bust':'Le buste de marbre','qt.rw.rose':'La rosace','qt.rw.aurora':'L’aurore boréale','qt.tastes':'Les goûts du grimoire','qt.tastesD':'Dire au grimoire ce que vous aimez lire.','qt.first':'Premier sceau','qt.firstD':'Terminer un livre.','qt.five':'Lecteur assidu','qt.fiveD':'Terminer 5 livres.','qt.twenty':'Bibliophage','qt.twentyD':'Terminer 20 livres.','qt.pave':'Le pavé','qt.paveD':'Finir un livre de 600 pages ou plus.','qt.classic':'Voyage dans le temps','qt.classicD':'Lire un livre paru avant 1900.','qt.streak7':'Sept jours','qt.streak7D':'Lire 7 jours d’affilée.','qt.streak30':'Un mois de pages','qt.streak30D':'Lire 30 jours d’affilée.','qt.pages':'Mille pages','qt.pagesD':'Lire 1 000 pages.','qt.marathon':'Marathon','qt.marathonD':'Lire 300 pages en une semaine.','qt.genres':'Éclectique','qt.genresD':'Lire 5 genres différents.','qt.critic':'Critique','qt.criticD':'Noter 10 livres.','qt.quotes':'Collectionneur de phrases','qt.quotesD':'Garder 5 citations.','qt.night':'Lecteur nocturne','qt.nightD':'Une séance de lecture après 22 h.','qt.secret':'Gardien du secret','qt.secretD':'Ajouter un secret du grimoire à vos envies.','qt.seance':'L’heure dorée','qt.seanceD':'Faire 3 séances d’ambiance.','qt.world':'Globe-trotter','qt.worldD':'Des histoires dans 5 pays.','qt.friend':'Compagnons de lecture','qt.friendD':'Ajouter un ami au club.','qt.library':'Bibliothécaire','qt.libraryD':'50 livres dans votre bibliothèque.','qt.goal':'Objectif tenu','qt.goalD':'Atteindre votre objectif de l’année.','rm.up':'Galerie','rm.down':'Descendre','rm.city':'Édimbourg arrive…','rm.edi':'Édimbourg','rm.sky.live':'En direct','rm.sky.aube':'Aube','rm.sky.jour':'Jour','rm.sky.soir':'Crépuscule','rm.sky.nuit':'Nuit','rm.wx.live':'En direct','rm.wx.clear':'Clair','rm.wx.cloud':'Nuageux','rm.wx.rain':'Pluie','rm.wx.snow':'Neige','rm.wx.fog':'Brume','rm.skyT':'Le ciel d’Édimbourg','rm.skyP':'En direct, le ciel suit l’heure et la météo réelles d’Édimbourg. Vous pouvez aussi choisir.','rm.skyL':'Moment','rm.wxL':'Météo','rm.osm':'Bâtiments réels : © OpenStreetMap contributors, © OpenMapTiles. Météo : Open-Meteo.','rm.bookK':'Votre livre','rm.open':'Ouvrir','rm.face':'Exposer de face','rm.shelf':'Ranger sur l’étagère','rm.faced':'Exposé de face','rm.shelved':'Rangé sur l’étagère','nt.k':'Rappels','nt.mTitle':'Signet','nt.mCur':'« {t} » vous attend : plus que {n} pages.','nt.mCur0':'« {t} » vous attend, page marquée.','nt.mStreak':'Votre série de {n} jours continue ce soir ?','nt.m1':'Dix pages avant de dormir ? Le grimoire veille.','nt.m2':'Un chapitre ce soir, et la bougie s’allume.','nt.title':'Rappels de lecture','nt.txt':'Un petit mot à l’heure choisie, seulement les jours où vous n’avez pas encore lu.','nt.when':'À quelle heure ?','nt.h':'{h} h','nt.enable':'Activer les rappels','nt.update':'Enregistrer','nt.disable':'Désactiver','nt.done':'Rappel chaque jour à {h} h','nt.offDone':'Rappels désactivés','nt.at':'à {h} h','nt.off':'Désactivés','nt.noSrv':'Serveur Signet indisponible','nt.unsup':'Cet appareil ne reçoit pas les notifications web','nt.denied':'Notifications refusées : autorisez-les dans Réglages › Notifications › Signet','nt.fail':'Impossible d’activer les rappels pour l’instant','nt.homeT':'D’abord, l’écran d’accueil','nt.homeTxt':'Sur iPhone, les rappels ne marchent que si Signet est ouvert depuis son icône.','nt.s1':'Dans Safari, touchez Partager','nt.s2':'Choisissez « Sur l’écran d’accueil »','nt.s3':'Ouvrez Signet depuis l’icône, puis revenez ici','set.notif':'Rappels de lecture','set.notifSub':'Un mot du grimoire si vous n’avez pas encore lu.','pb.title':'Ma bibliothèque publique','pb.off':'Un lien pour montrer vos étagères à vos amis','pb.on':'Visible par ceux qui ont le lien','pb.make':'Créer le lien','pb.share':'Partager','pb.update':'Mettre à jour','pb.stop':'Rendre privée','pb.txt':'Vos amis voient vos lectures en cours, vos coups de cœur, votre étagère et vos citations, sans avoir besoin de Signet. Votre clé et vos notes restent chez vous.','pb.done':'Bibliothèque publique à jour','pb.stopped':'Bibliothèque redevenue privée','pb.shareTxt':'Découvrez la bibliothèque de {n} sur Signet','pb.loading':'On ouvre la bibliothèque…','pb.none':'Cette bibliothèque n’est pas (ou plus) publique.','pb.open':'Ouvrir Signet','pb.k':'Bibliothèque','pb.of':'Les livres de {n}','pb.year':'livres en {y} · objectif {g}','pb.streak':'jours d’affilée','pb.pages':'pages cette année','pb.cur':'En ce moment','pb.fav':'Coups de cœur','pb.shelf':'L’étagère · {n} livres','pb.quotes':'Citations','pb.env':'Envies · {n}','pb.foot':'Envie de ranger vos livres aussi joliment ?','pb.mine':'Ouvrir ma bibliothèque Signet','sf.k':'Scan d’étagère','sf.title':'Lecture des dos de livres','sf.load':'Préparation de la lecture…','sf.read':'Lecture des titres… {n} %','sf.search':'Recherche des livres… {n} %','sf.beta':'Expérimental : photographiez bien en face, avec de la lumière, 5 à 10 livres à la fois.','sf.nothing':'Aucun titre reconnu','sf.tips':'Rapprochez-vous (5 à 10 livres par photo), évitez les reflets et gardez les dos bien droits.','sf.err':'La lecture a échoué. Réessayez avec une autre photo.','sf.found':'{n} livres reconnus','sf.found1':'1 livre reconnu','sf.pick':'Cochez ceux à ajouter, puis choisissez la liste.','sf.owned':'Déjà dans votre bibliothèque','sf.add':'Ajouter ({n})','sf.adding':'Ajout…','sf.added':'{n} livres ajoutés','sf.added1':'1 livre ajouté','scan.shelf':'Photo d’une étagère',
- 'pk.k':'Packs du grimoire','pk.n1':'1 pack à ouvrir','pk.n':'{n} packs à ouvrir','pk.none':'Aucun pack à ouvrir pour l’instant','pk.inkN':'{n} éclats d’encre','pk.open':'Ouvrir','pk.daily':'Pack du jour','pk.dailyWait':'Pack du jour dans {h} h','pk.how':'Un pack offert chaque jour, un par livre terminé, un par sceau de quête et un pack doré à chaque niveau. Les doublons se changent en éclats d’encre.','pk.col':'Collection','pk.mine':'Mes lectures','pk.disc':'{n} livres découverts sur {m}','pk.all':'Toutes','pk.miss':'Manquantes','pk.moreN':'Afficher {n} de plus','pk.t.c':'Commune','pk.t.r':'Rare','pk.t.e':'Épique','pk.t.l':'Légendaire','pk.t.m':'Mythique','pk.type.std':'Pack de lecture','pk.type.or':'Pack doré','pk.sub':'cinq livres à découvrir','pk.fiveS':'5 cartes · une rare au moins','pk.fiveO':'5 cartes · une épique au moins','pk.tearHere':'déchirer ici','pk.hTear':'Glissez le doigt le long du haut pour déchirer','pk.hReveal':'Touchez la carte pour la retourner','pk.hNext':'Touchez pour la suivante','pk.hEnd':'Touchez pour voir votre butin','pk.new':'NOUVELLE','pk.dup':'Doublon · +{n} encre','pk.foil':'Brillante','pk.bc':'{n} av. J.-C.','pk.skip':'Tout révéler','pk.close':'Fermer','pk.sumK':'Pack ouvert','pk.sumNew1':'1 nouveau livre découvert','pk.sumNew':'{n} nouveaux livres découverts','pk.sumNone':'Que des doublons, cette fois','pk.sumInk':'+{n} éclats d’encre','pk.sumTip':'Touchez une carte pour la voir en grand','pk.again':'Ouvrir le suivant ({n})','pk.seeCol':'Voir ma collection','pk.lockT':'Livre encore inconnu','pk.lockP':'Trouvez-le dans un pack, ou faites-le apparaître avec vos éclats d’encre. Chaque doublon s’y change.','pk.craft':'Révéler pour {n} éclats','pk.own1':'Vous avez cette carte','pk.ownN':'Vous avez cette carte en {n} exemplaires','pk.inLib':'Déjà dans votre bibliothèque','pk.got':'Nouveau pack · {w}','pk.gotN':'{n} nouveaux packs · {w}','pk.gotOr':'Pack doré · {w}','pk.why.daily':'cadeau du jour','pk.why.book':'livre terminé','pk.why.quest':'sceau de quête','pk.why.level':'nouveau niveau','pk.welcome':'Nouveau : les packs du grimoire. 4 packs vous attendent dans Cartes.','pk.luGift':'+1 pack doré',
+ 'st.quest':'Quêtes','qt.k':'Quêtes du grimoire','qt.lvlS':'niveau','qt.lvl':'Niveau {n}','qt.lvlN':'niv. {n}','qt.lvlK':'Nouveau niveau','qt.xp':'{x} / {n} XP','qt.next':'Prochain objet : {o} (niveau {n})','qt.objs':'Objets de la salle','qt.seals':'Sceaux · {n} sur {m}','qt.got':'Sceau obtenu','qt.done':'Quête accomplie : {t}','qt.newObj':'Nouvel objet dans la salle','qt.seeRoom':'Voir dans la salle','qt.ok':'Continuer','qt.l1':'Apprenti lecteur','qt.l2':'Lecteur','qt.l3':'Bibliophile','qt.l4':'Rat de bibliothèque','qt.l5':'Érudit','qt.l6':'Gardien des pages','qt.l7':'Archiviste','qt.l8':'Maître du grimoire','qt.l9':'Sage d’Alexandrie','qt.l10':'Légende des lettres','qt.rw.globe':'Le globe terrestre','qt.rw.clock':'L’horloge comtoise','qt.rw.cat':'Le chat près du feu','qt.rw.scope':'La lunette astronomique','qt.rw.chair':'Le fauteuil et sa lampe','qt.rw.fireflies':'Les lucioles dorées','qt.rw.bust':'Le buste de marbre','qt.rw.rose':'La rosace','qt.rw.aurora':'L’aurore boréale','qt.tastes':'Les goûts du grimoire','qt.tastesD':'Dire au grimoire ce que vous aimez lire.','qt.first':'Premier sceau','qt.firstD':'Terminer un livre.','qt.five':'Lecteur assidu','qt.fiveD':'Terminer 5 livres.','qt.twenty':'Bibliophage','qt.twentyD':'Terminer 20 livres.','qt.pave':'Le pavé','qt.paveD':'Finir un livre de 600 pages ou plus.','qt.classic':'Voyage dans le temps','qt.classicD':'Lire un livre paru avant 1900.','qt.streak7':'Sept jours','qt.streak7D':'Lire 7 jours d’affilée.','qt.streak30':'Un mois de pages','qt.streak30D':'Lire 30 jours d’affilée.','qt.pages':'Mille pages','qt.pagesD':'Lire 1 000 pages.','qt.marathon':'Marathon','qt.marathonD':'Lire 300 pages en une semaine.','qt.genres':'Éclectique','qt.genresD':'Lire 5 genres différents.','qt.critic':'Critique','qt.criticD':'Noter 10 livres.','qt.quotes':'Collectionneur de phrases','qt.quotesD':'Garder 5 citations.','qt.night':'Lecteur nocturne','qt.nightD':'Une séance de lecture après 22 h.','qt.secret':'Gardien du secret','qt.secretD':'Ajouter un secret du grimoire à vos envies.','qt.seance':'L’heure dorée','qt.seanceD':'Faire 3 séances d’ambiance.','qt.world':'Globe-trotter','qt.worldD':'Des histoires dans 5 pays.','qt.friend':'Compagnons de lecture','qt.friendD':'Ajouter un ami au club.','qt.library':'Bibliothécaire','qt.libraryD':'50 livres dans votre bibliothèque.','qt.goal':'Objectif tenu','qt.goalD':'Atteindre votre objectif de l’année.','rm.up':'Galerie','rm.down':'Descendre','rm.city':'Édimbourg arrive…','rm.edi':'Édimbourg','rm.sky.live':'En direct','rm.sky.aube':'Aube','rm.sky.jour':'Jour','rm.sky.soir':'Crépuscule','rm.sky.nuit':'Nuit','rm.wx.live':'En direct','rm.wx.clear':'Clair','rm.wx.cloud':'Nuageux','rm.wx.rain':'Pluie','rm.wx.snow':'Neige','rm.wx.fog':'Brume','rm.skyT':'Le ciel d’Édimbourg','rm.skyP':'En direct, le ciel suit l’heure et la météo réelles d’Édimbourg. Vous pouvez aussi choisir.','rm.skyL':'Moment','rm.wxL':'Météo','rm.viewL':'Vue','rm.view.photo':'Photo','rm.view.photo2':'Photo 2','rm.view.3d':'3D','rm.photoBy':'Photos réelles : Ad Meskens, Wikimedia Commons (CC BY-SA 3.0). Météo : Open-Meteo.','rm.osm':'Bâtiments réels : © OpenStreetMap contributors, © OpenMapTiles. Météo : Open-Meteo.','rm.bookK':'Votre livre','rm.open':'Ouvrir','rm.face':'Exposer de face','rm.shelf':'Ranger sur l’étagère','rm.faced':'Exposé de face','rm.shelved':'Rangé sur l’étagère','nt.k':'Rappels','nt.mTitle':'Signet','nt.mCur':'« {t} » vous attend : plus que {n} pages.','nt.mCur0':'« {t} » vous attend, page marquée.','nt.mStreak':'Votre série de {n} jours continue ce soir ?','nt.m1':'Dix pages avant de dormir ? Le grimoire veille.','nt.m2':'Un chapitre ce soir, et la bougie s’allume.','nt.title':'Rappels de lecture','nt.txt':'Un petit mot à l’heure choisie, seulement les jours où vous n’avez pas encore lu.','nt.when':'À quelle heure ?','nt.h':'{h} h','nt.enable':'Activer les rappels','nt.update':'Enregistrer','nt.disable':'Désactiver','nt.done':'Rappel chaque jour à {h} h','nt.offDone':'Rappels désactivés','nt.at':'à {h} h','nt.off':'Désactivés','nt.noSrv':'Serveur Signet indisponible','nt.unsup':'Cet appareil ne reçoit pas les notifications web','nt.denied':'Notifications refusées : autorisez-les dans Réglages › Notifications › Signet','nt.fail':'Impossible d’activer les rappels pour l’instant','nt.homeT':'D’abord, l’écran d’accueil','nt.homeTxt':'Sur iPhone, les rappels ne marchent que si Signet est ouvert depuis son icône.','nt.s1':'Dans Safari, touchez Partager','nt.s2':'Choisissez « Sur l’écran d’accueil »','nt.s3':'Ouvrez Signet depuis l’icône, puis revenez ici','set.notif':'Rappels de lecture','set.notifSub':'Un mot du grimoire si vous n’avez pas encore lu.','pb.title':'Ma bibliothèque publique','pb.off':'Un lien pour montrer vos étagères à vos amis','pb.on':'Visible par ceux qui ont le lien','pb.make':'Créer le lien','pb.share':'Partager','pb.update':'Mettre à jour','pb.stop':'Rendre privée','pb.txt':'Vos amis voient vos lectures en cours, vos coups de cœur, votre étagère et vos citations, sans avoir besoin de Signet. Votre clé et vos notes restent chez vous.','pb.done':'Bibliothèque publique à jour','pb.stopped':'Bibliothèque redevenue privée','pb.shareTxt':'Découvrez la bibliothèque de {n} sur Signet','pb.loading':'On ouvre la bibliothèque…','pb.none':'Cette bibliothèque n’est pas (ou plus) publique.','pb.open':'Ouvrir Signet','pb.k':'Bibliothèque','pb.of':'Les livres de {n}','pb.year':'livres en {y} · objectif {g}','pb.streak':'jours d’affilée','pb.pages':'pages cette année','pb.cur':'En ce moment','pb.fav':'Coups de cœur','pb.shelf':'L’étagère · {n} livres','pb.quotes':'Citations','pb.env':'Envies · {n}','pb.foot':'Envie de ranger vos livres aussi joliment ?','pb.mine':'Ouvrir ma bibliothèque Signet','sf.k':'Scan d’étagère','sf.title':'Lecture des dos de livres','sf.load':'Préparation de la lecture…','sf.read':'Lecture des titres… {n} %','sf.search':'Recherche des livres… {n} %','sf.beta':'Expérimental : photographiez bien en face, avec de la lumière, 5 à 10 livres à la fois.','sf.nothing':'Aucun titre reconnu','sf.tips':'Rapprochez-vous (5 à 10 livres par photo), évitez les reflets et gardez les dos bien droits.','sf.err':'La lecture a échoué. Réessayez avec une autre photo.','sf.found':'{n} livres reconnus','sf.found1':'1 livre reconnu','sf.pick':'Cochez ceux à ajouter, puis choisissez la liste.','sf.owned':'Déjà dans votre bibliothèque','sf.add':'Ajouter ({n})','sf.adding':'Ajout…','sf.added':'{n} livres ajoutés','sf.added1':'1 livre ajouté','scan.shelf':'Photo d’une étagère',
+ 'pk.k':'Packs du grimoire','pk.n1':'1 pack à ouvrir','pk.n':'{n} packs à ouvrir','pk.none':'Aucun pack à ouvrir pour l’instant','pk.inkN':'{n} éclats d’encre','pk.open':'Ouvrir','pk.daily':'Pack du jour','pk.dailyWait':'Pack du jour dans {h} h','pk.how':'Un pack offert chaque jour, un par livre terminé, un par sceau de quête et un pack doré à chaque niveau. Les doublons se changent en éclats d’encre.','pk.col':'Collection','pk.mine':'Mes lectures','pk.disc':'{n} livres découverts sur {m}','pk.all':'Toutes','pk.miss':'Manquantes','pk.moreN':'Afficher {n} de plus','pk.t.c':'Commune','pk.t.r':'Rare','pk.t.e':'Épique','pk.t.l':'Légendaire','pk.t.m':'Mythique','pk.type.std':'Pack de lecture','pk.type.or':'Pack doré','pk.sub':'cinq livres à découvrir','pk.fiveS':'5 cartes · une rare au moins','pk.fiveO':'5 cartes · une épique au moins','pk.tearHere':'déchirer ici','pk.hTear':'Glissez le doigt le long du haut pour déchirer','pk.hReveal':'Touchez la carte pour la retourner','pk.hNext':'Touchez pour la suivante','pk.hEnd':'Touchez pour voir votre butin','pk.new':'NOUVELLE','pk.dup':'Doublon · +{n} encre','pk.foil':'Brillante','pk.bc':'{n} av. J.-C.','pk.skip':'Tout révéler','pk.close':'Fermer','pk.sumK':'Pack ouvert','pk.sumNew1':'1 nouveau livre découvert','pk.sumNew':'{n} nouveaux livres découverts','pk.sumNone':'Que des doublons, cette fois','pk.sumInk':'+{n} éclats d’encre','pk.sumTip':'Touchez une carte pour la voir en grand','pk.again':'Ouvrir le suivant ({n})','pk.seeCol':'Voir ma collection','pk.lockT':'Livre encore inconnu','pk.lockP':'Trouvez-le dans un pack, ou faites-le apparaître avec vos éclats d’encre. Chaque doublon s’y change.','pk.craft':'Révéler pour {n} éclats','pk.own1':'Vous avez cette carte','pk.ownN':'Vous avez cette carte en {n} exemplaires','pk.inLib':'Déjà dans votre bibliothèque','pk.got':'Nouveau pack · {w}','pk.gotN':'{n} nouveaux packs · {w}','pk.gotOr':'Pack doré · {w}','pk.why.daily':'cadeau du jour','pk.why.book':'livre terminé','pk.why.quest':'sceau de quête','pk.why.level':'nouveau niveau','pk.welcome':'Nouveau : les packs du grimoire. 4 packs vous attendent dans Cartes.','pk.luGift':'+1 pack doré','pk.back':'5 cartes à collectionner · {n} livres','pk.infoBuy':'Fiche & achat','pk.buyT':'Acheter ce livre','pk.buyOn':'Acheter sur {s}','pk.indie':'Libraires indépendants','pk.descT':'Résumé','pk.readMore':'Lire la suite','pk.pages':'{n} pages',
  'or.btn':'Oracle','or.title':'L’oracle','or.hint':'Touchez le grimoire ou secouez le téléphone','or.hintTap':'Touchez le grimoire pour qu’il choisisse','or.k':'Le grimoire a choisi','or.again':'Consulter à nouveau','or.empty':'Le grimoire n’a rien à vous proposer. Ajoutez des livres à vos envies.',
  'st.story':'Voir mon année',
  'sy.k':'Mon année {y}','sy.introT':'Votre année en lectures','sy.introP':'Le grimoire de {y} s’ouvre…','sy.countP':'Cette année, vous avez terminé','sy.book1':'livre','sy.books':'livres','sy.pagesP':'Vous avez tourné','sy.pagesU':'pages','sy.hours':'soit {h} h de lecture','sy.monthP':'Votre plus beau mois','sy.streak':'Meilleure série : {n} jours d’affilée','sy.authorP':'L’auteur de votre année','sy.ab1':'1 livre lu','sy.ab':'{n} livres lus','sy.favP':'Votre coup de cœur','sy.colP':'Votre collection','sy.endP':'Votre année, prête à partager','sy.again':'Revoir',
@@ -2045,8 +2082,8 @@ en: {
  'w.stat':'<b>{n}</b> {l} · {b} {k}','w.place':'place','w.places':'places','w.book':'book','w.books':'books','w.none':'Your books have no places yet','w.miss':'{n} books without a place: add it in the notes','w.miss1':'1 book without a place: add it in the notes','w.here':'The story takes place here',
  'notes.place':'Where the story takes place','notes.placePh':'City, region, country…','notes.placeSearch':'Looking up the place…','notes.placeOk':'Pinned on your globe: {p}','notes.placeNone':'Place not found. Try a city or a country.',
  'ts.k':'Welcome to Signet','ts.h0':'What do you love to read?','ts.p0':'Just like with films and series: pick your genres and a few books that stayed with you. The grimoire learns your taste, and with a simple shake reveals the book you need.','ts.start':'Get started','ts.back':'Back','ts.later':'Later','ts.h1':'Your favourite genres','ts.p1':'Pick at least three. The more you share, the sharper the grimoire gets.','ts.pick':'Pick your genres','ts.nextG1':'Continue · 1 genre','ts.nextG':'Continue · {n} genres','ts.h2':'Books you loved','ts.p2':'Tap the heart on the ones that stayed with you, or search for others.','ts.search':'Search a book, an author…','ts.searching':'The grimoire is searching…','ts.none':'No book found.','ts.skip':'Skip this step','ts.nextB1':'Continue · 1 favourite','ts.nextB':'Continue · {n} favourites','ts.k3':'The grimoire’s secret','ts.h3':'Shake, and a secret opens','ts.p3':'Anywhere in Signet, shake your iPhone: the grimoire breaks its seal and reveals a book chosen for you.','ts.motion':'Allow motion','ts.motionOn':'Motion enabled','ts.motionNo':'Denied · enable it in Signet settings','ts.reveal':'Reveal my first secret','ts.reveal2':'Reveal a secret','ts.save':'Done','gs.k':'The grimoire’s secret','gs.whyAu':'By the author of “{t}”, which you loved.','gs.whyB':'Because you loved “{t}”.','gs.whyG':'Chosen for your favourite genres.','gs.whyNone':'A treasure the grimoire keeps for the curious.','gs.add':'Add to Want to read','gs.added':'In Want to read','gs.next':'Another secret','gs.no':'Not for me','gs.none':'The grimoire has no secrets left for you… for now.','gs.hint':'Shake your iPhone: the grimoire has a secret for you','or.sec':'The grimoire’s secret','set.taste':'My reading tastes','set.tasteSub':'Genres and favourites that guide the grimoire.','set.tasteNone':'Not set','set.tG1':'1 genre','set.tG':'{n} genres','set.tB1':'1 book','set.tB':'{n} books','rm.err':'The reading room couldn’t open on this device.','rm.load':'Lighting the candles…',
- 'st.quest':'Quests','qt.k':'Grimoire quests','qt.lvlS':'level','qt.lvl':'Level {n}','qt.lvlN':'lvl {n}','qt.lvlK':'New level','qt.xp':'{x} / {n} XP','qt.next':'Next object: {o} (level {n})','qt.objs':'Objects in the room','qt.seals':'Seals · {n} of {m}','qt.got':'Seal earned','qt.done':'Quest complete: {t}','qt.newObj':'New object in the room','qt.seeRoom':'See it in the room','qt.ok':'Continue','qt.l1':'Apprentice reader','qt.l2':'Reader','qt.l3':'Bibliophile','qt.l4':'Bookworm','qt.l5':'Scholar','qt.l6':'Keeper of pages','qt.l7':'Archivist','qt.l8':'Grimoire master','qt.l9':'Sage of Alexandria','qt.l10':'Legend of letters','qt.rw.globe':'The globe','qt.rw.clock':'The grandfather clock','qt.rw.cat':'The cat by the fire','qt.rw.scope':'The telescope','qt.rw.chair':'The armchair and lamp','qt.rw.fireflies':'Golden fireflies','qt.rw.bust':'The marble bust','qt.rw.rose':'The rose window','qt.rw.aurora':'The northern lights','qt.tastes':'The grimoire’s tastes','qt.tastesD':'Tell the grimoire what you love to read.','qt.first':'First seal','qt.firstD':'Finish a book.','qt.five':'Devoted reader','qt.fiveD':'Finish 5 books.','qt.twenty':'Book devourer','qt.twentyD':'Finish 20 books.','qt.pave':'The doorstopper','qt.paveD':'Finish a book of 600 pages or more.','qt.classic':'Time travel','qt.classicD':'Read a book published before 1900.','qt.streak7':'Seven days','qt.streak7D':'Read 7 days in a row.','qt.streak30':'A month of pages','qt.streak30D':'Read 30 days in a row.','qt.pages':'A thousand pages','qt.pagesD':'Read 1,000 pages.','qt.marathon':'Marathon','qt.marathonD':'Read 300 pages in one week.','qt.genres':'Eclectic','qt.genresD':'Read 5 different genres.','qt.critic':'Critic','qt.criticD':'Rate 10 books.','qt.quotes':'Phrase collector','qt.quotesD':'Save 5 quotes.','qt.night':'Night owl','qt.nightD':'A reading session after 10 pm.','qt.secret':'Secret keeper','qt.secretD':'Add a grimoire secret to your wishlist.','qt.seance':'Golden hour','qt.seanceD':'Do 3 ambient reading sessions.','qt.world':'Globetrotter','qt.worldD':'Stories set in 5 countries.','qt.friend':'Reading companions','qt.friendD':'Add a friend to the club.','qt.library':'Librarian','qt.libraryD':'50 books in your library.','qt.goal':'Goal reached','qt.goalD':'Reach your yearly goal.','rm.up':'Gallery','rm.down':'Go down','rm.city':'Edinburgh is coming…','rm.edi':'Edinburgh','rm.sky.live':'Live','rm.sky.aube':'Dawn','rm.sky.jour':'Day','rm.sky.soir':'Dusk','rm.sky.nuit':'Night','rm.wx.live':'Live','rm.wx.clear':'Clear','rm.wx.cloud':'Cloudy','rm.wx.rain':'Rain','rm.wx.snow':'Snow','rm.wx.fog':'Mist','rm.skyT':'Edinburgh’s sky','rm.skyP':'Live, the sky follows Edinburgh’s real time and weather. You can also choose.','rm.skyL':'Time','rm.wxL':'Weather','rm.osm':'Real buildings: © OpenStreetMap contributors, © OpenMapTiles. Weather: Open-Meteo.','rm.bookK':'Your book','rm.open':'Open','rm.face':'Display face out','rm.shelf':'Put on the shelf','rm.faced':'Now on display','rm.shelved':'Shelved','nt.k':'Reminders','nt.mTitle':'Signet','nt.mCur':'“{t}” is waiting: just {n} pages left.','nt.mCur0':'“{t}” is waiting, bookmark in place.','nt.mStreak':'Keep your {n}-day streak going tonight?','nt.m1':'Ten pages before bed? The grimoire is watching.','nt.m2':'One chapter tonight, and the candle lights up.','nt.title':'Reading reminders','nt.txt':'A short note at the time you choose, only on days you haven’t read yet.','nt.when':'What time?','nt.h':'{h}:00','nt.enable':'Turn on reminders','nt.update':'Save','nt.disable':'Turn off','nt.done':'Daily reminder at {h}:00','nt.offDone':'Reminders off','nt.at':'at {h}:00','nt.off':'Off','nt.noSrv':'Signet server unavailable','nt.unsup':'This device can’t receive web notifications','nt.denied':'Notifications denied: allow them in Settings › Notifications › Signet','nt.fail':'Couldn’t turn on reminders right now','nt.homeT':'First, the Home Screen','nt.homeTxt':'On iPhone, reminders only work when Signet is opened from its icon.','nt.s1':'In Safari, tap Share','nt.s2':'Choose “Add to Home Screen”','nt.s3':'Open Signet from the icon, then come back here','set.notif':'Reading reminders','set.notifSub':'A note from the grimoire if you haven’t read yet.','pb.title':'My public library','pb.off':'A link to show your shelves to friends','pb.on':'Visible to anyone with the link','pb.make':'Create link','pb.share':'Share','pb.update':'Update','pb.stop':'Make private','pb.txt':'Friends see what you are reading, your favourites, your shelf and your quotes, without needing Signet. Your key and your notes stay with you.','pb.done':'Public library updated','pb.stopped':'Your library is private again','pb.shareTxt':'Take a look at {n}’s library on Signet','pb.loading':'Opening the library…','pb.none':'This library isn’t public (anymore).','pb.open':'Open Signet','pb.k':'Library','pb.of':'{n}’s books','pb.year':'books in {y} · goal {g}','pb.streak':'day streak','pb.pages':'pages this year','pb.cur':'Reading now','pb.fav':'Favourites','pb.shelf':'The shelf · {n} books','pb.quotes':'Quotes','pb.env':'Want to read · {n}','pb.foot':'Want your books to look this good?','pb.mine':'Open my Signet library','sf.k':'Shelf scan','sf.title':'Reading the spines','sf.load':'Getting ready…','sf.read':'Reading titles… {n}%','sf.search':'Looking up books… {n}%','sf.beta':'Experimental: shoot straight on, in good light, 5 to 10 books at a time.','sf.nothing':'No title recognised','sf.tips':'Get closer (5 to 10 books per photo), avoid reflections and keep the spines straight.','sf.err':'Reading failed. Try again with another photo.','sf.found':'{n} books recognised','sf.found1':'1 book recognised','sf.pick':'Tick the ones to add, then choose the list.','sf.owned':'Already in your library','sf.add':'Add ({n})','sf.adding':'Adding…','sf.added':'{n} books added','sf.added1':'1 book added','scan.shelf':'Photo of a shelf',
- 'pk.k':'Grimoire packs','pk.n1':'1 pack to open','pk.n':'{n} packs to open','pk.none':'No packs to open right now','pk.inkN':'{n} ink drops','pk.open':'Open','pk.daily':'Daily pack','pk.dailyWait':'Daily pack in {h} h','pk.how':'One free pack a day, one per finished book, one per quest seal and a golden pack at every level. Duplicates turn into ink drops.','pk.col':'Collection','pk.mine':'My reads','pk.disc':'{n} of {m} books discovered','pk.all':'All','pk.miss':'Missing','pk.moreN':'Show {n} more','pk.t.c':'Common','pk.t.r':'Rare','pk.t.e':'Epic','pk.t.l':'Legendary','pk.t.m':'Mythic','pk.type.std':'Reading pack','pk.type.or':'Golden pack','pk.sub':'five books to discover','pk.fiveS':'5 cards · at least one rare','pk.fiveO':'5 cards · at least one epic','pk.tearHere':'tear here','pk.hTear':'Slide your finger along the top to tear','pk.hReveal':'Tap the card to flip it','pk.hNext':'Tap for the next one','pk.hEnd':'Tap to see your haul','pk.new':'NEW','pk.dup':'Duplicate · +{n} ink','pk.foil':'Foil','pk.bc':'{n} BC','pk.skip':'Reveal all','pk.close':'Close','pk.sumK':'Pack opened','pk.sumNew1':'1 new book discovered','pk.sumNew':'{n} new books discovered','pk.sumNone':'All duplicates this time','pk.sumInk':'+{n} ink drops','pk.sumTip':'Tap a card to see it up close','pk.again':'Open the next one ({n})','pk.seeCol':'See my collection','pk.lockT':'Book not found yet','pk.lockP':'Find it in a pack, or summon it with your ink drops. Every duplicate turns into ink.','pk.craft':'Reveal for {n} drops','pk.own1':'You own this card','pk.ownN':'You own {n} copies of this card','pk.inLib':'Already in your library','pk.got':'New pack · {w}','pk.gotN':'{n} new packs · {w}','pk.gotOr':'Golden pack · {w}','pk.why.daily':'daily gift','pk.why.book':'book finished','pk.why.quest':'quest seal','pk.why.level':'new level','pk.welcome':'New: grimoire packs. 4 packs are waiting for you in Cards.','pk.luGift':'+1 golden pack',
+ 'st.quest':'Quests','qt.k':'Grimoire quests','qt.lvlS':'level','qt.lvl':'Level {n}','qt.lvlN':'lvl {n}','qt.lvlK':'New level','qt.xp':'{x} / {n} XP','qt.next':'Next object: {o} (level {n})','qt.objs':'Objects in the room','qt.seals':'Seals · {n} of {m}','qt.got':'Seal earned','qt.done':'Quest complete: {t}','qt.newObj':'New object in the room','qt.seeRoom':'See it in the room','qt.ok':'Continue','qt.l1':'Apprentice reader','qt.l2':'Reader','qt.l3':'Bibliophile','qt.l4':'Bookworm','qt.l5':'Scholar','qt.l6':'Keeper of pages','qt.l7':'Archivist','qt.l8':'Grimoire master','qt.l9':'Sage of Alexandria','qt.l10':'Legend of letters','qt.rw.globe':'The globe','qt.rw.clock':'The grandfather clock','qt.rw.cat':'The cat by the fire','qt.rw.scope':'The telescope','qt.rw.chair':'The armchair and lamp','qt.rw.fireflies':'Golden fireflies','qt.rw.bust':'The marble bust','qt.rw.rose':'The rose window','qt.rw.aurora':'The northern lights','qt.tastes':'The grimoire’s tastes','qt.tastesD':'Tell the grimoire what you love to read.','qt.first':'First seal','qt.firstD':'Finish a book.','qt.five':'Devoted reader','qt.fiveD':'Finish 5 books.','qt.twenty':'Book devourer','qt.twentyD':'Finish 20 books.','qt.pave':'The doorstopper','qt.paveD':'Finish a book of 600 pages or more.','qt.classic':'Time travel','qt.classicD':'Read a book published before 1900.','qt.streak7':'Seven days','qt.streak7D':'Read 7 days in a row.','qt.streak30':'A month of pages','qt.streak30D':'Read 30 days in a row.','qt.pages':'A thousand pages','qt.pagesD':'Read 1,000 pages.','qt.marathon':'Marathon','qt.marathonD':'Read 300 pages in one week.','qt.genres':'Eclectic','qt.genresD':'Read 5 different genres.','qt.critic':'Critic','qt.criticD':'Rate 10 books.','qt.quotes':'Phrase collector','qt.quotesD':'Save 5 quotes.','qt.night':'Night owl','qt.nightD':'A reading session after 10 pm.','qt.secret':'Secret keeper','qt.secretD':'Add a grimoire secret to your wishlist.','qt.seance':'Golden hour','qt.seanceD':'Do 3 ambient reading sessions.','qt.world':'Globetrotter','qt.worldD':'Stories set in 5 countries.','qt.friend':'Reading companions','qt.friendD':'Add a friend to the club.','qt.library':'Librarian','qt.libraryD':'50 books in your library.','qt.goal':'Goal reached','qt.goalD':'Reach your yearly goal.','rm.up':'Gallery','rm.down':'Go down','rm.city':'Edinburgh is coming…','rm.edi':'Edinburgh','rm.sky.live':'Live','rm.sky.aube':'Dawn','rm.sky.jour':'Day','rm.sky.soir':'Dusk','rm.sky.nuit':'Night','rm.wx.live':'Live','rm.wx.clear':'Clear','rm.wx.cloud':'Cloudy','rm.wx.rain':'Rain','rm.wx.snow':'Snow','rm.wx.fog':'Mist','rm.skyT':'Edinburgh’s sky','rm.skyP':'Live, the sky follows Edinburgh’s real time and weather. You can also choose.','rm.skyL':'Time','rm.wxL':'Weather','rm.viewL':'View','rm.view.photo':'Photo','rm.view.photo2':'Photo 2','rm.view.3d':'3D','rm.photoBy':'Real photos: Ad Meskens, Wikimedia Commons (CC BY-SA 3.0). Weather: Open-Meteo.','rm.osm':'Real buildings: © OpenStreetMap contributors, © OpenMapTiles. Weather: Open-Meteo.','rm.bookK':'Your book','rm.open':'Open','rm.face':'Display face out','rm.shelf':'Put on the shelf','rm.faced':'Now on display','rm.shelved':'Shelved','nt.k':'Reminders','nt.mTitle':'Signet','nt.mCur':'“{t}” is waiting: just {n} pages left.','nt.mCur0':'“{t}” is waiting, bookmark in place.','nt.mStreak':'Keep your {n}-day streak going tonight?','nt.m1':'Ten pages before bed? The grimoire is watching.','nt.m2':'One chapter tonight, and the candle lights up.','nt.title':'Reading reminders','nt.txt':'A short note at the time you choose, only on days you haven’t read yet.','nt.when':'What time?','nt.h':'{h}:00','nt.enable':'Turn on reminders','nt.update':'Save','nt.disable':'Turn off','nt.done':'Daily reminder at {h}:00','nt.offDone':'Reminders off','nt.at':'at {h}:00','nt.off':'Off','nt.noSrv':'Signet server unavailable','nt.unsup':'This device can’t receive web notifications','nt.denied':'Notifications denied: allow them in Settings › Notifications › Signet','nt.fail':'Couldn’t turn on reminders right now','nt.homeT':'First, the Home Screen','nt.homeTxt':'On iPhone, reminders only work when Signet is opened from its icon.','nt.s1':'In Safari, tap Share','nt.s2':'Choose “Add to Home Screen”','nt.s3':'Open Signet from the icon, then come back here','set.notif':'Reading reminders','set.notifSub':'A note from the grimoire if you haven’t read yet.','pb.title':'My public library','pb.off':'A link to show your shelves to friends','pb.on':'Visible to anyone with the link','pb.make':'Create link','pb.share':'Share','pb.update':'Update','pb.stop':'Make private','pb.txt':'Friends see what you are reading, your favourites, your shelf and your quotes, without needing Signet. Your key and your notes stay with you.','pb.done':'Public library updated','pb.stopped':'Your library is private again','pb.shareTxt':'Take a look at {n}’s library on Signet','pb.loading':'Opening the library…','pb.none':'This library isn’t public (anymore).','pb.open':'Open Signet','pb.k':'Library','pb.of':'{n}’s books','pb.year':'books in {y} · goal {g}','pb.streak':'day streak','pb.pages':'pages this year','pb.cur':'Reading now','pb.fav':'Favourites','pb.shelf':'The shelf · {n} books','pb.quotes':'Quotes','pb.env':'Want to read · {n}','pb.foot':'Want your books to look this good?','pb.mine':'Open my Signet library','sf.k':'Shelf scan','sf.title':'Reading the spines','sf.load':'Getting ready…','sf.read':'Reading titles… {n}%','sf.search':'Looking up books… {n}%','sf.beta':'Experimental: shoot straight on, in good light, 5 to 10 books at a time.','sf.nothing':'No title recognised','sf.tips':'Get closer (5 to 10 books per photo), avoid reflections and keep the spines straight.','sf.err':'Reading failed. Try again with another photo.','sf.found':'{n} books recognised','sf.found1':'1 book recognised','sf.pick':'Tick the ones to add, then choose the list.','sf.owned':'Already in your library','sf.add':'Add ({n})','sf.adding':'Adding…','sf.added':'{n} books added','sf.added1':'1 book added','scan.shelf':'Photo of a shelf',
+ 'pk.k':'Grimoire packs','pk.n1':'1 pack to open','pk.n':'{n} packs to open','pk.none':'No packs to open right now','pk.inkN':'{n} ink drops','pk.open':'Open','pk.daily':'Daily pack','pk.dailyWait':'Daily pack in {h} h','pk.how':'One free pack a day, one per finished book, one per quest seal and a golden pack at every level. Duplicates turn into ink drops.','pk.col':'Collection','pk.mine':'My reads','pk.disc':'{n} of {m} books discovered','pk.all':'All','pk.miss':'Missing','pk.moreN':'Show {n} more','pk.t.c':'Common','pk.t.r':'Rare','pk.t.e':'Epic','pk.t.l':'Legendary','pk.t.m':'Mythic','pk.type.std':'Reading pack','pk.type.or':'Golden pack','pk.sub':'five books to discover','pk.fiveS':'5 cards · at least one rare','pk.fiveO':'5 cards · at least one epic','pk.tearHere':'tear here','pk.hTear':'Slide your finger along the top to tear','pk.hReveal':'Tap the card to flip it','pk.hNext':'Tap for the next one','pk.hEnd':'Tap to see your haul','pk.new':'NEW','pk.dup':'Duplicate · +{n} ink','pk.foil':'Foil','pk.bc':'{n} BC','pk.skip':'Reveal all','pk.close':'Close','pk.sumK':'Pack opened','pk.sumNew1':'1 new book discovered','pk.sumNew':'{n} new books discovered','pk.sumNone':'All duplicates this time','pk.sumInk':'+{n} ink drops','pk.sumTip':'Tap a card to see it up close','pk.again':'Open the next one ({n})','pk.seeCol':'See my collection','pk.lockT':'Book not found yet','pk.lockP':'Find it in a pack, or summon it with your ink drops. Every duplicate turns into ink.','pk.craft':'Reveal for {n} drops','pk.own1':'You own this card','pk.ownN':'You own {n} copies of this card','pk.inLib':'Already in your library','pk.got':'New pack · {w}','pk.gotN':'{n} new packs · {w}','pk.gotOr':'Golden pack · {w}','pk.why.daily':'daily gift','pk.why.book':'book finished','pk.why.quest':'quest seal','pk.why.level':'new level','pk.welcome':'New: grimoire packs. 4 packs are waiting for you in Cards.','pk.luGift':'+1 golden pack','pk.back':'5 collectible cards · {n} books','pk.infoBuy':'Details & buy','pk.buyT':'Buy this book','pk.buyOn':'Buy on {s}','pk.indie':'Indie bookshops','pk.descT':'Summary','pk.readMore':'Read more','pk.pages':'{n} pages',
  'or.btn':'Oracle','or.title':'The oracle','or.hint':'Tap the grimoire or shake your phone','or.hintTap':'Tap the grimoire and let it choose','or.k':'The grimoire has chosen','or.again':'Ask again','or.empty':'The grimoire has nothing to offer. Add books to your wishlist.',
  'st.story':'See my year',
  'sy.k':'My {y}','sy.introT':'Your year in books','sy.introP':'The grimoire of {y} opens…','sy.countP':'This year, you finished','sy.book1':'book','sy.books':'books','sy.pagesP':'You turned','sy.pagesU':'pages','sy.hours':'that’s {h} h of reading','sy.monthP':'Your best month','sy.streak':'Best streak: {n} days in a row','sy.authorP':'Your author of the year','sy.ab1':'1 book read','sy.ab':'{n} books read','sy.favP':'Your favorite','sy.colP':'Your collection','sy.endP':'Your year, ready to share','sy.again':'Watch again',
@@ -5341,12 +5378,14 @@ function roomSkySheet(){
   const R = S.room || {}, sky = R.sky || 'live', wx = R.wx || 'live';
   const row = (k, list, cur) => `<div class="rm-seg" data-k="${k}">${list.map(v => `<button data-v="${v}" class="${v === cur ? 'on' : ''}">${t('rm.' + k + '.' + v)}</button>`).join('')}</div>`;
   openSheet(`<div class="sh-kicker">${t('rm.edi')}</div><div class="sh-title">${t('rm.skyT')}</div><p class="sh-text">${t('rm.skyP')}</p>
+    <div class="sh-sec"><h4>${t('rm.viewL')}</h4>${row('view', ['photo', 'photo2', '3d'], R.view || 'photo')}</div>
     <div class="sh-sec"><h4>${t('rm.skyL')}</h4>${row('sky', ['live', 'aube', 'jour', 'soir', 'nuit'], sky)}</div>
     <div class="sh-sec"><h4>${t('rm.wxL')}</h4>${row('wx', ['live', 'clear', 'cloud', 'rain', 'snow', 'fog'], wx)}</div>
-    <p class="rm-osm">${t('rm.osm')}</p>`, {bind:box => {
+    <p class="rm-osm">${(R.view || 'photo') === '3d' ? t('rm.osm') : t('rm.photoBy')}</p>`, {bind:box => {
     box.querySelectorAll('.rm-seg button').forEach(bt => bt.addEventListener('click', () => {
       const k = bt.parentNode.dataset.k; S.room = Object.assign({}, S.room, {[k]:bt.dataset.v}); save(); Haptics.tick(); Sound.tick();
-      bt.parentNode.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === bt)); cityEnv(true);
+      bt.parentNode.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === bt));
+      if (k === 'view') { cityReset(); roomLabel(); const o = box.querySelector('.rm-osm'); if (o) o.textContent = bt.dataset.v === '3d' ? t('rm.osm') : t('rm.photoBy'); cityLoad().then(ok => { if (ok) roomLabel(); }); } else cityEnv(true);
     }));
   }});
 }
@@ -5688,6 +5727,7 @@ async function cityLoad(){
   if (CITY.loading) return CITY.loading;
   CITY.loading = (async () => {
     try {
+      if (cityView() !== '3d') { try { if (await photoLoad()) return true; } catch(e) { console.warn('photo', e); } }
       const r = await fetch('./edinburgh3d.json'); if (!r.ok) throw new Error('http ' + r.status); CITY.data = await r.json();
       const T = RM.T; cityTerrainInit(); await nextFrame();
       CITY.glowTex = cityGlowTex(T);
@@ -5750,6 +5790,7 @@ async function cityWeather(){
 }
 function cityEnv(fetchWx){
   if (!CITY.ready) return;
+  if (CITY.photo) return photoEnv(fetchWx);
   const T = RM.T, mode = (S.room && S.room.sky) || 'live', wmode = (S.room && S.room.wx) || 'live';
   let sp = mode === 'live' ? citySunPos(new Date()) : CITY_ENV[mode] || CITY_ENV.soir;
   const k = citySkyAt(sp.el), wx = CITY.wx, kind = wmode === 'live' ? cityWxKind(wx && wx.code) : wmode, cloud = wmode === 'live' ? (wx && wx.cloud != null ? wx.cloud / 100 : .35) : ({clear:.1, cloud:.8, rain:.95, snow:.9, fog:.7}[wmode] ?? .3);
@@ -5785,7 +5826,8 @@ function cityEnv(fetchWx){
 function cityFrame(now, dt){
   if (!CITY.ready) return;
   const T = now / 1000;
-  if (CITY.aurora.visible) CITY.aurora.material.uniforms.time.value = T;
+  if (CITY.photoM) CITY.photoM.uniforms.uTime.value = T;
+  if (CITY.aurora && CITY.aurora.visible) CITY.aurora.material.uniforms.time.value = T;
   CITY.clouds.material.map.offset.x = T * .0015; CITY.clouds.material.map.offset.y = T * .0006;
   if (CITY.rain.visible) { const p = CITY.rain.geometry.attributes.position, a = p.array; for (let i = 0; i < a.length; i += 6) { let y = a[i + 1] - dt * 38; if (y < -32) y += 70; a[i + 1] = y; a[i + 4] = y - 1.6; } p.needsUpdate = true; }
   if (CITY.snow.visible) { const p = CITY.snow.geometry.attributes.position, a = p.array; for (let i = 0; i < a.length; i += 3) { a[i + 1] -= dt * 2.2; a[i] += Math.sin(T + i) * dt * .5; if (a[i + 1] < -22) a[i + 1] += 50; } p.needsUpdate = true; }
@@ -5795,6 +5837,100 @@ function cityRender(r, cam){
   const c = CITY.cam; c.position.copy(cam.position); c.quaternion.copy(cam.quaternion); if (c.fov !== cam.fov || c.aspect !== cam.aspect) { c.fov = cam.fov; c.aspect = cam.aspect; c.updateProjectionMatrix(); }
   CITY.sky.position.copy(c.position); CITY.stars.position.copy(c.position);
   r.render(CITY.scene, c);
+}
+
+/* ═════════════ Édimbourg en vraie photo, derrière la grande fenêtre ═════════════
+   De vraies photographies du château vu de Princes Street (Ad Meskens, Wikimedia Commons, CC BY-SA 3.0) :
+   une de jour, une de nuit quand le château est illuminé. Elles suivent l'heure réelle d'Édimbourg (aube, crépuscule, nuit)
+   et sa météo (pluie sur la ville, brume, neige). Si les photos ne peuvent pas être chargées, la ville 3D prend le relais. */
+const PHOTOS = {
+  day:[{f:'Edinburgh_Castle_from_Princes_Mall.JPG', p:'d/dd', w:3636, h:1684, hfov:50, hz:.40},
+       {f:'Edinburgh_Castle_17.jpg', p:'1/19', w:3648, h:2736, hfov:60, hz:.42}],
+  night:{f:'Edinburgh_Castle_13.jpg', p:'e/ef', w:3648, h:1886, hfov:52, hz:.40}};
+const photoUrls = o => [1920, 1280].map(w => `https://upload.wikimedia.org/wikipedia/commons/thumb/${o.p}/${o.f}/${w}px-${o.f}`).concat(`https://upload.wikimedia.org/wikipedia/commons/${o.p}/${o.f}`);
+const cityView = () => (S.room && S.room.view) || 'photo';
+async function photoImg(o){
+  for (const u of photoUrls(o)) { try { const im = await loadImg(u, true, 15000); const c = document.createElement('canvas'); c.width = c.height = 2; c.getContext('2d').drawImage(im, 0, 0, 2, 2); c.getContext('2d').getImageData(0, 0, 1, 1); return im; } catch(_){} }
+  return null;
+}
+// la couleur du haut de la photo (le ciel), pour prolonger le ciel au-dessus du cadre sans couture
+function photoTop(im){
+  const c = document.createElement('canvas'); c.width = 64; c.height = 32; const x = c.getContext('2d'); x.drawImage(im, 0, 0, 64, 32);
+  const d = x.getImageData(0, 0, 64, 2).data; let r = 0, g = 0, b = 0; for (let i = 0; i < d.length; i += 4) { r += d[i]; g += d[i + 1]; b += d[i + 2]; } const n = d.length / 4;
+  return [r / n / 255, g / n / 255, b / n / 255];
+}
+async function photoLoad(){
+  const T = RM.T, day = PHOTOS.day[cityView() === 'photo2' ? 1 : 0], night = PHOTOS.night;
+  const [dI, nI] = await Promise.all([photoImg(day), photoImg(night)]);
+  if (!dI) return false;
+  const tex = im => { const t = new T.Texture(im); t.colorSpace = T.SRGBColorSpace; t.generateMipmaps = true; t.minFilter = T.LinearMipmapLinearFilter; t.anisotropy = 4; t.needsUpdate = true; return t; };
+  const S2 = new T.Scene();
+  const sk = citySky(T); CITY.sky = sk.sky; CITY.stars = sk.stars; CITY.moon = sk.moon; CITY.clouds = sk.clouds; S2.add(sk.sky);
+  CITY.glowTex = cityGlowTex(T); const fx = cityWeatherFx(T); CITY.rain = fx.rain; CITY.snow = fx.snow; S2.add(fx.rain, fx.snow);
+  // la photo est posée loin, à la bonne taille : vue d'au milieu de la salle, elle couvre exactement son angle de prise de vue
+  const E = new T.Vector3(0, 1.62, (ROOM.Z0 + ROOM.Z1) / 2), D = 700, W = 2 * D * Math.tan(day.hfov / 2 * Math.PI / 180), H = W * day.h / day.w;
+  const tD = photoTop(dI), tN = nI ? photoTop(nI) : [.02, .03, .07];
+  const col = a => new T.Color().setRGB(a[0], a[1], a[2], T.SRGBColorSpace);
+  const m = new T.ShaderMaterial({depthWrite:false, toneMapped:false, fog:false,
+    uniforms:{dayT:{value:tex(dI)}, nightT:{value:nI ? tex(nI) : null}, uHasN:{value:nI ? 1 : 0}, uW:{value:W}, uH:{value:H}, uNW:{value:nI ? W * 1.04 : W}, uNH:{value:nI ? W * 1.04 * night.h / night.w : H}, uNOff:{value:nI ? (day.hz - .5) * H - (night.hz - .5) * W * 1.04 * night.h / night.w : 0},
+      uNight:{value:0}, uDusk:{value:0}, uWet:{value:0}, uFog:{value:0}, uFogC:{value:new T.Color('#9aa0a8')}, uBright:{value:1}, uTime:{value:0},
+      uTopD:{value:col(tD)}, uTopN:{value:col(tN)}, uZenD:{value:col(tD).multiplyScalar(.72)}, uZenN:{value:col(tN).multiplyScalar(.6)}},
+    vertexShader:'varying vec2 vP; void main(){ vP = position.xy; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.); }',
+    fragmentShader:`uniform sampler2D dayT, nightT; uniform float uHasN, uW, uH, uNW, uNH, uNOff, uNight, uDusk, uWet, uFog, uBright, uTime; uniform vec3 uFogC, uTopD, uTopN, uZenD, uZenN; varying vec2 vP;
+      vec3 look(sampler2D t, vec2 uv){
+        float ox = max(0., max(-uv.x, uv.x - 1.)), ot = max(0., uv.y - 1.), ob = max(0., -uv.y);
+        vec2 mu = vec2(uv.x < 0. ? -uv.x : (uv.x > 1. ? 2. - uv.x : uv.x), uv.y); mu = clamp(mu, vec2(.002), vec2(.998));
+        float lod = min(6., ox * 22. + ot * 14.);
+        vec3 c = textureLod(t, mu, lod).rgb;
+        c *= 1. - min(.4, ox * 1.1); c *= 1. - smoothstep(0., .35, ob) * .75;
+        return c;
+      }
+      void main(){
+        vec2 uv = vec2(vP.x / uW + .5, vP.y / uH + .5);
+        vec3 d = look(dayT, uv);
+        float ot = max(0., uv.y - 1.); d = mix(d, mix(uTopD, uZenD, smoothstep(.15, 1.2, ot)), smoothstep(0., .5, ot));
+        vec3 n;
+        if (uHasN > .5) { vec2 un = vec2(vP.x / uNW + .5, (vP.y - uNOff) / uNH + .5); n = look(nightT, un); float on = max(0., un.y - 1.); n = mix(n, mix(uTopN, uZenN, smoothstep(.15, 1.2, on)), smoothstep(0., .5, on)); }
+        else n = d * vec3(.10, .12, .24);
+        float hy = clamp(uv.y * .8 + .1, 0., 1.); vec3 dg = d * mix(vec3(1.), mix(vec3(1.25, .74, .5), vec3(.95, .72, .85), hy), uDusk) * (1. - uDusk * .38);
+        vec3 c = mix(dg, n, uNight);
+        float cs = .5 + .5 * sin(vP.x * .006 + uTime * .045) * sin(vP.y * .009 - uTime * .03); c *= 1. - .06 * cs * (1. - uNight);
+        float l = dot(c, vec3(.299, .587, .114)); c = mix(c, vec3(l), uWet * .5) * (1. - uWet * .22);
+        c = mix(c, uFogC, uFog);
+        gl_FragColor = vec4(c * uBright, 1.);
+        #include <colorspace_fragment>
+      }`});
+  const g = new T.PlaneGeometry(W * 3.2, H * 4.2); g.translate(0, H * .9, 0);
+  const pm = new T.Mesh(g, m); pm.position.set(E.x, E.y + (.5 - day.hz) * H, E.z - D); pm.frustumCulled = false; pm.renderOrder = -5; S2.add(pm);
+  CITY.photoM = m; CITY.aurora = null;
+  CITY.scene = S2; CITY.cam = new T.PerspectiveCamera(60, 1, 2, 12000); CITY.photo = true; CITY.ready = true; CITY.t0 = performance.now();
+  // le ciel au-dessus de la photo prend ses couleurs
+  CITY.night = 0; cityEnv(true);
+  return true;
+}
+function photoEnv(fetchWx){
+  const T = RM.T, mode = (S.room && S.room.sky) || 'live', wmode = (S.room && S.room.wx) || 'live', U = CITY.photoM.uniforms;
+  const sp = mode === 'live' ? citySunPos(new Date()) : CITY_ENV[mode] || CITY_ENV.soir, el = sp.el, k = citySkyAt(el);
+  const wx = CITY.wx, kind = wmode === 'live' ? cityWxKind(wx && wx.code) : wmode, cloud = wmode === 'live' ? (wx && wx.cloud != null ? wx.cloud / 100 : .35) : ({clear:.1, cloud:.8, rain:.95, snow:.9, fog:.7}[wmode] ?? .3);
+  const night = Math.max(0, Math.min(1, (1.5 - el) / 7.5)), dusk = Math.max(0, 1 - Math.abs(el - 2.5) / 7) * (1 - night * .6);
+  U.uNight.value = night * night * (3 - 2 * night); U.uDusk.value = dusk; U.uBright.value = 1 - dusk * .08;
+  U.uWet.value = kind === 'rain' ? .8 : kind === 'snow' ? .55 : kind === 'fog' ? .35 : cloud > .75 ? .35 : cloud * .15;
+  U.uFog.value = kind === 'fog' ? .5 : kind === 'snow' ? .2 : kind === 'rain' ? .12 : 0;
+  U.uFogC.value.set(night > .5 ? '#1c2028' : '#a3a8b0');
+  CITY.night = night; CITY.fx = kind;
+  const su = CITY.sky.material.uniforms; su.zen.value.copy(U.uZenD.value).lerp(U.uZenN.value, night); su.hor.value.copy(U.uTopD.value).lerp(U.uTopN.value, night); su.glow.value.set('#000'); su.haze.value = .3;
+  CITY.stars.material.opacity = 0; CITY.moon.material.opacity = 0;
+  CITY.rain.visible = kind === 'rain'; CITY.snow.visible = kind === 'snow';
+  CITY.label = {el, kind, temp:wx && wx.temp, live:mode === 'live'};
+  if (RM.winLight) { RM.winLight.color.copy(k.hor).lerp(new T.Color('#ffc68a'), night * .7); RM.winLight.intensity = 3 + k.day * 7; }
+  if (RM.shafts) RM.shafts.forEach(s => { s.material.opacity = .012 + k.day * .035 * (kind === 'rain' || kind === 'fog' ? .3 : 1); s.material.color.copy(k.glow).lerp(new T.Color('#ffffff'), .4); });
+  if (RM.wGlow) { RM.wGlow.material.color.copy(k.hor).lerp(new T.Color('#ffd9a8'), .4); RM.wGlow.material.opacity = .02 + k.day * .035; }
+  roomLabel();
+  if (fetchWx && wmode === 'live') cityWeather().then(w => { if (w && CITY.photo) photoEnv(false); });
+}
+function cityReset(){
+  CITY.ready = false; CITY.failed = false; CITY.loading = null; CITY.scene = null; CITY.photo = false; CITY.photoM = null; CITY.envAt = 0;
+  if (RM.paint) RM.paint.visible = true;
 }
 
 /* ═════════════ Globe des voyages ═════════════ */
@@ -7343,10 +7479,57 @@ function pkAlbum(box){
   box.querySelectorAll('.pk-chips button').forEach(b => b.addEventListener('click', () => { PKA.f = b.dataset.f; PKA.lim = 120; Haptics.tick(); pkAlbum(box); }));
   box.querySelectorAll('.pk-cell').forEach(b => b.addEventListener('click', () => pkShow(PK_KEY.get(b.dataset.k), b)));
   if (PKA.io) PKA.io.disconnect();
-  const paint = el => { const c = PK_KEY.get(el.dataset.k); if (c && !el.style.backgroundImage) el.style.backgroundImage = `url(${pkArt(c)})`; };
+  const paint = el => { const c = PK_KEY.get(el.dataset.k); if (!c || el.dataset.p) return; el.dataset.p = 1;
+    const m0 = PKM[c.k]; el.style.backgroundImage = m0 && m0.u ? `url("${m0.u}"), url(${pkArt(c)})` : `url(${pkArt(c)})`;
+    if (!m0 || !m0.u) pkMeta(c).then(m => { if (m && m.u) { const im = new Image(); im.onload = () => { el.style.backgroundImage = `url("${m.u}")`; el.classList.add('real'); }; im.src = m.u; } }); else el.classList.add('real'); };
   if ('IntersectionObserver' in window) { PKA.io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { paint(e.target); PKA.io.unobserve(e.target); } }), {rootMargin:'400px'}); box.querySelectorAll('.pkg-art').forEach(el => PKA.io.observe(el)); }
   else box.querySelectorAll('.pkg-art').forEach(paint);
 }
+
+/* ───── fiches des livres : vraie couverture, résumé, pages, ISBN — gardées sur l'appareil ───── */
+const PKM = (() => { try { return JSON.parse(localStorage.getItem('signet-pkmeta') || '{}'); } catch(_) { return {}; } })();
+let pkmT = 0; const pkMetaSave = () => { clearTimeout(pkmT); pkmT = setTimeout(() => { try { localStorage.setItem('signet-pkmeta', JSON.stringify(PKM)); } catch(_){} }, 600); };
+const PKMP = new Map();
+const pkStrip = h => String(h || '').replace(/<br\s*\/?>/gi, '\n').replace(/<\/p>/gi, '\n').replace(/<[^>]+>/g, '').replace(/&quot;/g, '"').replace(/&#39;/g, '’').replace(/&amp;/g, '&').replace(/\n{3,}/g, '\n\n').trim();
+function pkMeta(c){
+  const key = c.k + (LANG === 'en' ? ':en' : '');
+  if (PKMP.has(key)) return PKMP.get(key);
+  const p = (async () => {
+    let m = Object.assign({}, PKM[c.k] || {}, (PKM[c.k] && PKM[c.k][LANG]) || {});
+    if (m.u && m.d !== undefined) return m;
+    if (navigator.onLine === false) return m.u ? m : null;
+    const r = await catReal(c).catch(() => null);
+    if (r && r.url) m.u = r.url;
+    if (r && r.desc) m.d = pkStrip(r.desc).slice(0, 1500); if (r && r.isbn) m.i = r.isbn; if (r && r.p) m.p = r.p;
+    if (!m.d || !m.i) { const last = c.a.split(' ').slice(-1)[0], ttl = catTitle(c);
+      try { const j = await rqRun(() => fetchJSON(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(`intitle:${ttl} inauthor:${last}`)}&maxResults=6&printType=books${LANG === 'fr' ? '&langRestrict=fr' : ''}`, 8000));
+        const want = catKey(ttl).split(' ').slice(0, 2).join(' ');
+        const its = (j.items || []).map(x => x.volumeInfo || {}).filter(v => catKey(v.title || '').includes(want.split(' ')[0]));
+        const v = its.find(v => v.description) || its[0];
+        if (v) { if (!m.d && v.description) m.d = pkStrip(v.description).slice(0, 1500); if (!m.i) m.i = isbnFromIds(v.industryIdentifiers) || undefined; if (!m.p && v.pageCount) m.p = v.pageCount; if (!m.pb && v.publisher) m.pb = v.publisher;
+          if (!m.u) { const info = {covers:[m.i && `https://covers.openlibrary.org/b/isbn/${m.i}-L.jpg?default=false`, gThumb(v)].filter(Boolean)}; await attachCover(info); if (info.img) m.u = info.img.src; } }
+      } catch(_){} }
+    if (m.d === undefined) m.d = '';
+    const base = PKM[c.k] || {}; base.u = m.u || base.u; base.i = m.i || base.i; base.p = m.p || base.p; base.pb = m.pb || base.pb; base[LANG] = {d:m.d};
+    PKM[c.k] = base; pkMetaSave();
+    return m;
+  })().catch(() => null);
+  PKMP.set(key, p); p.then(v => { if (!v || !v.u) setTimeout(() => PKMP.delete(key), 60e3); });
+  return p;
+}
+// où acheter le livre : un toucher ouvre la page de la boutique (l'appli Amazon s'ouvre si elle est installée)
+function pkBuyLinks(c){
+  const q = encodeURIComponent(`${catTitle(c)} ${c.a}`);
+  return LANG === 'en'
+    ? [{k:'amazon', n:'Amazon', u:`https://www.amazon.com/s?k=${q}&i=stripbooks`}, {k:'bookshop', n:'Bookshop.org', u:`https://bookshop.org/search?keywords=${q}`}, {k:'waterstones', n:'Waterstones', u:`https://www.waterstones.com/books/search/term/${q}`}]
+    : [{k:'amazon', n:'Amazon', u:`https://www.amazon.fr/s?k=${q}&i=stripbooks`}, {k:'fnac', n:'Fnac', u:`https://www.fnac.com/SearchResult/ResultList.aspx?Search=${q}`}, {k:'lib', n:t('pk.indie'), u:`https://www.leslibraires.fr/recherche/?q=${q}`}];
+}
+function pkBuyHTML(c){
+  const L = pkBuyLinks(c);
+  return `<a class="pk-buy main" href="${L[0].u}" target="_blank" rel="noopener" data-b="${L[0].k}"><i class="pk-b-${L[0].k}"></i><span>${t('pk.buyOn', {s:L[0].n})}</span><em>↗</em></a>
+    <div class="pk-buy-row">${L.slice(1).map(x => `<a class="pk-buy" href="${x.u}" target="_blank" rel="noopener" data-b="${x.k}"><span>${esc(x.n)}</span><em>↗</em></a>`).join('')}</div>`;
+}
+function pkBuyBind(box){ box.querySelectorAll('.pk-buy').forEach(a => a.addEventListener('click', () => { Haptics.tick(true); })); }
 
 /* ───── une carte en grand ───── */
 const PKV = {on:false, c:null, el:null, raf:0, rx:0, ry:0, drag:null};
@@ -7368,8 +7551,20 @@ function pkShow(c, from){
     <h2>${esc(catTitle(c))}</h2><div class="pkv-a">${esc(c.a)}${pkYear(c) ? ' · ' + pkYear(c) : ''}</div>
     <div class="pkv-chips">${c.g.map(g => `<span>${esc(gName(g))}</span>`).join('')}</div>
     ${LANG === 'fr' && c.p ? `<p class="pkv-p">${esc(c.p)}</p>` : ''}
+    <div class="pkv-buy"><h3>${t('pk.buyT')}</h3>${pkBuyHTML(c)}</div>
+    <div class="pkv-more" id="pkvMore"><div class="pkv-load"><i></i><i></i><i></i></div></div>
     <div class="pkv-own">${t(own[0] > 1 ? 'pk.ownN' : 'pk.own1', {n:own[0]})}</div>
-    <div class="pkv-btns"><button class="btn-main" id="pkvAdd"${owned ? ' disabled' : ''}>${owned ? '✓ ' + t('pk.inLib') : t('gs.add')}</button></div>`;
+    <div class="pkv-btns"><button class="btn-plain" id="pkvAdd"${owned ? ' disabled' : ''}>${owned ? '✓ ' + t('pk.inLib') : t('gs.add')}</button></div>`;
+  pkBuyBind($('#pkvInfo'));
+  $('#pkView').scrollTop = 0;
+  pkMeta(c).then(m => { if (!PKV.on || PKV.c !== c) return; const box = $('#pkvMore'); if (!box) return;
+    if (m && m.u) $('#pkvStage').querySelectorAll(`img[data-k="${c.k}"]`).forEach(x => { x.src = m.u; });
+    const facts = [m && m.p ? t('pk.pages', {n:m.p}) : '', m && m.pb ? esc(m.pb) : '', m && m.i ? 'ISBN ' + m.i : ''].filter(Boolean);
+    box.innerHTML = (m && m.d ? `<h3>${t('pk.descT')}</h3><p class="pkv-d" id="pkvD">${esc(m.d)}</p><button class="pkv-rd" id="pkvRd">${t('pk.readMore')}</button>` : '')
+      + (facts.length ? `<div class="pkv-facts">${facts.map(f => `<span>${f}</span>`).join('')}</div>` : '');
+    const rd = box.querySelector('#pkvRd'), d = box.querySelector('#pkvD');
+    if (rd && d) { requestAnimationFrame(() => { if (d.scrollHeight <= d.clientHeight + 4) rd.remove(); }); rd.addEventListener('click', () => { d.classList.add('open'); rd.remove(); Haptics.tick(); }); }
+  });
   v.classList.add('on'); Haptics.tick(true); Sound.flap();
   if (from && !reduce()) { const r = from.getBoundingClientRect(), r2 = PKV.el.getBoundingClientRect(); PKV.el.parentElement.animate([{transform:`translate(${r.left + r.width / 2 - r2.left - r2.width / 2}px,${r.top + r.height / 2 - r2.top - r2.height / 2}px) scale(${r.width / r2.width})`, opacity:.4}, {transform:'none', opacity:1}], {duration:520, easing:'cubic-bezier(.2,.9,.25,1.05)'}); }
   $('#pkvAdd').addEventListener('click', e => pkWish(c, e.currentTarget));
@@ -7390,9 +7585,9 @@ $('#pkvStage').addEventListener('pointermove', e => { const d = PKV.drag; if (!d
 ['pointerup', 'pointercancel'].forEach(ev => $('#pkvStage').addEventListener(ev, () => { PKV.drag = null; }));
 async function pkWish(c, btn){
   if (!btn || btn.disabled) return; btn.disabled = true; btn.textContent = t('sf.adding'); Haptics.tick(true);
-  let r = null; try { r = await Promise.race([catReal(c), sleep(3500).then(() => null)]); } catch(_){}
-  const info = {img:r ? r.img : null, isbn:r && r.isbn || null, desc:(r && r.desc) || (LANG === 'fr' ? c.p : '')}; if (info.img) info.pal = palette(info.img);
-  const b = createBook(info, catTitle(c), c.a, (r && r.p) || 0, 'envies'); b.y = c.y > 0 ? c.y : ''; if (!info.img) { const pal = hashPalette(c.t); b.c0 = pal[0]; b.c1 = pal[1]; }
+  let r = null, m = null; try { [r, m] = await Promise.race([Promise.all([catReal(c), pkMeta(c)]), sleep(4500).then(() => [null, null])]); } catch(_){}
+  const info = {img:r ? r.img : null, isbn:(m && m.i) || (r && r.isbn) || null, desc:(m && m.d) || (r && r.desc) || (LANG === 'fr' ? c.p : '')}; if (info.img) info.pal = palette(info.img);
+  const b = createBook(info, catTitle(c), c.a, (m && m.p) || (r && r.p) || 0, 'envies'); b.y = c.y > 0 ? c.y : ''; if (!info.img) { const pal = hashPalette(c.t); b.c0 = pal[0]; b.c1 = pal[1]; }
   books = [b].concat(books); save(); updateGoal(); RM.sig = ''; btn.textContent = '✓ ' + t('gs.added'); Sound.chime(); Haptics.pattern([0, 70, 140]);
   const rr = btn.getBoundingClientRect(); goldBurst(rr.left + rr.width / 2, rr.top, 50);
   if (state.tab === 'read' && state.list === 'envies') buildCarousel();
@@ -7471,12 +7666,17 @@ const PK = {on:false, type:'std', res:null, i:0, step:'', busy:false, tear:0, di
 const pkWait = ms => new Promise(r => PK.timers.push(setTimeout(r, reduce() ? Math.min(ms, 60) : ms)));
 const pkCrimp = (top, n, depth) => { const p = []; for (let i = 0; i <= n; i++) { const xx = i / n * 100; p.push(`${xx.toFixed(2)}% ${top ? (i % 2 ? depth : 0) : 100 - (i % 2 ? depth : 0)}%`); } return p; };
 const pkTorn = () => { const p = ['0% 100%']; let y = 3; for (let i = 0; i <= 26; i++) { y = Math.max(0, Math.min(5, y + (Math.random() - .5) * 3.4)); p.push(`${(i / 26 * 100).toFixed(2)}% ${y.toFixed(2)}%`); } p.push('100% 100%'); return `polygon(${p.join(',')})`; };
-function pkOpen(type){
-  const P = pkS(); if (PK.on) return;
+async function pkOpen(type){
+  const P = pkS(); if (PK.on || PK.opening) return;
   if (!type) type = (P.n.std || 0) > 0 ? 'std' : 'or';
   if (!((P.n[type] || 0) > 0)) { type = type === 'or' ? 'std' : 'or'; if (!((P.n[type] || 0) > 0)) { toast(t('pk.none')); return; } }
   if (PKV.on) pkvClose();
   PKS.unlock();
+  // la vraie 3D si l'appareil la permet ; sinon l'ouverture animée en HTML
+  if (P3.ok !== false && !PK.dom) { PK.opening = true; const o = $('#pko'); if (P3.ok === null) o.className = 'pko on g3 loading';
+    const ok = await p3Init(); PK.opening = false;
+    if (ok) { PK.timers.forEach(clearTimeout); PK.timers = []; return pk3Open(type); }
+    o.className = 'pko'; }
   PK.on = true; PK.type = type; PK.res = pkRoll(type); PK.i = 0; PK.tear = 0; PK.step = 'pack'; PK.busy = false; PK.skip = false; PK.cur = null; PK.drag = null; PK.timers.forEach(clearTimeout); PK.timers = [];
   const cards = PK.res.cards; PK.best = cards[cards.length - 1].tier;
   cards.forEach(x => catReal(x.c));
@@ -7626,11 +7826,13 @@ async function pkSkipAll(){
   while (PK.on && PK.i < PK.res.cards.length) { await pkReveal(true); await pkWait(220); await pkStow(true); }
   PK.skip = false;
 }
-$('#pkSkip').addEventListener('click', e => { e.stopPropagation(); pkSkipAll(); });
+$('#pkSkip').addEventListener('click', e => { e.stopPropagation(); if ($('#pko').classList.contains('g3')) p3SkipAll(); else pkSkipAll(); });
 function pkSummary(){
   PK.step = 'sum'; $('#pkSkip').hidden = true; pkHint('');
+  $('#pkTray').classList.add('fan'); pkSummaryDom();
+}
+function pkSummaryDom(){
   const P = pkS(), C = PK.res.cards, nw = C.filter(x => x.isNew).length, more = pkCount(), own = Object.keys(P.c).length;
-  $('#pkTray').classList.add('fan');
   const sm = $('#pkSum'); sm.innerHTML = `<div class="pks-k">${t('pk.sumK')}</div><h2>${t(nw ? (nw === 1 ? 'pk.sumNew1' : 'pk.sumNew') : 'pk.sumNone', {n:nw})}</h2>
     <p>${PK.res.ink ? t('pk.sumInk', {n:PK.res.ink}) + ' · ' : ''}${t('pk.disc', {n:own, m:CAT.length})}</p><p class="pks-tip">${t('pk.sumTip')}</p>
     <div class="pks-btns">${more ? `<button class="btn-main" id="pksMore">${t('pk.again', {n:more})}</button>` : ''}<button class="${more ? 'btn-plain' : 'btn-main'}" id="pksCol">${t('pk.seeCol')}</button></div>`;
@@ -7641,6 +7843,7 @@ function pkSummary(){
 }
 function pkClose(quick){
   if (!PK.on) return; PK.on = false; PK.timers.forEach(clearTimeout); PK.timers = []; cancelAnimationFrame(PK.raf); cancelAnimationFrame(PFX.raf);
+  if (P3.on) { P3.on = false; P3.gen++; P3.tw = []; P3.tagFollow = false; cancelAnimationFrame(P3.raf); $('#pk3Tag').className = 'pk3-tag'; }
   const o = $('#pko'); o.classList.remove('on'); PFX.dim = 0;
   setTimeout(() => { if (!PK.on) { $('#pkStage').innerHTML = ''; $('#pkTray').innerHTML = ''; $('#pkTray').classList.remove('fan'); o.className = 'pko'; } }, quick ? 0 : 450);
   if (!quick) setTimeout(() => { if (state.tab === 'read' && !PK.on) ambStart(); }, 400);
@@ -7653,6 +7856,584 @@ function pkBoot(){
   if (fresh && (S.taste || S.tasteLater)) setTimeout(() => { if (!TS.on && !SEC.on && !PK.on && !PV.on) toast(t('pk.welcome'), {icon:'rib', action:t('pk.open'), ms:7000, onAction:() => pkOpen()}); }, 1800);
 }
 setTimeout(pkBoot, 1200);
+/* ═════════════ L'ouverture des packs, en vraie 3D (three.js) ═════════════
+   Un paquet de cuir et de feuille d'or qui flotte et reflète la lumière, qu'on déchire au doigt ;
+   la lumière s'échappe, les cartes montent, puis chaque carte se retourne avec la mise en scène de sa rareté :
+   éclairs pour l'épique, rayons d'or et battements de cœur pour la légendaire, trou noir arc-en-ciel pour la mythique. */
+const P3 = {ok:null, T:null, r:null, sc:null, cam:null, on:false, raf:0, last:0, now:0, gen:0, step:'', W:1, H:1, visW:3, visH:6, dist:10.7,
+  bg:null, pack:null, cards:[], parts:null, dust:null, rings:[], glow:null, bolts:null, tw:[], shake:0, shakeT:0, drag:null, tilt:{x:0, y:0},
+  ptex:{}, back:null, env:null, best:'c', tear:0, dir:1, cur:-1, skip:false, busy:false, glowTex:null, ringTex:null, idleT:0, camOff:{x:0, y:0, z:0}};
+const P3E = {lin:k => k, o3:k => 1 - (1 - k) ** 3, i3:k => k * k * k, i2:k => k * k, io:k => k < .5 ? 4 * k * k * k : 1 - (-2 * k + 2) ** 3 / 2,
+  ob:k => { const c1 = 1.5, c3 = c1 + 1; return 1 + c3 * (k - 1) ** 3 + c1 * (k - 1) ** 2; }, o5:k => 1 - (1 - k) ** 5};
+const P3C = {c:'#f3e7d0', r:'#5aa8ff', e:'#b45cff', l:'#ffc23a', m:'#ffffff'};
+function p3Tween(d, fn, ease){ const g = P3.gen; d = reduce() ? Math.min(d, 90) : d; return new Promise(res => P3.tw.push({t0:P3.now, d:Math.max(1, d), fn, ease:ease || P3E.io, res, g})); }
+const p3Wait = ms => p3Tween(ms, () => {});
+const p3Lerp = (a, b, k) => a + (b - a) * k;
+
+/* ───── démarrage : le moteur 3D, la lumière du studio, le fond ───── */
+async function p3Init(){
+  if (P3.ok !== null) return P3.ok;
+  try {
+    const T = await Promise.race([room3dLoad(), sleep(9000).then(() => { throw new Error('three'); })]);
+    P3.T = T;
+    const cv = $('#pk3d'), r = new T.WebGLRenderer({canvas:cv, antialias:true, powerPreference:'high-performance'});
+    r.toneMapping = T.ACESFilmicToneMapping; r.toneMappingExposure = 1.08; r.setClearColor('#050302', 1);
+    P3.r = r; const sc = new T.Scene(); P3.sc = sc;
+    P3.cam = new T.PerspectiveCamera(34, 1, .1, 60); P3.cam.position.set(0, 0, 10.7);
+    // un studio invisible dont les reflets glissent sur la feuille d'or quand le paquet bouge
+    const es = new T.Scene(); es.add(new T.Mesh(new T.BoxGeometry(12, 12, 12), new T.MeshBasicMaterial({color:'#070504', side:T.BackSide})));
+    const panel = (w, h, c, k, p) => { const m = new T.Mesh(new T.PlaneGeometry(w, h), new T.MeshBasicMaterial({color:new T.Color(c).multiplyScalar(k), side:T.DoubleSide})); m.position.set(...p); m.lookAt(0, 0, 0); es.add(m); };
+    panel(5, 2.4, '#ffe0b0', 7, [-3, 4.5, 3.5]); panel(1.2, 6, '#a9c8ff', 4, [5, .5, 1.5]); panel(4, 1.2, '#fff4e2', 2.4, [0, -5, 3]); panel(3, 3, '#ff8a4a', 1.6, [-5, -1, -3]); panel(2, 1, '#ffffff', 9, [1.5, 2, 5.5]);
+    const pm = new T.PMREMGenerator(r); P3.env = pm.fromScene(es, .03).texture; sc.environment = P3.env; pm.dispose();
+    const key = new T.DirectionalLight('#fff1dc', 2.2); key.position.set(-2, 3, 5); sc.add(key, new T.AmbientLight('#8a7a6a', .5)); P3.key = key;
+    // le fond : fumée, teinte de la rareté, rayons, tourbillon arc-en-ciel
+    P3.bg = new T.Mesh(new T.PlaneGeometry(2, 2), new T.ShaderMaterial({depthWrite:false, depthTest:false, toneMapped:false,
+      uniforms:{uTime:{value:0}, uDim:{value:0}, uTint:{value:new T.Color('#000')}, uTintA:{value:0}, uRays:{value:0}, uRayCol:{value:new T.Color('#fff')}, uRain:{value:0}, uVortex:{value:0}, uAspect:{value:.5}, uC:{value:new T.Vector2(.5, .55)}, uLeak:{value:0}, uLeakCol:{value:new T.Color('#fff')}},
+      vertexShader:'varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 1., 1.); }',
+      fragmentShader:`uniform float uTime, uDim, uTintA, uRays, uRain, uVortex, uAspect, uLeak; uniform vec3 uTint, uRayCol, uLeakCol; uniform vec2 uC; varying vec2 vUv;
+        float h21(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+        float nz(vec2 p){ vec2 i = floor(p), f = fract(p); vec2 u = f * f * (3. - 2. * f); return mix(mix(h21(i), h21(i + vec2(1., 0.)), u.x), mix(h21(i + vec2(0., 1.)), h21(i + vec2(1., 1.)), u.x), u.y); }
+        float fbm(vec2 p){ float v = 0., a = .5; for (int i = 0; i < 5; i++) { v += a * nz(p); p *= 2.03; a *= .5; } return v; }
+        vec3 hue(float h){ return .5 + .5 * cos(6.2832 * (h + vec3(0., .33, .67))); }
+        vec3 sg(vec3 c){ return pow(max(c, vec3(0.)), vec3(.4545)); }
+        void main(){
+          vec2 p = vUv - .5; p.x *= uAspect; vec2 c = uC - .5; c.x *= uAspect; float r = length(p - vec2(0., .05));
+          vec3 col = mix(vec3(.15, .095, .07), vec3(.012, .008, .006), smoothstep(0., .78, r));
+          float sm = fbm(p * 2.4 + vec2(uTime * .021, -uTime * .016)) * fbm(p * 1.3 - vec2(uTime * .01, 0.));
+          col += vec3(.20, .12, .07) * sm * (1. - smoothstep(.15, .95, r)) * .9;
+          col = mix(col, sg(uTint) * (1.25 - r * 1.2), uTintA * (1. - smoothstep(0., .85, r)));
+          col *= 1. - uDim;
+          vec2 d = p - c; float ra = length(d), an = atan(d.y, d.x);
+          float ray = pow(.5 + .5 * sin(an * 13. + uTime * .55), 7.) + .6 * pow(.5 + .5 * sin(an * 7. - uTime * .35 + 1.3), 9.);
+          vec3 rc = mix(sg(uRayCol), hue(an / 6.2832 + uTime * .12), uRain);
+          col += rc * (ray * exp(-ra * 1.5) * smoothstep(0., .1, ra) + exp(-ra * 5.) * .5) * uRays;
+          float sw = an + 2.6 / (ra + .12) - uTime * 1.7; float vt = pow(.5 + .5 * sin(sw * 3.), 2.);
+          col += hue(sw * .16 + ra * .8) * vt * exp(-ra * 1.6) * smoothstep(0., .08, ra) * uVortex * 1.4;
+          col += sg(uLeakCol) * exp(-length((p - c) * vec2(1., 2.2)) * 3.2) * uLeak;
+          col += (h21(vUv * 900. + uTime) - .5) * .012;
+          gl_FragColor = vec4(col, 1.);
+        }`}));
+    P3.bg.frustumCulled = false; P3.bg.renderOrder = -100; sc.add(P3.bg);
+    P3.glowTex = p3RadTex(T, [[0, 'rgba(255,255,255,1)'], [.18, 'rgba(255,255,255,.55)'], [.5, 'rgba(255,255,255,.12)'], [1, 'rgba(255,255,255,0)']]);
+    P3.ringTex = p3RadTex(T, [[0, 'rgba(255,255,255,0)'], [.72, 'rgba(255,255,255,0)'], [.86, 'rgba(255,255,255,.9)'], [.9, 'rgba(255,255,255,1)'], [1, 'rgba(255,255,255,0)']]);
+    P3.parts = p3Parts(T, 2600); sc.add(P3.parts.pts);
+    P3.dust = p3Parts(T, 140); sc.add(P3.dust.pts);
+    for (let i = 0; i < 140; i++) p3Emit(P3.dust, (Math.random() - .5) * 9, (Math.random() - .5) * 9, -4 + Math.random() * 7, (Math.random() - .5) * .05, .02 + Math.random() * .05, 0, '#ffd9a8', .05 + Math.random() * .07, 1e9, 0, 1);
+    P3.glow = new T.Sprite(new T.SpriteMaterial({map:P3.glowTex, color:'#ffffff', transparent:true, opacity:0, depthWrite:false, blending:T.AdditiveBlending})); P3.glow.scale.set(6, 6, 1); P3.glow.position.z = -.6; sc.add(P3.glow);
+    for (let i = 0; i < 6; i++) { const m = new T.Mesh(new T.PlaneGeometry(1, 1), new T.MeshBasicMaterial({map:P3.ringTex, transparent:true, opacity:0, depthWrite:false, blending:T.AdditiveBlending, toneMapped:false})); m.visible = false; sc.add(m); P3.rings.push({m, t0:0, d:1, s0:1, s1:4, a:1}); }
+    const bg = new T.BufferGeometry(); bg.setAttribute('position', new T.BufferAttribute(new Float32Array(6 * 9 * 6), 3));
+    P3.bolts = new T.LineSegments(bg, new T.LineBasicMaterial({color:'#d9a6ff', transparent:true, opacity:0, blending:T.AdditiveBlending, depthWrite:false, toneMapped:false})); P3.bolts.frustumCulled = false; sc.add(P3.bolts);
+    P3.back = p3CardBack(T);
+    P3.cardGeo = new T.PlaneGeometry(2, 2.8);
+    p3Size();
+    addEventListener('resize', () => { if (P3.on) p3Size(); });
+    cv.addEventListener('webglcontextlost', e => { e.preventDefault(); P3.ok = false; if (P3.on) { pkClose(true); } });
+    P3.ok = true;
+  } catch(e) { console.warn('pack3d', e); P3.ok = false; }
+  return P3.ok;
+}
+function p3RadTex(T, stops){ const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d'), g = x.createRadialGradient(128, 128, 0, 128, 128, 128); stops.forEach(s => g.addColorStop(s[0], s[1])); x.fillStyle = g; x.fillRect(0, 0, 256, 256); const t = new T.CanvasTexture(c); t.colorSpace = T.SRGBColorSpace; return t; }
+function p3Size(){
+  const T = P3.T, W = innerWidth, H = VH(), d = Math.min(devicePixelRatio || 1, 2); P3.W = W; P3.H = H;
+  P3.r.setPixelRatio(d); P3.r.setSize(W, H, false);
+  const a = W / H, tv = Math.tan(17 * Math.PI / 180), th = tv * a;
+  P3.dist = Math.max(1.52 / th, 3.3 / tv); P3.cam.aspect = a; P3.cam.updateProjectionMatrix();
+  P3.visH = 2 * P3.dist * tv; P3.visW = P3.visH * a;
+  P3.bg.material.uniforms.uAspect.value = a;
+  P3.parts.pts.material.uniforms.uScale.value = H * d / (2 * tv);
+  P3.dust.pts.material.uniforms.uScale.value = H * d / (2 * tv);
+}
+
+/* ───── particules ───── */
+function p3Parts(T, N){
+  const g = new T.BufferGeometry(), pos = new Float32Array(N * 3), col = new Float32Array(N * 4), size = new Float32Array(N);
+  g.setAttribute('position', new T.BufferAttribute(pos, 3).setUsage(T.DynamicDrawUsage)); g.setAttribute('col', new T.BufferAttribute(col, 4).setUsage(T.DynamicDrawUsage)); g.setAttribute('size', new T.BufferAttribute(size, 1).setUsage(T.DynamicDrawUsage));
+  const m = new T.ShaderMaterial({transparent:true, depthWrite:false, blending:T.AdditiveBlending, toneMapped:false, uniforms:{uScale:{value:800}},
+    vertexShader:'uniform float uScale; attribute float size; attribute vec4 col; varying vec4 vC; void main(){ vC = col; vec4 mv = modelViewMatrix * vec4(position, 1.); gl_PointSize = min(size * uScale / -mv.z, 220.); gl_Position = projectionMatrix * mv; }',
+    fragmentShader:'varying vec4 vC; void main(){ float d = length(gl_PointCoord - .5) * 2.; float a = exp(-d * d * 4.5) + exp(-d * d * 40.) * .8; if (d > 1.) discard; gl_FragColor = vec4(vC.rgb * a * vC.a, 1.);\n#include <colorspace_fragment>\n}'});
+  const pts = new T.Points(g, m); pts.frustumCulled = false; pts.renderOrder = 20;
+  return {pts, pos, col, size, n:N, i:0, vel:new Float32Array(N * 3), life:new Float32Array(N), max:new Float32Array(N), base:new Float32Array(N * 4), drag:new Float32Array(N), grav:new Float32Array(N), rain:new Float32Array(N), C:new T.Color()};
+}
+function p3Emit(S0, x, y, z, vx, vy, vz, col, sz, life, grav, drag){
+  const i = S0.i; S0.i = (S0.i + 1) % S0.n;
+  S0.pos.set([x, y, z], i * 3); S0.vel.set([vx, vy, vz], i * 3); S0.life[i] = 0; S0.max[i] = life; S0.grav[i] = grav; S0.drag[i] = drag;
+  if (col === 'rain') { S0.rain[i] = Math.random(); S0.C.setHSL(S0.rain[i], 1, .65); } else { S0.rain[i] = -1; S0.C.set(col); }
+  S0.base.set([S0.C.r, S0.C.g, S0.C.b, sz], i * 4);
+}
+// une gerbe : n particules depuis un point, en sphère ou en disque
+function p3Burst(o){
+  const S0 = P3.parts, n = reduce() ? Math.min(30, o.n) : o.n;
+  for (let k = 0; k < n; k++) {
+    const u = Math.random() * 2 - 1, a = Math.random() * 6.283, s = Math.sqrt(1 - u * u), sp = (o.s0 ?? 1) + Math.random() * ((o.s1 ?? 4) - (o.s0 ?? 1));
+    let dx = s * Math.cos(a), dy = s * Math.sin(a) * (o.flatY ?? 1), dz = u * (o.flatZ ?? .5);
+    if (o.cone) { dx *= .35; dy = Math.abs(dy) * .4 + .8; }
+    if (o.inward) { const R = o.R || 3.2; p3Emit(S0, o.x + dx * R, o.y + dy * R, o.z + dz * R, -dx * R / o.life * 1.1, -dy * R / o.life * 1.1, -dz * R / o.life * 1.1, o.col, (o.sz || .06) * (.5 + Math.random()), o.life * (.85 + Math.random() * .3), 0, 1); continue; }
+    p3Emit(S0, o.x + (o.jx || 0) * (Math.random() - .5), o.y + (o.jy || 0) * (Math.random() - .5), o.z, dx * sp, dy * sp + (o.up || 0), dz * sp, Array.isArray(o.col) ? o.col[k % o.col.length] : o.col,
+      (o.sz || .06) * (.45 + Math.random() * 1.1), (o.life || 1.2) * (.6 + Math.random() * .7), o.g ?? 2.2, o.drag ?? .965);
+  }
+}
+function p3PartsStep(S0, dt, now){
+  const {pos, vel, col, size, life, max, base, drag, grav, rain} = S0, C = S0.C, f = Math.min(dt, .05);
+  for (let i = 0; i < S0.n; i++) {
+    if (life[i] >= max[i]) { if (size[i]) size[i] = 0; continue; }
+    life[i] += f; const k = life[i] / max[i], j = i * 3, q = i * 4;
+    const dg = Math.pow(drag[i], f * 60); vel[j] *= dg; vel[j + 1] = vel[j + 1] * dg - grav[i] * f; vel[j + 2] *= dg;
+    pos[j] += vel[j] * f; pos[j + 1] += vel[j + 1] * f; pos[j + 2] += vel[j + 2] * f;
+    if (max[i] > 1e8) { if (pos[j + 1] > 4.6) pos[j + 1] = -4.6; }
+    const a = max[i] > 1e8 ? .35 + .25 * Math.sin(now * .001 + i) : Math.pow(1 - k, 1.3) * (.75 + .25 * Math.sin(now * .02 + i * 7.1)) * Math.min(1, life[i] * 18);
+    if (rain[i] >= 0) { C.setHSL((rain[i] + now * .0004) % 1, 1, .62); col[q] = C.r; col[q + 1] = C.g; col[q + 2] = C.b; } else { col[q] = base[q]; col[q + 1] = base[q + 1]; col[q + 2] = base[q + 2]; }
+    col[q + 3] = a; size[i] = base[q + 3] * (max[i] > 1e8 ? 1 : (1 - k * .45));
+  }
+  const g = S0.pts.geometry; g.attributes.position.needsUpdate = true; g.attributes.col.needsUpdate = true; g.attributes.size.needsUpdate = true;
+}
+function p3Ring(x, y, z, col, s0, s1, d, a){
+  const R = P3.rings.find(q => !q.m.visible) || P3.rings[0], m = R.m;
+  m.visible = true; m.position.set(x, y, z); m.material.color.set(col === 'rain' ? '#ffffff' : col); Object.assign(R, {t0:P3.now, d, s0, s1, a:a ?? 1, rain:col === 'rain'});
+}
+function p3Shake(k){ P3.shake = Math.max(P3.shake, k); }
+function p3Flash(a, col){ const f = $('#pkFlash'); f.style.background = col || '#fff'; f.style.transition = 'none'; f.style.opacity = a; void f.offsetWidth; f.style.transition = 'opacity .7s ease-out'; f.style.opacity = 0; }
+
+/* ───── textures : le paquet (couleur, métal, relief), le dos des cartes, la face ───── */
+function p3PackCanvas(type, mode){
+  const W = 1024, H = 1618, c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d'), or = type === 'or';
+  const gold = () => { const g = x.createLinearGradient(0, 0, W, H); [[0, '#7a5a25'], [.18, '#c9a45c'], [.3, '#fff3c8'], [.44, '#d7b062'], [.6, '#8a6a2f'], [.78, '#f5dea0'], [1, '#9a7834']].forEach(s => g.addColorStop(s[0], s[1])); return g; };
+  const P = k => {
+    if (mode === 'color') {
+      if (k === 'base') { if (or) return gold(); const g = x.createLinearGradient(0, 0, W * .6, H); g.addColorStop(0, '#7c1c15'); g.addColorStop(.35, '#9a231a'); g.addColorStop(.7, '#5e100c'); g.addColorStop(1, '#360806'); return g; }
+      if (k === 'orn' || k === 'name') return or ? '#5a120d' : gold();
+      if (k === 'txt') return or ? 'rgba(62,36,8,.9)' : 'rgba(246,225,190,.9)';
+      if (k === 'wax') { const g = x.createRadialGradient(W * .46, H * .33, 10, W / 2, H * .36, W * .22); g.addColorStop(0, '#e2574b'); g.addColorStop(.55, '#9c1c17'); g.addColorStop(1, '#4a0907'); return g; }
+      if (k === 'waxS') return '#f6dfb0';
+    }
+    if (mode === 'mr') { const v = {base:or ? [70, 255] : [180, 0], orn:or ? [150, 0] : [55, 255], name:or ? [150, 0] : [50, 255], txt:or ? [160, 0] : [90, 160], wax:[75, 0], waxS:[60, 255]}[k]; return `rgb(0,${v[0]},${v[1]})`; }
+    const b = {base:118, orn:or ? 70 : 205, name:or ? 60 : 215, txt:or ? 95 : 150, wax:225, waxS:250}[k]; return `rgb(${b},${b},${b})`;
+  };
+  x.fillStyle = P('base'); x.fillRect(0, 0, W, H);
+  // grain du cuir ou brossé de la feuille d'or
+  if (mode !== 'mr') { let sd = 7; const R = () => (sd = (sd * 16807) % 2147483647) / 2147483647;
+    if (or) { for (let i = 0; i < 900; i++) { const y = R() * H; x.fillStyle = mode === 'bump' ? `rgba(${R() < .5 ? 255 : 0},${0},${0},.0)` : `rgba(255,255,240,${R() * .08})`; x.fillRect(0, y, W, 1 + R() * 2); }
+      if (mode === 'bump') for (let i = 0; i < 700; i++) { const y = R() * H, v = 100 + R() * 40 | 0; x.fillStyle = `rgba(${v},${v},${v},.5)`; x.fillRect(0, y, W, 1.5); } }
+    else for (let i = 0; i < 9000; i++) { const px = R() * W, py = R() * H, s = 1 + R() * 3.2, v = mode === 'bump' ? (R() < .5 ? 80 : 160) : 0; x.fillStyle = mode === 'bump' ? `rgba(${v},${v},${v},.35)` : `rgba(${R() < .5 ? '0,0,0' : '255,220,200'},${.04 + R() * .06})`; x.beginPath(); x.arc(px, py, s, 0, 6.283); x.fill(); } }
+  // bandes serties en haut et en bas (stries verticales)
+  const crimp = (y0, y1) => { for (let i = 0; i < W; i += 9) { x.fillStyle = mode === 'color' ? (i % 18 ? 'rgba(0,0,0,.16)' : 'rgba(255,240,210,.10)') : mode === 'bump' ? (i % 18 ? 'rgb(90,90,90)' : 'rgb(170,170,170)') : x.fillStyle; if (mode !== 'mr') x.fillRect(i, y0, 4.5, y1 - y0); } };
+  crimp(0, H * .075); crimp(H * .955, H);
+  // pointillés de déchirure
+  x.fillStyle = P('orn'); for (let i = 30; i < W - 30; i += 26) x.fillRect(i, H * .135 - 2, 14, 4);
+  // « déchirer ici »
+  x.fillStyle = P('txt'); x.font = `700 ${W * .03}px -apple-system, Helvetica, Arial, sans-serif`; x.textAlign = 'center'; x.textBaseline = 'middle';
+  const spaced = (s, cx, cy, sp) => { const ws = [...s].map(ch => x.measureText(ch).width), tot = ws.reduce((a, b) => a + b, 0) + sp * (ws.length - 1); let px = cx - tot / 2; [...s].forEach((ch, i) => { x.textAlign = 'left'; x.fillText(ch, px, cy); px += ws[i] + sp; }); x.textAlign = 'center'; };
+  spaced('◂  ' + t('pk.tearHere').toUpperCase() + '  ▸', W / 2, H * .105, W * .012);
+  // cadre doré à double filet et losanges
+  const rr = (x0, y0, w, h, r) => { x.beginPath(); x.moveTo(x0 + r, y0); x.arcTo(x0 + w, y0, x0 + w, y0 + h, r); x.arcTo(x0 + w, y0 + h, x0, y0 + h, r); x.arcTo(x0, y0 + h, x0, y0, r); x.arcTo(x0, y0, x0 + w, y0, r); x.closePath(); };
+  x.strokeStyle = P('orn'); x.lineWidth = 7; rr(W * .065, H * .175, W * .87, H * .75, 26); x.stroke(); x.lineWidth = 2.5; rr(W * .085, H * .188, W * .83, H * .724, 18); x.stroke();
+  x.fillStyle = P('orn'); [[W / 2, H * .175], [W / 2, H * .925]].forEach(([a, b]) => { x.save(); x.translate(a, b); x.rotate(Math.PI / 4); x.fillRect(-16, -16, 32, 32); x.restore(); });
+  [[W * .065, H * .175], [W * .935, H * .175], [W * .065, H * .925], [W * .935, H * .925]].forEach(([a, b]) => { x.beginPath(); x.arc(a, b, 9, 0, 6.283); x.fill(); });
+  // le sceau de cire
+  const cx = W / 2, cy = H * .36, R0 = W * .2;
+  x.fillStyle = P('wax'); x.beginPath(); for (let i = 0; i <= 72; i++) { const a = i / 72 * 6.283, rad = R0 * (1 + .055 * Math.sin(a * 9) + .03 * Math.sin(a * 23 + 1)); const px = cx + Math.cos(a) * rad, py = cy + Math.sin(a) * rad; i ? x.lineTo(px, py) : x.moveTo(px, py); } x.fill();
+  x.strokeStyle = P('waxS'); x.globalAlpha = mode === 'color' ? .35 : 1; x.lineWidth = 5; x.beginPath(); x.arc(cx, cy, R0 * .62, 0, 6.283); x.stroke(); x.globalAlpha = 1;
+  x.fillStyle = P('waxS'); x.font = `italic 600 ${R0 * 1.05}px Georgia, "Times New Roman", serif`; x.fillText('S', cx, cy + R0 * .06);
+  // SIGNET, sous-titre, type de paquet
+  x.fillStyle = P('name'); x.font = `600 ${W * .108}px Georgia, "Times New Roman", serif`; spaced('SIGNET', W / 2, H * .565, W * .035);
+  x.fillStyle = P('txt'); x.font = `italic ${W * .058}px Georgia, "Times New Roman", serif`; x.fillText(t('pk.sub'), W / 2, H * .62);
+  x.font = `800 ${W * .042}px -apple-system, Helvetica, Arial, sans-serif`; spaced(t('pk.type.' + type).toUpperCase(), W / 2, H * .815, W * .014);
+  x.font = `500 ${W * .038}px -apple-system, Helvetica, Arial, sans-serif`; x.globalAlpha = .8; x.fillText(t(or ? 'pk.fiveO' : 'pk.fiveS'), W / 2, H * .862); x.globalAlpha = 1;
+  // dents de la sertissure : on découpe le haut et le bas en zigzag
+  if (mode === 'color') { x.globalCompositeOperation = 'destination-out'; const n = 26, dpt = H * .018;
+    for (const top of [true, false]) { x.beginPath(); x.moveTo(0, top ? 0 : H); for (let i = 0; i <= n; i++) x.lineTo(i / n * W, top ? (i % 2 ? dpt : 0) : H - (i % 2 ? dpt : 0)); x.lineTo(W, top ? 0 : H); x.closePath(); x.fill(); }
+    x.globalCompositeOperation = 'source-over'; }
+  return c;
+}
+function p3PackBackCanvas(type){
+  const W = 512, H = 809, c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d'), or = type === 'or';
+  const g = x.createLinearGradient(0, 0, W, H); (or ? [[0, '#8a6a2f'], [.3, '#e8cd8a'], [.6, '#a07c38'], [1, '#e0c27c']] : [[0, '#5e100c'], [.5, '#86201a'], [1, '#3a0806']]).forEach(s => g.addColorStop(s[0], s[1]));
+  x.fillStyle = g; x.fillRect(0, 0, W, H);
+  x.fillStyle = or ? 'rgba(60,35,8,.75)' : 'rgba(240,210,150,.75)'; x.textAlign = 'center'; x.font = '600 34px Georgia, serif'; x.fillText('SIGNET', W / 2, H * .3);
+  x.font = 'italic 22px Georgia, serif'; x.fillText(t('pk.k'), W / 2, H * .35);
+  for (let i = 0; i < 42; i++) x.fillRect(W / 2 - 90 + i * 4.3, H * .78, i % 3 ? 2 : 3, 46);
+  x.font = '600 15px Helvetica, Arial, sans-serif'; x.fillText(t('pk.back', {n:CAT.length}), W / 2, H * .88);
+  x.globalCompositeOperation = 'destination-out'; const n = 13, dpt = H * .018;
+  for (const top of [true, false]) { x.beginPath(); x.moveTo(0, top ? 0 : H); for (let i = 0; i <= n; i++) x.lineTo(i / n * W, top ? (i % 2 ? dpt : 0) : H - (i % 2 ? dpt : 0)); x.lineTo(W, top ? 0 : H); x.closePath(); x.fill(); }
+  x.globalCompositeOperation = 'source-over'; return c;
+}
+function p3Rounded(x, w, h, r){ x.beginPath(); x.moveTo(r, 0); x.arcTo(w, 0, w, h, r); x.arcTo(w, h, 0, h, r); x.arcTo(0, h, 0, 0, r); x.arcTo(0, 0, w, 0, r); x.closePath(); }
+function p3CardBack(T){
+  const mk = mode => { const W = 640, H = 896, c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d');
+    p3Rounded(x, W, H, 36); x.clip();
+    if (mode === 'color') { const g = x.createLinearGradient(0, 0, W, H); g.addColorStop(0, '#7a1b14'); g.addColorStop(.4, '#951f17'); g.addColorStop(.75, '#5c0f0b'); g.addColorStop(1, '#360806'); x.fillStyle = g; x.fillRect(0, 0, W, H);
+      let sd = 3; const R = () => (sd = (sd * 16807) % 2147483647) / 2147483647; for (let i = 0; i < 4000; i++) { x.fillStyle = `rgba(${R() < .5 ? '0,0,0' : '255,220,200'},${.04 + R() * .05})`; x.fillRect(R() * W, R() * H, 2, 2); } }
+    else { x.fillStyle = 'rgb(0,175,0)'; x.fillRect(0, 0, W, H); }
+    const gold = mode === 'color' ? (() => { const g = x.createLinearGradient(0, 0, W, H); [[0, '#7a5a25'], [.25, '#f6e3a6'], [.5, '#b08a43'], [.75, '#f0d898'], [1, '#8a6a2f']].forEach(s => g.addColorStop(s[0], s[1])); return g; })() : 'rgb(0,90,255)';
+    x.strokeStyle = gold; x.lineWidth = 6; x.save(); x.translate(30, 30); p3Rounded(x, W - 60, H - 60, 22); x.stroke(); x.restore(); x.lineWidth = 2; x.save(); x.translate(44, 44); p3Rounded(x, W - 88, H - 88, 14); x.stroke(); x.restore();
+    const cx = W / 2, cy = H * .44, R0 = W * .23;
+    if (mode === 'color') { const g = x.createRadialGradient(cx - 20, cy - 24, 6, cx, cy, R0); g.addColorStop(0, '#e2574b'); g.addColorStop(.55, '#9c1c17'); g.addColorStop(1, '#4a0907'); x.fillStyle = g; } else x.fillStyle = 'rgb(0,120,0)';
+    x.beginPath(); for (let i = 0; i <= 72; i++) { const a = i / 72 * 6.283, rad = R0 * (1 + .055 * Math.sin(a * 9) + .03 * Math.sin(a * 23 + 1)); i ? x.lineTo(cx + Math.cos(a) * rad, cy + Math.sin(a) * rad) : x.moveTo(cx + rad, cy); } x.fill();
+    x.fillStyle = mode === 'color' ? '#f6dfb0' : 'rgb(0,100,0)'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.font = `italic 600 ${R0 * 1.05}px Georgia, serif`; x.fillText('S', cx, cy + 6);
+    x.fillStyle = gold; x.font = '600 44px Georgia, serif'; const s = 'SIGNET', ws = [...s].map(ch => x.measureText(ch).width); let px = cx - (ws.reduce((a, b) => a + b, 0) + 22 * 5) / 2; x.textAlign = 'left'; [...s].forEach((ch, i) => { x.fillText(ch, px, H * .7); px += ws[i] + 22; });
+    return c; };
+  const map = new T.CanvasTexture(mk('color')); map.colorSpace = T.SRGBColorSpace; map.anisotropy = 4;
+  const mr = new T.CanvasTexture(mk('mr'));
+  return new T.MeshStandardMaterial({map, metalnessMap:mr, roughnessMap:mr, metalness:1, roughness:1, alphaTest:.5, envMapIntensity:1.9});
+}
+const P3F = {c:[['#b9ab92', 0], ['#efe5d2', .38], ['#cbbda3', .62], ['#f3ead9', .82], ['#a99a80', 1]], r:[['#1f4f8c', 0], ['#8cc6ff', .36], ['#2a68b3', .6], ['#b4dbff', .8], ['#1d4a85', 1]],
+  e:[['#4d1880', 0], ['#d7a8ff', .36], ['#7431bd', .6], ['#e8c9ff', .8], ['#451473', 1]], l:[['#7A5A25', 0], ['#C9A45C', .16], ['#FFF3C8', .28], ['#D7B062', .42], ['#8A6A2F', .58], ['#F5DEA0', .76], ['#9A7834', 1]],
+  m:[['#ff5f6d', 0], ['#ffc371', .14], ['#f9f871', .28], ['#6bffb0', .42], ['#5fd4ff', .56], ['#a78bff', .7], ['#ff7ad9', .84], ['#ff5f6d', 1]]};
+const P3HD = {c:['#3a3129', '#4b4036'], r:['#0f3260', '#1d5596'], e:['#33105a', '#5c2296'], l:['#4f350b', '#8a6420'], m:['#1a1033', '#2d1550']};
+// la face d'une carte, dessinée en grand (titre, couverture, auteur, rareté)
+function p3Face(x0, img){
+  const W = 640, H = 896, c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d'), b = x0.c, tier = x0.tier;
+  p3Rounded(x, W, H, 36); x.clip();
+  const g = x.createLinearGradient(0, 0, W, H * .9); P3F[tier].forEach(s => g.addColorStop(s[1], s[0])); x.fillStyle = g; x.fillRect(0, 0, W, H);
+  x.save(); x.translate(20, 20); p3Rounded(x, W - 40, H - 40, 22); x.clip();
+  const gi = x.createLinearGradient(0, 0, 0, H); gi.addColorStop(0, '#1c1612'); gi.addColorStop(1, '#120d0a'); x.fillStyle = gi; x.fillRect(0, 0, W, H);
+  const gh = x.createLinearGradient(0, 0, W, 0); gh.addColorStop(0, P3HD[tier][0]); gh.addColorStop(1, P3HD[tier][1]); x.fillStyle = gh; x.fillRect(0, 0, W, 82);
+  x.restore();
+  // titre et gemme
+  x.fillStyle = '#fff6e6'; x.textBaseline = 'middle'; x.textAlign = 'left'; let fs = 36; const title = catTitle(b);
+  x.font = `600 ${fs}px Georgia, "Times New Roman", serif`; while (x.measureText(title).width > W - 150 && fs > 24) { fs -= 2; x.font = `600 ${fs}px Georgia, "Times New Roman", serif`; }
+  let tt = title; while (x.measureText(tt).width > W - 150 && tt.length > 4) tt = tt.slice(0, -2); if (tt !== title) tt = tt.trim() + '…';
+  x.fillText(tt, 46, 62);
+  x.save(); x.translate(W - 64, 62); x.rotate(Math.PI / 4); x.shadowColor = P3C[tier]; x.shadowBlur = 18; x.fillStyle = tier === 'm' ? (() => { const gg = x.createLinearGradient(-14, -14, 14, 14); ['#ff5f6d', '#ffc371', '#6bffb0', '#5fd4ff', '#a78bff'].forEach((cc, i) => gg.addColorStop(i / 4, cc)); return gg; })() : P3C[tier]; x.fillRect(-14, -14, 28, 28); x.restore();
+  // la couverture
+  const ax = 42, ay = 118, aw = W - 84, ah = 600;
+  x.save(); x.beginPath(); p3Rounded2(x, ax, ay, aw, ah, 16); x.clip(); x.fillStyle = '#2a211a'; x.fillRect(ax, ay, aw, ah);
+  const src = img || catCover(b, 420);
+  const iw = src.naturalWidth || src.width, ih = src.naturalHeight || src.height, s = Math.max(aw / iw, ah / ih), dw = iw * s, dh = ih * s;
+  try { x.drawImage(src, ax + (aw - dw) / 2, ay + (ah - dh) * .3, dw, dh); } catch(_){}
+  const vg = x.createRadialGradient(W / 2, ay + ah / 2, ah * .35, W / 2, ay + ah / 2, ah * .8); vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.42)'); x.fillStyle = vg; x.fillRect(ax, ay, aw, ah);
+  x.restore();
+  // auteur, année, genre, rareté, numéro
+  x.fillStyle = 'rgba(255,240,220,.85)'; x.font = 'italic 27px Georgia, "Times New Roman", serif'; x.textAlign = 'left'; let au = b.a; while (x.measureText(au).width > W - 220 && au.length > 4) au = au.slice(0, -2); x.fillText(au + (au !== b.a ? '…' : ''), 46, 758);
+  x.textAlign = 'right'; x.font = '24px Georgia, serif'; x.fillStyle = 'rgba(255,240,220,.6)'; x.fillText(pkYear(b), W - 46, 758);
+  x.font = '700 18px -apple-system, Helvetica, Arial, sans-serif'; x.textAlign = 'left'; x.fillStyle = 'rgba(255,240,220,.5)'; x.fillText(gName(b.g[0]).toUpperCase().slice(0, 22), 46, 812);
+  x.textAlign = 'center'; x.fillStyle = tier === 'c' ? '#efe5d2' : P3C[tier]; x.fillText((x0.foil ? '✦ ' : '') + t('pk.t.' + tier).toUpperCase(), W / 2 + 40, 812);
+  x.textAlign = 'right'; x.fillStyle = 'rgba(255,240,220,.5)'; x.fillText('N° ' + pkNo(b), W - 46, 812);
+  return c;
+}
+function p3Rounded2(x, x0, y0, w, h, r){ x.moveTo(x0 + r, y0); x.arcTo(x0 + w, y0, x0 + w, y0 + h, r); x.arcTo(x0 + w, y0 + h, x0, y0 + h, r); x.arcTo(x0, y0 + h, x0, y0, r); x.arcTo(x0, y0, x0 + w, y0, r); x.closePath(); }
+// le matériau de la face : reflets, irisation qui suit l'angle, paillettes, balayage de lumière
+function p3FaceMat(T, tex, x0){
+  const holo = x0.tier === 'm' || x0.foil ? .55 : x0.tier === 'l' ? .3 : x0.tier === 'e' ? .16 : 0;
+  return new T.ShaderMaterial({transparent:false,
+    uniforms:{map:{value:tex}, uHolo:{value:holo}, uGold:{value:x0.tier === 'l' && !x0.foil ? 1 : 0}, uFoil:{value:x0.tier === 'l' || x0.tier === 'm' || x0.foil ? 1 : x0.tier === 'e' ? .4 : 0}, uTime:{value:0}, uSweep:{value:-1}, uLight:{value:new T.Vector3(-.5, .7, 1).normalize()}, uLit:{value:1}},
+    vertexShader:'varying vec2 vUv; varying vec3 vN; varying vec3 vV; void main(){ vUv = uv; vec4 wp = modelMatrix * vec4(position, 1.); vN = normalize(mat3(modelMatrix) * normal); vV = normalize(cameraPosition - wp.xyz); gl_Position = projectionMatrix * viewMatrix * wp; }',
+    fragmentShader:`uniform sampler2D map; uniform float uHolo, uFoil, uTime, uSweep, uGold, uLit; uniform vec3 uLight; varying vec2 vUv; varying vec3 vN; varying vec3 vV;
+      vec3 hue(float h){ return .5 + .5 * cos(6.2832 * (h + vec3(0., .33, .67))); }
+      void main(){
+        vec4 b = texture2D(map, vUv); if (b.a < .5) discard;
+        vec3 N = normalize(vN), V = normalize(vV), L = normalize(uLight); float nv = clamp(dot(N, V), 0., 1.);
+        vec3 col = b.rgb * (.62 + .5 * max(dot(N, L), 0.)) * uLit;
+        vec3 H = normalize(L + V); col += pow(max(dot(N, H), 0.), 70.) * .45 + pow(1. - nv, 3.) * .12;
+        float h = fract(vUv.x * .9 + vUv.y * .7 + (1. - nv) * 2.6 + N.x * 1.8 - N.y * 1.3 + uTime * .025);
+        vec3 ir = mix(hue(h), vec3(1., .82, .45) * (.7 + .5 * sin(h * 12.)), uGold);
+        float pat = .8 + .2 * sin((vUv.x * 1.3 + vUv.y) * 26. + N.x * 9.);
+        col += ir * pat * uHolo * (.35 + .9 * (1. - nv)) * (.35 + .8 * b.rgb);
+        vec2 gq = vUv * vec2(56., 78.), g = floor(gq), fq = fract(gq) - .5; float r = fract(sin(dot(g, vec2(12.9898, 78.233))) * 43758.5453);
+        vec2 jo = vec2(fract(r * 13.7), fract(r * 27.1)) - .5; float dd = length(fq - jo * .6);
+        col += pow(max(0., sin(uTime * 2.2 + r * 50. + N.x * 22. + N.y * 17.)), 24.) * step(.84, r) * smoothstep(.22, 0., dd) * uFoil * vec3(1.8, 1.7, 1.45);
+        float s = (vUv.x * .55 + (1. - vUv.y) * .85) - uSweep * 2.1 + .35; col += smoothstep(.13, 0., abs(s)) * step(-.5, uSweep) * (1. - step(1., uSweep)) * vec3(1.2, 1.1, 1.);
+        gl_FragColor = vec4(col, 1.);
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment>
+      }`});
+}
+
+/* ───── le paquet en 3D ───── */
+function p3PackTex(type){
+  if (P3.ptex[type]) return P3.ptex[type];
+  const T = P3.T, mk = (m, srgb) => { const tx = new T.CanvasTexture(p3PackCanvas(type, m)); if (srgb) tx.colorSpace = T.SRGBColorSpace; tx.anisotropy = 4; return tx; };
+  const back = new T.CanvasTexture(p3PackBackCanvas(type)); back.colorSpace = T.SRGBColorSpace;
+  return (P3.ptex[type] = {map:mk('color', true), mr:mk('mr'), bump:mk('bump'), back});
+}
+function p3PackBuild(type){
+  const T = P3.T, tx = p3PackTex(type), PW = 2.3, PH = 3.64, TF = .135, yT = PH / 2 - PH * TF, puff = .2;
+  const mat = new T.MeshStandardMaterial({map:tx.map, metalnessMap:tx.mr, roughnessMap:tx.mr, bumpMap:tx.bump, bumpScale:type === 'or' ? .6 : 1.4, metalness:1, roughness:1, alphaTest:.5, envMapIntensity:1.35, side:T.FrontSide});
+  const matB = new T.MeshStandardMaterial({map:tx.back, metalness:type === 'or' ? .9 : .05, roughness:type === 'or' ? .32 : .7, alphaTest:.5, envMapIntensity:1.2});
+  const puffAt = (x, y) => { const ex = Math.abs(x) / (PW / 2), ey = (y + PH / 2) / PH; const fy = Math.min(1, Math.max(0, (ey - .05) / .1)) * Math.min(1, Math.max(0, (.955 - ey) / .1)); return puff * (1 - Math.pow(ex, 6)) * Math.pow(Math.sin(Math.min(1, fy) * Math.PI / 2), 1.5); };
+  const mkGeo = (y0, y1, sx, sy, front) => { const g = new T.PlaneGeometry(PW, y1 - y0, sx, sy); const p = g.attributes.position, uv = g.attributes.uv;
+    for (let i = 0; i < p.count; i++) { const X = p.getX(i), Y = p.getY(i) + (y0 + y1) / 2; p.setY(i, Y); p.setZ(i, puffAt(X, Y) * (front ? 1 : 1)); uv.setY(i, (Y + PH / 2) / PH); if (!front) uv.setX(i, uv.getX(i)); }
+    if (!front) { for (let i = 0; i < p.count; i++) p.setZ(i, -p.getZ(i)); const idx = g.index.array; for (let i = 0; i < idx.length; i += 3) { const a = idx[i]; idx[i] = idx[i + 2]; idx[i + 2] = a; } for (let i = 0; i < p.count; i++) uv.setX(i, 1 - uv.getX(i)); }
+    g.computeVertexNormals(); return g; };
+  const grp = new T.Group(), body = new T.Group(), strip = new T.Group();
+  const bF = new T.Mesh(mkGeo(-PH / 2, yT, 24, 44, true), mat), bB = new T.Mesh(mkGeo(-PH / 2, yT, 12, 22, false), matB);
+  const sF = new T.Mesh(mkGeo(yT, PH / 2, 40, 6, true), mat), sB = new T.Mesh(mkGeo(yT, PH / 2, 20, 4, false), matB);
+  const yc = (yT + PH / 2) / 2; strip.position.y = yc; sF.position.y = sB.position.y = -yc;
+  body.add(bF, bB); strip.add(sF, sB); grp.add(body, strip);
+  // la lumière qui fuit par la déchirure
+  const leak = new T.Mesh(new T.PlaneGeometry(PW, .5), new T.MeshBasicMaterial({map:P3.glowTex, color:'#fff3dc', transparent:true, opacity:0, depthWrite:false, blending:T.AdditiveBlending, toneMapped:false}));
+  leak.position.set(0, yT, puff * .2 + .02); leak.renderOrder = 10; grp.add(leak);
+  const beam = new T.Mesh(new T.PlaneGeometry(2.4, 7), new T.ShaderMaterial({transparent:true, depthWrite:false, blending:T.AdditiveBlending, toneMapped:false, uniforms:{uA:{value:0}, uC:{value:new T.Color('#fff')}},
+    vertexShader:'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.); }',
+    fragmentShader:'uniform float uA; uniform vec3 uC; varying vec2 vUv; void main(){ float x = abs(vUv.x - .5) * 2.; float w = mix(.25, 1., vUv.y); float a = smoothstep(w, 0., x) * (1. - vUv.y) * smoothstep(0., .04, vUv.y); gl_FragColor = vec4(uC * a * uA, 1.); }'}));
+  beam.position.set(0, yT + 3.5, 0); beam.renderOrder = 11; grp.add(beam);
+  const sp = sF.geometry.attributes.position.array.slice(), spB = sB.geometry.attributes.position.array.slice();
+  grp.userData = {PW, PH, yT, puff, body, strip, sF, sB, sp, spB, leak, beam, mat, matB};
+  grp.scale.setScalar(.9);
+  return grp;
+}
+// la bande du haut se décolle et s'enroule à mesure que le doigt avance
+function p3TearShape(k){
+  const u = P3.pack.userData, PW = u.PW, d = P3.dir;
+  [[u.sF, u.sp], [u.sB, u.spB]].forEach(([m, base]) => { const p = m.geometry.attributes.position, a = p.array;
+    for (let i = 0; i < p.count; i++) { const X = base[i * 3], Y = base[i * 3 + 1], Z = base[i * 3 + 2];
+      const s = d > 0 ? (X + PW / 2) / PW : (PW / 2 - X) / PW, lift = Math.max(0, k * 1.08 - s), an = Math.min(1.9, lift * 2.6), yl = Y - u.yT;
+      a[i * 3] = X + d * lift * .1; a[i * 3 + 1] = u.yT + yl * Math.cos(an) + lift * .22; a[i * 3 + 2] = Z + yl * Math.sin(an) + lift * .3; }
+    p.needsUpdate = true; m.geometry.computeVertexNormals(); });
+  const L = u.leak; L.material.opacity = Math.min(1, k * 2.4); L.scale.set(Math.max(.001, k), 1, 1); L.position.x = -d * u.PW / 2 * (1 - k);
+  P3.bg.material.uniforms.uLeak.value = k * .6;
+}
+
+/* ───── les cartes ───── */
+function p3CardBuild(x0, i){
+  const T = P3.T, grp = new T.Group();
+  const cv = p3Face(x0, null), tex = new T.CanvasTexture(cv); tex.colorSpace = T.SRGBColorSpace; tex.anisotropy = 8;
+  const front = new T.Mesh(P3.cardGeo, p3FaceMat(T, tex, x0)), back = new T.Mesh(P3.cardGeo, P3.back); back.rotation.y = Math.PI;
+  grp.add(front, back); grp.userData = {x0, front, tex, i};
+  catReal(x0.c).then(r => { if (!r || !r.img || !P3.on) return; try { const c2 = p3Face(x0, r.img); tex.image = c2; tex.needsUpdate = true; } catch(_){} });
+  return grp;
+}
+
+/* ───── la boucle ───── */
+function p3Frame(now){
+  if (!P3.on) return; P3.raf = requestAnimationFrame(p3Frame);
+  const dt = Math.min(.05, P3.last ? (now - P3.last) / 1000 : .016); P3.last = now; P3.now = now;
+  // animations en cours
+  for (let i = P3.tw.length - 1; i >= 0; i--) { const w = P3.tw[i]; if (w.g !== P3.gen) { P3.tw.splice(i, 1); continue; } const k = Math.min(1, Math.max(0, (now - w.t0) / w.d)); w.fn(w.ease(k), k); if (k >= 1) { P3.tw.splice(i, 1); w.res(); } }
+  const tsec = now / 1000, U = P3.bg.material.uniforms; U.uTime.value = tsec;
+  // le paquet flotte et suit le doigt ou l'inclinaison
+  let gx = Math.sin(tsec * .7) * .25, gy = Math.cos(tsec * .55) * .2; if (Gyro.on) { gx = Gyro.tx; gy = Gyro.ty; }
+  if (P3.pack && P3.step === 'pack') {
+    const tt = P3.drag && P3.drag.mode === 'tilt' ? P3.drag.t : {x:-gy * .18, y:gx * .32};
+    P3.tilt.x += (tt.x - P3.tilt.x) * .08; P3.tilt.y += (tt.y - P3.tilt.y) * .08;
+    const pk = P3.pack, hold = P3.drag && P3.drag.mode === 'tear', tr = hold && (P3.best === 'l' || P3.best === 'm') ? .025 : 0;
+    pk.rotation.x = P3.tilt.x + (tr ? (Math.random() - .5) * tr : 0); pk.rotation.y = P3.tilt.y + (tr ? (Math.random() - .5) * tr : 0);
+    pk.position.y = Math.sin(tsec * 1.3) * .06;
+  }
+  // la carte révélée se balance doucement
+  if (P3.step === 'shown' && P3.cards[P3.cur]) { const c = P3.cards[P3.cur], d = P3.drag && P3.drag.mode === 'tilt' ? P3.drag.t : null;
+    const tx = d ? d.x : Math.sin(tsec * .9) * .07 - (Gyro.on ? Gyro.ty * .25 : 0), ty = d ? d.y : Math.cos(tsec * .7) * .12 + (Gyro.on ? Gyro.tx * .35 : 0);
+    c.rotation.x += (tx - c.rotation.x) * .1; c.rotation.y += (ty - c.rotation.y) * .1; }
+  if (P3.step === 'sum') P3.cards.forEach((c, i) => { c.position.y = c.userData.fy + Math.sin(tsec * 1.1 + i * .9) * .03; });
+  P3.cards.forEach(c => { c.userData.front.material.uniforms.uTime.value = tsec; });
+  // anneaux, éclairs, tremblement de caméra
+  P3.rings.forEach(R => { if (!R.m.visible) return; const k = (now - R.t0) / R.d; if (k >= 1) { R.m.visible = false; return; } const e = P3E.o3(k), s = p3Lerp(R.s0, R.s1, e); R.m.scale.set(s, s, 1); R.m.material.opacity = R.a * (1 - k) ** 1.4; if (R.rain) R.m.material.color.setHSL((tsec * .4) % 1, 1, .65); R.m.quaternion.copy(P3.cam.quaternion); });
+  if (P3.boltOn && P3.cards[P3.cur]) { if (now > (P3.boltNext || 0)) { P3.boltNext = now + 55 + Math.random() * 50; p3BoltGen(P3.cards[P3.cur]); } P3.bolts.material.opacity = .9; } else P3.bolts.material.opacity *= .8;
+  P3.shake *= Math.pow(.04, dt); const sk = P3.shake;
+  P3.cam.position.set(P3.camOff.x + (Math.random() - .5) * sk * .25, P3.camOff.y + (Math.random() - .5) * sk * .25, P3.dist + P3.camOff.z);
+  P3.cam.lookAt(P3.camOff.x * .6, P3.camOff.y * .6, 0);
+  p3PartsStep(P3.parts, dt, now); p3PartsStep(P3.dust, dt, now);
+  if (P3.tagFollow) p3TagPlace();
+  P3.r.render(P3.sc, P3.cam);
+}
+function p3BoltGen(card){
+  const a = P3.bolts.geometry.attributes.position, arr = a.array, cx = card.position.x, cy = card.position.y, z = card.position.z + .05; let n = 0;
+  for (let b = 0; b < 6; b++) { const an = Math.random() * 6.283, ex = Math.cos(an), ey = Math.sin(an), k0 = Math.min(1.02 / Math.abs(ex || 1e-3), 1.42 / Math.abs(ey || 1e-3)); let px = cx + ex * k0, py = cy + ey * k0;
+    for (let s = 0; s < 9; s++) { const r = k0 + .05 + s * .075, aa = an + (Math.random() - .5) * .5, nx = cx + Math.cos(aa) * r, ny = cy + Math.sin(aa) * r; arr.set([px, py, z, nx, ny, z], n); n += 6; px = nx; py = ny; } }
+  a.needsUpdate = true;
+}
+// l'étiquette (nouvelle / doublon) et le bouton « fiche » suivent le bas de la carte
+function p3TagPlace(){
+  const c = P3.cards[P3.cur], el = $('#pk3Tag'); if (!c) return;
+  const v = new P3.T.Vector3(0, -1.4, 0).applyMatrix4(c.matrixWorld).project(P3.cam);
+  el.style.transform = `translate(-50%,0) translate(${((v.x + 1) / 2 * P3.W).toFixed(1)}px,${((1 - v.y) / 2 * P3.H + 14).toFixed(1)}px)`;
+}
+const p3Scr = (x, y, z) => { const v = new P3.T.Vector3(x, y, z).project(P3.cam); return {x:(v.x + 1) / 2 * P3.W, y:(1 - v.y) / 2 * P3.H}; };
+
+/* ───── la séquence ───── */
+async function pk3Open(type){
+  const T = P3.T, P = pkS(); P3.gen++; const gen = P3.gen;
+  PK.on = true; PK.type = type; PK.res = pkRoll(type); PK.i = 0; PK.step = 'pack'; P3.on = true; P3.step = 'intro'; P3.busy = true; P3.skip = false; P3.cur = -1; P3.tear = 0; P3.drag = null; P3.tw = []; P3.tagFollow = false;
+  const cards = PK.res.cards; P3.best = cards[cards.length - 1].tier; PK.best = P3.best;
+  cards.forEach(x => catReal(x.c));
+  const o = $('#pko'); o.className = 'pko on g3 ty-' + type; o.style.setProperty('--tc', PK_COL[P3.best]);
+  $('#pkSum').className = 'pko-sum'; $('#pkSum').innerHTML = ''; $('#pkBanner').className = 'pko-banner'; $('#pkSkip').hidden = true; $('#pk3Tag').className = 'pk3-tag'; pkHint('');
+  $('#pkStage').innerHTML = ''; $('#pkTray').innerHTML = '';
+  // nettoyer la scène précédente
+  if (P3.pack) { P3.sc.remove(P3.pack); P3.pack = null; }
+  P3.cards.forEach(c => { P3.sc.remove(c); c.userData.tex.dispose(); c.userData.front.material.dispose(); }); P3.cards = [];
+  const U = P3.bg.material.uniforms; U.uDim.value = 0; U.uTintA.value = 0; U.uRays.value = 0; U.uVortex.value = 0; U.uLeak.value = 0; U.uRain.value = 0; U.uC.value.set(.5, .55);
+  P3.glow.material.opacity = 0; P3.camOff = {x:0, y:0, z:0}; P3.shake = 0; P3.tilt = {x:0, y:0};
+  p3Size();
+  // le paquet et les cartes, cachées dedans
+  const pk = p3PackBuild(type); P3.pack = pk; P3.sc.add(pk); p3TearShape(0);
+  cards.forEach((x, i) => { const c = p3CardBuild(x, i); c.position.set(0, -.25, -.02 - i * .012); c.rotation.y = Math.PI; c.scale.setScalar(.86); c.visible = false; P3.sc.add(c); P3.cards.push(c); });
+  ambStop(); PKS.unlock(); Haptics.tick(true);
+  cancelAnimationFrame(P3.raf); P3.last = 0; P3.raf = requestAnimationFrame(p3Frame);
+  if (state.tab === 'lib' && S.libView === 'cards') buildCards();
+  // entrée : le paquet monte en tournoyant, la caméra recule doucement
+  PKS.whoosh(); P3.camOff.z = 2.2;
+  pk.position.set(0, -6, 1); pk.rotation.set(.5, -2.6, -.4);
+  p3Tween(1500, k => { P3.camOff.z = 2.2 * (1 - k); }, P3E.o3);
+  await p3Tween(1150, k => { pk.position.y = p3Lerp(-6, 0, k); pk.position.z = p3Lerp(1, 0, k); pk.rotation.y = p3Lerp(-2.6, 0, k); pk.rotation.z = p3Lerp(-.4, 0, k); pk.rotation.x = p3Lerp(.5, 0, k); P3.tilt.y = pk.rotation.y; P3.tilt.x = pk.rotation.x; }, P3E.ob);
+  if (gen !== P3.gen) return;
+  p3Burst({x:0, y:0, z:-.5, n:60, col:'#ffd9a0', s0:.4, s1:1.6, g:0, life:1.6, sz:.05, drag:.97});
+  P3.step = 'pack'; P3.busy = false; pkHint(t('pk.hTear'));
+}
+function p3PackScreen(){ const u = P3.pack.userData, s = .9; const a = p3Scr(-u.PW / 2 * s, u.PH / 2 * s, 0), b = p3Scr(u.PW / 2 * s, -u.PH / 2 * s, 0), m = p3Scr(0, u.yT * s, 0); return {l:a.x, t:a.y, r:b.x, b:b.y, w:b.x - a.x, ty:m.y}; }
+// toucher, glisser
+$('#pk3d').addEventListener('pointerdown', e => {
+  if (!P3.on || !PK.on) return; PKS.unlock();
+  const st = P3.step;
+  if (st === 'pack' && !P3.busy) {
+    const R = p3PackScreen(), inTop = e.clientY < R.ty + (R.b - R.t) * .2 && e.clientY > R.t - 70 && e.clientX > R.l - 40 && e.clientX < R.r + 40;
+    P3.drag = {id:e.pointerId, x0:e.clientX, y0:e.clientY, moved:false, mode:inTop ? 'tear' : 'tilt', t:{x:P3.tilt.x, y:P3.tilt.y}, R, last:0};
+    if (inTop) { pkHold(true); }
+    try { e.currentTarget.setPointerCapture(e.pointerId); } catch(_){}
+  } else if (st === 'shown' && !P3.busy && !P3.skip) {
+    const c = P3.cards[P3.cur]; P3.drag = {id:e.pointerId, x0:e.clientX, y0:e.clientY, moved:false, mode:'tilt', t:{x:c ? c.rotation.x : 0, y:c ? c.rotation.y : 0}};
+    try { e.currentTarget.setPointerCapture(e.pointerId); } catch(_){}
+  } else if (st === 'reveal' && !P3.busy && !P3.skip) p3Reveal();
+  else if (st === 'sum') { const T = P3.T, ray = new T.Raycaster(), v = new T.Vector2(e.clientX / P3.W * 2 - 1, -(e.clientY / P3.H) * 2 + 1); ray.setFromCamera(v, P3.cam);
+    const hit = ray.intersectObjects(P3.cards.map(c => c.userData.front), false)[0]; if (hit) { const c = hit.object.parent; Haptics.tick(true); pkShow(c.userData.x0.c); } }
+});
+$('#pk3d').addEventListener('pointermove', e => {
+  const d = P3.drag; if (!d || d.id !== e.pointerId) return;
+  const dx = e.clientX - d.x0, dy = e.clientY - d.y0; if (Math.hypot(dx, dy) > 8) d.moved = true;
+  if (d.mode === 'tilt') { const base = P3.step === 'shown' ? .55 : .7; d.t = {x:clamp(dy / 260, -1, 1) * base * .7, y:clamp(dx / 200, -1, 1) * base}; return; }
+  if (!d.moved || P3.step !== 'pack') return;
+  P3.dir = dx >= 0 ? 1 : -1; const k = Math.min(1, Math.abs(dx) / (d.R.w * .92));
+  if (k > P3.tear) { P3.tear = k; p3TearShape(k); if (k - d.last > .07) { d.last = k; PKS.tear(k); Haptics.tick();
+    const u = P3.pack.userData, lx = P3.dir * (-u.PW / 2 + u.PW * k) * .9; p3Burst({x:lx, y:u.yT * .9, z:.3, n:7, col:P3.best === 'm' ? 'rain' : ['#ffe6b0', P3C[P3.best]], s0:.6, s1:2.2, up:1, g:3.5, life:.7, sz:.04}); } }
+  if (k >= .86) { P3.drag = null; pkHold(false); p3Rip(); }
+});
+const p3Up = e => {
+  const d = P3.drag; if (!d || d.id !== e.pointerId) return; P3.drag = null;
+  if (d.mode === 'tear') pkHold(false);
+  if (P3.step === 'pack') {
+    if (!d.moved) { p3AutoTear(); return; }
+    if (d.mode === 'tear') { if (P3.tear >= .55) p3Rip(); else { const k0 = P3.tear; p3Tween(280, k => { P3.tear = k0 * (1 - k); p3TearShape(P3.tear); }, P3E.o3); } }
+  } else if (P3.step === 'shown' && !d.moved && !P3.busy) p3Stow();
+};
+$('#pk3d').addEventListener('pointerup', p3Up); $('#pk3d').addEventListener('pointercancel', p3Up);
+// tenir le paquet : on sent la rareté de la meilleure carte
+function pkHold(on){
+  const U = P3.bg.material.uniforms, b = P3.best, big = b === 'l' || b === 'm';
+  if (on) { Haptics.tick(); if (big) Haptics.pattern([0, 40, 260, 40]);
+    if (b === 'e' || big) { P3.glow.material.color.set(b === 'm' ? '#ffffff' : P3C[b]); p3Tween(500, k => { P3.glow.material.opacity = k * (big ? .9 : .55); U.uDim.value = k * (big ? .45 : .2); }, P3E.o3); if (b === 'm') U.uRain.value = 1; }
+    else { P3.glow.material.color.set('#ffe0b0'); p3Tween(400, k => { P3.glow.material.opacity = k * .3; }); }
+  } else p3Tween(400, k => { P3.glow.material.opacity *= (1 - k); U.uDim.value *= (1 - k); });
+}
+async function p3AutoTear(){
+  if (P3.busy || P3.step !== 'pack') return; P3.busy = true; P3.dir = 1; let last = 0; const u = P3.pack.userData;
+  await p3Tween(700, k => { P3.tear = k; p3TearShape(k); if (k - last > .09) { last = k; PKS.tear(k); Haptics.tick(); p3Burst({x:(-u.PW / 2 + u.PW * k) * .9, y:u.yT * .9, z:.3, n:6, col:P3.best === 'm' ? 'rain' : ['#ffe6b0', P3C[P3.best]], s0:.6, s1:2, up:1, g:3.5, life:.7, sz:.04}); } }, P3E.io);
+  P3.busy = false; p3Rip();
+}
+async function p3Rip(){
+  if (P3.step !== 'pack') return; P3.step = 'rip'; P3.busy = true; pkHint(''); const gen = P3.gen;
+  const pk = P3.pack, u = pk.userData, U = P3.bg.material.uniforms, big = P3.best === 'l' || P3.best === 'm', col = P3.best === 'm' ? 'rain' : P3.best === 'c' || P3.best === 'r' ? '#fff0d0' : P3C[P3.best];
+  P3.glow.material.opacity = 0; U.uDim.value = 0;
+  PKS.rip(); Haptics.pattern([0, 50, 90, 50]); p3Shake(big ? 1 : .5);
+  // la bande s'arrache et s'envole
+  const s = u.strip, vx = P3.dir * (1.6 + Math.random()), w0 = s.position.clone(); let vy = 4.2;
+  p3Tween(1300, (k, raw) => { const tt = raw * 1.3; s.position.set(w0.x + vx * tt, w0.y + vy * tt - 4.9 * tt * tt, w0.z + 1.6 * tt); s.rotation.z = -P3.dir * tt * 2.4; s.rotation.x = -tt * 1.6; }, P3E.lin);
+  const ty = u.yT * .9;
+  u.leak.material.opacity = 0;
+  p3Flash(big ? .75 : .45, P3.best === 'm' ? '#ffffff' : big ? '#fff3c4' : '#fff6e8');
+  p3Burst({x:0, y:ty, z:.2, n:big ? 260 : 140, col:big && P3.best === 'l' ? ['#ffd45a', '#fff1b0', '#ffb020'] : col, s0:1.5, s1:big ? 6.5 : 4.5, up:2.2, g:2.6, life:1.8, sz:.07, cone:true, jx:1.8});
+  p3Ring(0, ty, .2, col, .5, big ? 7 : 4.5, 900, .9);
+  u.beam.material.uniforms.uC.value.set(P3.best === 'm' ? '#ffffff' : P3.best === 'c' || P3.best === 'r' ? '#ffe7c0' : P3C[P3.best]);
+  p3Tween(1500, k => { u.beam.material.uniforms.uA.value = Math.sin(k * Math.PI) * (big ? 1.4 : .9); U.uLeak.value = (1 - k) * .9; }, P3E.lin);
+  PKS.whoosh(); if (big) PKS.boom();
+  await p3Wait(380); if (gen !== P3.gen) return;
+  // les cartes montent hors du paquet
+  P3.cards.forEach((c, i) => { c.visible = true; const y0 = c.position.y;
+    p3Tween(900, k => { c.position.y = p3Lerp(y0, 2.7 - i * .05, k); }, P3E.o3); });
+  await p3Wait(650); if (gen !== P3.gen) return;
+  // le paquet tombe, les cartes viennent se poser en pile
+  p3Tween(900, k => { pk.position.y = -k * k * 8; pk.rotation.x = k * .9; pk.rotation.z = P3.dir * k * .3; }, P3E.lin);
+  await Promise.all(P3.cards.map((c, i) => p3Tween(850, k => { c.position.y = p3Lerp(2.7 - i * .05, .2 + i * .045, k); c.position.z = p3Lerp(-.02 - i * .012, -i * .07, k); c.position.x = i * .035 * k; c.rotation.z = k * (i ? (i % 2 ? 1 : -1) * .035 * i : 0); c.scale.setScalar(p3Lerp(.86, 1, k)); }, P3E.io)));
+  if (gen !== P3.gen) return;
+  pk.visible = false; P3.step = 'reveal'; PK.step = 'reveal'; P3.busy = false; $('#pkSkip').hidden = false; pkHint(t('pk.hReveal'));
+}
+// retourner la carte du dessus, avec la mise en scène de sa rareté
+async function p3Reveal(fast){
+  const i = P3.cur + 1, c = P3.cards[i], x0 = PK.res.cards[i]; if (!c || !x0) return;
+  P3.busy = true; P3.cur = i; pkHint(''); const gen = P3.gen, tier = x0.tier, U = P3.bg.material.uniforms, col = tier === 'm' ? 'rain' : P3C[tier], fm = c.userData.front.material.uniforms;
+  const p0 = c.position.clone(), r0 = c.rotation.z, pz = .9, py = .3;
+  // la carte vient vers nous
+  await p3Tween(fast ? 200 : 420, k => { c.position.set(p3Lerp(p0.x, 0, k), p3Lerp(p0.y, py, k), p3Lerp(p0.z, pz, k)); c.rotation.z = p3Lerp(r0, 0, k); c.scale.setScalar(p3Lerp(1, .95, k)); }, P3E.o3);
+  if (gen !== P3.gen) return;
+  const cs = p3Scr(0, py, pz); U.uC.value.set(cs.x / P3.W, 1 - cs.y / P3.H);
+  P3.glow.position.set(0, py, pz - .4);
+  if (!fast) {
+    if (tier === 'r') { P3.glow.material.color.set(P3C.r); p3Tween(300, k => { P3.glow.material.opacity = k * .5; }); p3Ring(0, py, pz - .1, P3C.r, 3.6, 1.6, 420, .6); await p3Wait(280); }
+    if (tier === 'e') { $('#pko').classList.add('rv-e'); P3.glow.material.color.set(P3C.e); U.uTint.value.set('#5a1a9a'); P3.boltOn = true; PKS.rise(.75); Haptics.pattern([0, 30, 200, 30, 200, 30]);
+      await p3Tween(780, k => { U.uTintA.value = k * .9; P3.glow.material.opacity = k * .8; c.position.x = (Math.random() - .5) * .04 * k; c.position.y = py + (Math.random() - .5) * .04 * k; P3.camOff.z = -k * .6; }, P3E.lin); P3.boltOn = false; }
+    if (tier === 'l' || tier === 'm') {
+      $('#pko').classList.add('rv-' + tier); PKS.rise(tier === 'm' ? 1.9 : 1.35); const D = tier === 'm' ? 1900 : 1350;
+      U.uTint.value.set(tier === 'm' ? '#000000' : '#6a4200'); U.uRayCol.value.set(tier === 'm' ? '#ffffff' : '#ffc23a'); U.uRain.value = tier === 'm' ? 1 : 0;
+      P3.glow.material.color.set(tier === 'm' ? '#ffffff' : '#ffb830');
+      for (let b = 0; b < (tier === 'm' ? 4 : 3); b++) PK.timers.push(setTimeout(() => { if (gen !== P3.gen) return; Haptics.pattern([0, 45, 90, 30]); p3Ring(0, py, pz - .1, col, 4.5, 1.4, 520, .7); }, 120 + b * D / (tier === 'm' ? 4 : 3)));
+      if (tier === 'm') for (let b = 0; b < 6; b++) PK.timers.push(setTimeout(() => { if (gen !== P3.gen) return; p3Burst({x:0, y:py, z:pz - .2, n:40, col:'rain', inward:true, R:3.6, life:.9, sz:.07}); }, b * 260));
+      await p3Tween(D, (k, raw) => { U.uDim.value = Math.min(1, raw * 2) * (tier === 'm' ? .97 : .75); U.uRays.value = raw * (tier === 'm' ? .9 : 1.1); U.uVortex.value = tier === 'm' ? raw : 0; U.uTintA.value = raw * .6;
+        P3.glow.material.opacity = .4 + raw * .7; P3.glow.scale.setScalar(5 + raw * 2 + Math.sin(raw * 24) * .3);
+        const sc = .95 * (1 + Math.max(0, Math.sin(raw * Math.PI * (tier === 'm' ? 8 : 6))) * .025); c.scale.setScalar(sc);
+        c.position.x = (Math.random() - .5) * .03 * raw; c.position.y = py + raw * .12 + (Math.random() - .5) * .03 * raw; c.rotation.z = Math.sin(raw * 30) * .02 * raw;
+        P3.camOff.z = -raw * 1.1; }, P3E.lin);
+      c.position.x = 0; c.rotation.z = 0;
+    }
+  }
+  if (gen !== P3.gen) return;
+  // le retournement (une vrille de plus pour les grandes raretés)
+  const spins = fast ? 0 : tier === 'm' ? 2 : tier === 'l' ? 1 : 0, dur = fast ? 380 : {c:520, r:620, e:760, l:1000, m:1250}[tier], y0 = Math.PI, y1 = -spins * Math.PI * 2;
+  let popped = false;
+  await p3Tween(dur, (k, raw) => { c.rotation.y = p3Lerp(y0, y1, k); c.position.z = pz + Math.sin(raw * Math.PI) * (spins ? .5 : .25);
+    if (!popped && raw > .62) { popped = true; p3Pop(c, x0, fast); } }, spins ? P3E.io : P3E.o3);
+  if (gen !== P3.gen) return;
+  c.rotation.y = 0;
+  fm.uSweep.value = -.3; p3Tween(fast ? 300 : 900, k => { fm.uSweep.value = p3Lerp(-.3, 1.2, k); }, P3E.io).then(() => { fm.uSweep.value = -1; });
+  // retour au calme : le fond se rallume doucement, la carte reste à l'honneur
+  p3Tween(900, k => { U.uDim.value *= (1 - k * .5); U.uVortex.value *= (1 - k); P3.camOff.z *= (1 - k); }, P3E.o3);
+  const tg = $('#pk3Tag'); tg.innerHTML = (x0.isNew ? `<b>${t('pk.new')}</b>` : `<span>${t('pk.dup', {n:x0.ink})}</span>`) + `<button id="pk3Info">${t('pk.infoBuy')}</button>`;
+  tg.className = 'pk3-tag on'; P3.tagFollow = true; tg.querySelector('#pk3Info').addEventListener('click', ev => { ev.stopPropagation(); pkShow(x0.c); });
+  if (tier === 'e' || tier === 'l' || tier === 'm') { const bn = $('#pkBanner'); bn.innerHTML = `<i></i><b>${t('pk.t.' + tier)}</b><i></i>${x0.foil ? `<em>✦ ${t('pk.foil')}</em>` : ''}`; bn.className = 'pko-banner on b-' + tier; }
+  P3.step = 'shown'; PK.step = 'shown'; P3.busy = false;
+  pkHint(fast ? '' : t(i < P3.cards.length - 1 ? 'pk.hNext' : 'pk.hEnd'));
+}
+// l'éclat au moment où la face apparaît
+function p3Pop(c, x0, fast){
+  const tier = x0.tier, col = tier === 'm' ? 'rain' : P3C[tier], x = 0, y = c.position.y, z = c.position.z - .1, U = P3.bg.material.uniforms;
+  PKS.reveal(tier); P3.glow.material.color.set(tier === 'm' ? '#ffffff' : P3C[tier]);
+  p3Tween(700, k => { P3.glow.material.opacity = (tier === 'c' ? .25 : tier === 'r' ? .5 : .85) * (1 - k * .35); P3.glow.scale.setScalar(5 + (1 - k) * 2); }, P3E.o3);
+  if (fast) { p3Burst({x, y, z, n:30, col, s0:1, s1:3, g:1, life:.9, sz:.05}); return; }
+  if (tier === 'c') p3Burst({x, y, z, n:40, col:['#fff3dc', '#ffe0b0'], s0:.6, s1:2.4, g:.6, life:1, sz:.045});
+  if (tier === 'r') { p3Ring(x, y, z, P3C.r, 1.2, 5.5, 700, .9); p3Burst({x, y, z, n:110, col:[P3C.r, '#bfe0ff', '#ffffff'], s0:1, s1:4.5, g:1, life:1.3, sz:.055}); Haptics.tick(true); }
+  if (tier === 'e') { p3Ring(x, y, z, P3C.e, 1.2, 7, 800, 1); p3Ring(x, y, z, '#ffffff', 1, 4, 500, .7); p3Burst({x, y, z, n:200, col:[P3C.e, '#e0b8ff', '#ffffff'], s0:1.5, s1:6, g:1.2, life:1.5, sz:.06}); p3Flash(.3, '#c890ff'); p3Shake(.45); Haptics.pattern([0, 60, 90, 60]); }
+  if (tier === 'l' || tier === 'm') {
+    p3Flash(.9, '#ffffff'); p3Shake(1.4); PKS.boom(); Haptics.pattern([0, 90, 70, 90, 70, 200]);
+    p3Ring(x, y, z, col, 1, 9, 900, 1); p3Ring(x, y, z, '#ffffff', .8, 5.5, 600, .9); if (tier === 'm') p3Ring(x, y, z, 'rain', 1, 12, 1300, 1);
+    p3Burst({x, y, z, n:tier === 'm' ? 520 : 380, col:tier === 'm' ? 'rain' : ['#ffd45a', '#fff1b0', '#ffb020', '#ffffff'], s0:2, s1:tier === 'm' ? 10 : 8, g:2.2, life:2.2, sz:.075, flatZ:.8});
+    p3Burst({x, y, z, n:120, col:tier === 'm' ? 'rain' : '#fff4c8', s0:.3, s1:1.2, g:-.15, life:3.2, sz:.05, jx:3, jy:3});
+    p3Tween(1600, k => { U.uRays.value = (1 - k * .55) * (tier === 'm' ? 1 : 1.2); }, P3E.o3);
+  }
+}
+// la carte part se ranger en bas
+async function p3Stow(fast){
+  const c = P3.cards[P3.cur]; if (!c) return; P3.busy = true; P3.step = 'stow'; pkHint(''); P3.tagFollow = false;
+  $('#pk3Tag').className = 'pk3-tag'; $('#pkBanner').className = 'pko-banner'; $('#pko').classList.remove('rv-c', 'rv-r', 'rv-e', 'rv-l', 'rv-m');
+  const U = P3.bg.material.uniforms, n = P3.cards.length, sp = Math.min(.66, P3.visW * .19), sc = sp * .86 / 2, tx = (P3.cur - (n - 1) / 2) * sp, ty = -P3.visH / 2 + sc * 1.4 + .45;
+  const p0 = c.position.clone(), r0 = {x:c.rotation.x, y:c.rotation.y}, s0 = c.scale.x, u0 = {d:U.uDim.value, r:U.uRays.value, t:U.uTintA.value, g:P3.glow.material.opacity};
+  Sound.flap();
+  await p3Tween(fast ? 260 : 520, k => { c.position.set(p3Lerp(p0.x, tx, k), p3Lerp(p0.y, ty, k), p3Lerp(p0.z, .4, k)); c.rotation.x = p3Lerp(r0.x, 0, k); c.rotation.y = p3Lerp(r0.y, 0, k); c.scale.setScalar(p3Lerp(s0, sc, k));
+    U.uDim.value = u0.d * (1 - k); U.uRays.value = u0.r * (1 - k); U.uTintA.value = u0.t * (1 - k); U.uRain.value *= (1 - k); P3.glow.material.opacity = u0.g * (1 - k); }, P3E.io);
+  c.userData.stow = {x:tx, y:ty, s:sc}; P3.busy = false;
+  if (P3.cur < n - 1) { P3.step = 'reveal'; PK.step = 'reveal'; if (!fast && !P3.skip) pkHint(t('pk.hReveal')); } else p3Summary();
+}
+async function p3SkipAll(){
+  if (P3.busy || P3.skip || (P3.step !== 'reveal' && P3.step !== 'shown')) return; P3.skip = true; $('#pkSkip').hidden = true; const gen = P3.gen;
+  if (P3.step === 'shown') await p3Stow(true);
+  while (P3.on && gen === P3.gen && P3.cur < P3.cards.length - 1) { await p3Reveal(true); await p3Wait(260); await p3Stow(true); }
+  P3.skip = false;
+}
+// le butin : les cartes se lèvent en éventail
+async function p3Summary(){
+  P3.step = 'sum'; PK.step = 'sum'; $('#pkSkip').hidden = true; pkHint('');
+  const n = P3.cards.length, sp = P3.visW * .16, sc = .37, gen = P3.gen;
+  await Promise.all(P3.cards.map((c, i) => { const a = (i - (n - 1) / 2), p0 = c.position.clone(), s0 = c.scale.x; c.userData.fy = P3.visH * .17 - Math.abs(a) * .07;
+    return p3Tween(800 + i * 60, k => { c.position.set(p3Lerp(p0.x, a * sp, k), p3Lerp(p0.y, c.userData.fy, k), p3Lerp(p0.z, .2 + i * .01, k)); c.rotation.z = -a * .11 * k; c.scale.setScalar(p3Lerp(s0, sc, k)); }, P3E.ob); }));
+  if (gen !== P3.gen) return;
+  pkSummaryDom();
+}
 
 /* ═════════════ Saisons et bougie du soir ═════════════ */
 const AMB = {on:false, raf:0, P:[], last:0, kind:null, candle:false, cx:0, cy:0, tx:0, ty:0, touch:false, rest:null};
@@ -8794,7 +9575,7 @@ addEventListener('resize', () => { clearTimeout(rsT); rsT = setTimeout(() => { b
 document.addEventListener('gesturestart', e => e.preventDefault());
 document.addEventListener('touchmove', e => { if (!e.target.closest('.scroll')) e.preventDefault(); }, {passive:false});
 document.addEventListener('dblclick', e => e.preventDefault());
-window.__exlibris = {PK, PKV, PFX, PK_BY, PK_T, pkS, pkTier, pkRoll, pkGive, pkOpen, pkClose, pkShow, pkvClose, pkReveal, pkStow, pkSkipAll, pkAutoTear, pkRip, pkAlbum, PKA, buildCards, buildMyCards, CITY, cityLoad, cityEnv, questState, questCheck, buildQuests, roomRewards, roomLevel, levelUp, pubView, pubSnap, notifSheet, shelfResults, SHF, PV, TS, SEC, openTaste, closeTaste, openSecret, closeSecret, secretNext, secretPick, secretWhy, tasteVec, catFind, CAT, GENRES, RM, ROOM, roomFrame, startRoom, stopRoom, paintEdinburgh, Car, D, Curl, G, state, Sc, EAN, extractISBN, openScanner, Splash, Gyro, Sound, LD, statsData, SUPA, Sync, syncNow, syncView, createAccount, linkAccount, tombstone, bookSig, mergeLib, newKey, canonKey, Club, clubLoad, showStatsView, SE, openSeance, closeSeance, OCR, openOCR, openReco, RECO, parseCSV, csvBooks, importCSVFile, findCovers, Lib, buildChips, openNotes, kickerTxt, RM, W3, ST, OR, AMB, CV, S, openStory, stGo, openFromCarousel, openOracle, consultOracle, showLibView, openCardView, onBookFinished, openSealEditor, openBookFrom, setTab, rarity, gazFind, onMotion, get books(){ return books; }, get logs(){ return logs; }};
+window.__exlibris = {P3, p3Init, pk3Open, p3Reveal, p3Stow, p3SkipAll, p3AutoTear, p3Rip, pkMeta, PKM, pkBuyLinks, photoLoad, photoEnv, cityReset, cityView, PK, PKV, PFX, PK_BY, PK_T, pkS, pkTier, pkRoll, pkGive, pkOpen, pkClose, pkShow, pkvClose, pkReveal, pkStow, pkSkipAll, pkAutoTear, pkRip, pkAlbum, PKA, buildCards, buildMyCards, CITY, cityLoad, cityEnv, questState, questCheck, buildQuests, roomRewards, roomLevel, levelUp, pubView, pubSnap, notifSheet, shelfResults, SHF, PV, TS, SEC, openTaste, closeTaste, openSecret, closeSecret, secretNext, secretPick, secretWhy, tasteVec, catFind, CAT, GENRES, RM, ROOM, roomFrame, startRoom, stopRoom, paintEdinburgh, Car, D, Curl, G, state, Sc, EAN, extractISBN, openScanner, Splash, Gyro, Sound, LD, statsData, SUPA, Sync, syncNow, syncView, createAccount, linkAccount, tombstone, bookSig, mergeLib, newKey, canonKey, Club, clubLoad, showStatsView, SE, openSeance, closeSeance, OCR, openOCR, openReco, RECO, parseCSV, csvBooks, importCSVFile, findCovers, Lib, buildChips, openNotes, kickerTxt, RM, W3, ST, OR, AMB, CV, S, openStory, stGo, openFromCarousel, openOracle, consultOracle, showLibView, openCardView, onBookFinished, openSealEditor, openBookFrom, setTab, rarity, gazFind, onMotion, get books(){ return books; }, get logs(){ return logs; }};
 boot();
 })();
 </script>

@@ -14,9 +14,9 @@ Application de suivi de lecture pour iPhone (livres lus, en cours, envies), en u
 - Bilan : objectif annuel, carte de chaleur, livres par mois, auteurs favoris, image « Mon année » à partager
 - Suppression en poussière avec annulation, sauvegarde / restauration en fichier
 - Cartes holographiques à collectionner (bronze, argent, or, légendaire) : reflets qui suivent l'inclinaison, verso, partage
-- Packs du grimoire : 476 livres à collectionner en cartes communes, rares, épiques, légendaires et mythiques, parfois brillantes. On déchire le paquet au doigt, puis chaque carte se retourne avec sa mise en scène (éclairs pour les épiques, rayons d'or pour les légendaires, arc-en-ciel pour les mythiques). Un pack par jour, un par livre terminé, un par sceau de quête, un pack doré par niveau ; les doublons deviennent des éclats d'encre qui révèlent les livres manquants
+- Packs du grimoire, ouverts en vraie 3D (paquet de cuir et feuille d'or qu'on déchire au doigt, cartes holographiques qui se retournent) : 476 livres à collectionner en cartes communes, rares, épiques, légendaires et mythiques, parfois brillantes. On déchire le paquet au doigt, puis chaque carte se retourne avec sa mise en scène (éclairs pour les épiques, rayons d'or pour les légendaires, arc-en-ciel pour les mythiques). Un pack par jour, un par livre terminé, un par sceau de quête, un pack doré par niveau ; les doublons deviennent des éclats d'encre qui révèlent les livres manquants. Chaque carte a sa fiche complète (vraie couverture, résumé, pages, ISBN) et ses liens d'achat (Amazon, Fnac, libraires indépendants)
 - Salle de lecture en 3D (WebGL) : une grande bibliothèque à galerie (on peut y monter), colonnes de marbre, voûte à caissons, cheminée, des milliers de livres, lustres et bougies flottantes. On regarde au doigt, on touche le sol pour avancer, on touche un de ses livres pour l'ouvrir
-- Édimbourg en vrai derrière la vitre : la vue depuis Princes Street sur Castle Rock et le château, avec les vrais bâtiments d'OpenStreetMap (18 000 contours) et le relief réel ; le ciel suit l'heure et la météo réelles d'Édimbourg (pluie, neige, brume), château illuminé la nuit
+- Édimbourg en vraie photo derrière la vitre : le château vu de Princes Street, de jour et de nuit (château illuminé), qui suit l'heure et la météo réelles d'Édimbourg (aube, crépuscule, pluie, brume, neige). Une vue 3D faite des vrais bâtiments d'OpenStreetMap reste disponible (bouton ciel → Vue)
 - Quêtes du grimoire : 20 sceaux à gagner, des niveaux de lecteur, et des objets qui apparaissent dans la salle (globe, horloge, chat près du feu, lucioles, aurore boréale…)
 - Rappels de lecture : une notification à l'heure choisie, seulement les jours où l'on n'a pas encore lu (Signet doit être ajouté à l'écran d'accueil)
 - Ma bibliothèque publique : un lien à partager, que vos amis ouvrent sans compte
@@ -40,4 +40,5 @@ Application de suivi de lecture pour iPhone (livres lus, en cours, envies), en u
 Le serveur de synchronisation (Supabase) se crée avec le script `supabase/signet.sql`.
 
 La salle 3D utilise [three.js](https://threejs.org) r170 (licence MIT), fourni dans `three-r170.module.min.js`.
+Les photos d'Édimbourg sont d'Ad Meskens (Wikimedia Commons, licence CC BY-SA 3.0) : « Edinburgh Castle from Princes Mall », « Edinburgh Castle 17 » et « Edinburgh Castle 13 ».
 Les bâtiments d'Édimbourg (`edinburgh3d.json`) viennent d'OpenStreetMap : © OpenStreetMap contributors (ODbL), © OpenMapTiles.
