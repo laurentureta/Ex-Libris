@@ -1,6 +1,6 @@
 /* Signet : fonctionnement hors ligne.
    L'app s'ouvre tout de suite depuis le cache, puis se met à jour en arrière-plan. */
-const SHELL = 'signet-shell-v7', CDN = 'signet-cdn-v1', IMG = 'signet-img-v1', META = 'signet-meta', PHOTO = 'signet-photo-v1';
+const SHELL = 'signet-shell-v8', CDN = 'signet-cdn-v1', IMG = 'signet-img-v1', META = 'signet-meta', PHOTO = 'signet-photo-v1';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png', './three-r170.module.min.js', './edinburgh3d.json'];
 
 self.addEventListener('install', e => {
@@ -18,7 +18,15 @@ async function notifyUpdate(){
   const cs = await self.clients.matchAll({type:'window', includeUncontrolled:true});
   cs.forEach(c => c.postMessage({type:'signet-update'}));
 }
+// retour dans l'appli : on retélécharge la page et on prévient si elle a changé
+async function refreshShell(){
+  const key = new URL(self.registration.scope).pathname + 'index.html', c = await caches.open(SHELL), hit = await c.match(key);
+  const res = await fetch(new Request(key, {cache:'no-cache'})).catch(() => null); if (!res || !res.ok) return;
+  const b = await res.clone().text(); if (hit && (await hit.text()) === b) return;
+  await c.put(key, res); if (hit) await notifyUpdate();
+}
 self.addEventListener('message', e => {
+  if (e.data && e.data.type === 'signet-refresh') { e.waitUntil(refreshShell()); return; }
   if (!e.data || e.data.type !== 'signet-check') return;
   e.waitUntil((async () => {
     const c = await caches.open(META), r = await c.match('/__signet_update');

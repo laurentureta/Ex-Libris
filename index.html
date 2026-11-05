@@ -1725,7 +1725,7 @@ input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;appeara
 
   <section class="screen scroll" id="scr-set">
     <header class="top">
-      <div class="kicker">Signet · version 1.7</div>
+      <div class="kicker">Signet · version 1.7.1</div>
       <div class="title-row"><h1 class="list-title" data-t="set.title"></h1></div>
     </header>
     <div class="group">
@@ -9539,12 +9539,22 @@ function buildChips(){
 $('#stViews').addEventListener('click', e => { const b = e.target.closest('button'); if (b && b.dataset.v !== Club.view) { Haptics.tick(); Sound.tick(); showStatsView(b.dataset.v); } });
 $('#orDisc').addEventListener('click', openReco);
 // hors ligne : l'app se garde dans le téléphone et se met à jour toute seule
+var UPD = {t:0};
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname))) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
   navigator.serviceWorker.addEventListener('message', e => {
     if (!e.data || e.data.type !== 'signet-update') return;
-    const show = () => toast(t('upd.ready'), {icon:'rib', action:t('upd.go'), ms:9000, onAction:() => location.reload()});
-    if (Splash.opened) setTimeout(show, 1200);
+    // à l'ouverture (ou au retour dans l'appli) sans rien d'entamé : on passe tout de suite à la nouvelle version
+    const idle = !SH.open && !PK.on && !PKV.on && !SE.on && !TS.on && !SEC.on && !PV.on;
+    if (!Splash.opened || (idle && performance.now() - UPD.t < 12000)) { location.reload(); return; }
+    setTimeout(() => toast(t('upd.ready'), {icon:'rib', action:t('upd.go'), ms:12000, onAction:() => location.reload()}), 1200);
+  });
+  // au retour dans l'appli après quelques minutes, on vérifie s'il existe une nouvelle version
+  let updHid = 0;
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { updHid = Date.now(); return; }
+    if (updHid && Date.now() - updHid > 3 * 60e3) { UPD.t = performance.now();
+      try { navigator.serviceWorker.getRegistration().then(r => r && r.update()).catch(() => {}); const sw = navigator.serviceWorker.controller; if (sw) sw.postMessage({type:'signet-refresh'}); } catch(_){} }
   });
 }
 
@@ -9553,7 +9563,7 @@ function startIntro(delay){
   Car.intro = 0; Car.dirty = true; kick();
   setTimeout(() => tween(1300, p => p, p => { Car.intro = p; Car.dirty = true; }, () => { Car.intro = 1; Car.dirty = true; afterIntro(); }), delay);
 }
-function afterIntro(){ ambStart(); try { const sw = navigator.serviceWorker && navigator.serviceWorker.controller; if (sw) sw.postMessage({type:'signet-check'}); } catch(_){} if (syncOn()) setTimeout(() => syncNow(false), 1500); if (pubCode()) setTimeout(() => pubView(pubCode()), 300); else if (!S.taste && !S.tasteLater) setTimeout(() => { if (!TS.on && !D.open && !Sc.open && !SH.open && !PV.on) openTaste('first'); }, 900); else if (!S.hintSeen && Car.list.length > 1) setTimeout(() => toast(t('hint.gallery'), {icon:'rib'}), 400); }
+function afterIntro(){ UPD.t = performance.now(); ambStart(); try { const sw = navigator.serviceWorker && navigator.serviceWorker.controller; if (sw) sw.postMessage({type:'signet-check'}); } catch(_){} if (syncOn()) setTimeout(() => syncNow(false), 1500); if (pubCode()) setTimeout(() => pubView(pubCode()), 300); else if (!S.taste && !S.tasteLater) setTimeout(() => { if (!TS.on && !D.open && !Sc.open && !SH.open && !PV.on) openTaste('first'); }, 900); else if (!S.hintSeen && Car.list.length > 1) setTimeout(() => toast(t('hint.gallery'), {icon:'rib'}), 400); }
 async function boot(){
   Splash.el = $('#splash');
   resolveLang(); applyStatic(); buildLoader(); LD.t0 = performance.now(); requestAnimationFrame(loaderTick);
