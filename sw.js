@@ -1,6 +1,6 @@
 /* Signet : fonctionnement hors ligne.
    L'app s'ouvre tout de suite depuis le cache, puis se met à jour en arrière-plan. */
-const SHELL = 'signet-shell-v1', CDN = 'signet-cdn-v1', IMG = 'signet-img-v1', META = 'signet-meta';
+const SHELL = 'signet-shell-v2', CDN = 'signet-cdn-v1', IMG = 'signet-img-v1', META = 'signet-meta';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
